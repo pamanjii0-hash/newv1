@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MANJII OFFICIAL</title>
+    <style>
+        :root {
+            --accent: #d800ff; /* Default Neon Purple */
+            --bg-dark: #0a0a0f;
+            --bg-panel: rgba(20, 20, 30, 0.4);
+            --text-main: #ffffff;
+            --text-muted: #a0a0b0;
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --neon-glow: 0 0 10px var(--accent), 0 0 20px var(--accent);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 50% 0%, rgba(216, 0, 255, 0.15), transparent 50%);
+            background-attachment: fixed;
+        }
+
+        /* Glassmorphism & Neon */
+        .glass {
+            background: var(--bg-panel);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+        }
+
+        .neon-text {
+            color: #fff;
+            text-shadow: var(--neon-glow);
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: 1px solid var(--accent);
+            background: rgba(0,0,0,0.3);
+            color: #fff;
+            cursor: pointer;
+            font-weight: bold;
+            backdrop-filter: blur(5px);
+        }
+
+        .btn:hover {
+            background: var(--accent);
+            box-shadow: var(--neon-glow);
+        }
+
+        .btn-solid {
+            background: var(--accent);
+            box-shadow: var(--neon-glow);
+            border: none;
+        }
+
+        /* Inputs */
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid var(--glass-border);
+            color: white;
+            border-radius: 8px;
+            outline: none;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 8px var(--accent);
+        }
+
+        /* Loading Screen */
+        #loading-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-dark);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .spinner {
+            width: 50px; height: 50px;
+            border: 5px solid rgba(255,255,255,0.1);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* Navbar & Hamburger */
+        header {
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .logo { font-size: 24px; font-weight: 900; letter-spacing: 2px; }
+        .hamburger {
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .hamburger div {
+            width: 30px; height: 3px;
+            background: white;
+            border-radius: 2px;
+            box-shadow: 0 0 5px white;
+        }
+
+        /* Side Menu */
+        #side-menu {
+            position: fixed;
+            top: 0; right: -300px;
+            width: 280px; height: 100vh;
+            padding: 80px 20px 20px;
+            z-index: 999;
+            border-left: 1px solid var(--accent);
+            box-shadow: -5px 0 20px rgba(0,0,0,0.5);
+        }
+        #side-menu.active { right: 0; }
+        .menu-link {
+            display: block;
+            padding: 15px;
+            margin-bottom: 10px;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            border: 1px solid transparent;
+        }
+        .menu-link:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: var(--accent);
+            text-shadow: var(--neon-glow);
+        }
+
+        /* Accent Color Picker */
+        .color-picker-container {
+            margin-top: 20px;
+            padding: 15px;
+            border-top: 1px solid var(--glass-border);
+        }
+        .color-picker-container label { display: block; margin-bottom: 10px; font-size: 14px;}
+
+        /* Main Content Area */
+        main {
+            margin-top: 80px;
+            padding: 20px;
+            min-height: calc(100vh - 80px);
+        }
+        .view-section { display: none; animation: fadeIn 0.5s; }
+        .view-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Home Slider */
+        .slider-container {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto 40px;
+            aspect-ratio: 16 / 9;
+            overflow: hidden;
+            position: relative;
+            border-radius: 16px;
+            border: 1px solid var(--accent);
+            box-shadow: var(--neon-glow);
+        }
+        .slides {
+            display: flex;
+            width: 300%;
+            height: 100%;
+            transition: transform 0.5s ease-in-out;
+        }
+        .slide {
+            width: 33.333%;
+            height: 100%;
+            background: linear-gradient(45deg, #1a1a2e, #16213e);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 32px;
+            font-weight: bold;
+            color: rgba(255,255,255,0.5);
+        }
+        /* Product Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .product-card {
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 60%);
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .product-card:hover::before { opacity: 1; }
+        .product-title { font-size: 20px; margin-bottom: 10px; color: var(--accent); }
+        .product-price { font-size: 24px; font-weight: bold; margin: 15px 0; }
+        .product-type { font-size: 12px; color: var(--text-muted); margin-bottom: 15px; }
+        
+        /* Modals */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal-content {
+            width: 90%; max-width: 500px;
+            padding: 30px;
+            position: relative;
+        }
+        .close-modal {
+            position: absolute; top: 15px; right: 15px;
+            cursor: pointer; font-size: 20px; color: var(--text-muted);
+        }
+        
+        /* QRIS */
+        .qris-box {
+            text-align: center; margin: 20px 0;
+            padding: 20px; border: 2px dashed var(--accent);
+            border-radius: 10px;
+        }
+        .qris-box img { max-width: 100%; border-radius: 8px; margin-bottom: 10px; }
+
+        /* Tables for Admin */
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid var(--glass-border); }
+        th { color: var(--accent); }
+        tr:hover { background: rgba(255,255,255,0.05); }
+
+        /* Live Chat Widget */
+        #chat-widget {
+            position: fixed; bottom: 20px; right: 20px;
+            width: 300px; z-index: 1500;
+        }
+        .chat-header {
+            padding: 15px; border-radius: 10px 10px 0 0;
+            background: var(--accent); color: white; font-weight: bold;
+            cursor: pointer; display: flex; justify-content: space-between;
+        }
+        .chat-body {
+            height: 300px; padding: 15px; display: none;
+            flex-direction: column;
+            border-radius: 0 0 10px 10px;
+        }
+        .chat-body.active { display: flex; }
+        .chat-messages {
+            flex-grow: 1; overflow-y: auto; margin-bottom: 10px;
+            display: flex; flex-direction: column; gap: 10px;
+        }
+        .chat-msg { padding: 8px 12px; border-radius: 10px; max-width: 80%; font-size: 14px;}
+        .msg-user { background: var(--accent); align-self: flex-end; color: white;}
+        .msg-admin { background: rgba(255,255,255,0.1); align-self: flex-start; }
+        .chat-input { display: flex; gap: 5px; }
+        .chat-input input { margin-bottom: 0; }
+
+        /* Socials */
+        .social-icons {
+            display: flex; gap: 15px; margin-top: 20px; justify-content: center;
+        }
+        .social-btn {
+            width: 40px; height: 40px; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            text-decoration: none; color: white; font-size: 20px;
+        }
+
+        /* News Banner */
+        .news-banner {
+            background: rgba(216, 0, 255, 0.2);
+            border-left: 4px solid var(--accent);
+            padding: 15px; margin-bottom: 20px; border-radius: 0 8px 8px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="spinner"></div>
+        <h2 class="neon-text" style="margin-top: 20px;" id="site-title-loader">MANJII OFFICIAL</h2>
+    </div>
+
+    <!-- Header -->
+    <header class="glass">
+        <div class="logo neon-text" id="site-title-header">MANJII OFFICIAL</div>
+        <div class="hamburger" onclick="toggleMenu()">
+            <div></div><div></div><div></div>
+        </div>
+    </header>
+
+    <!-- Side Menu -->
+    <div id="side-menu" class="glass">
+        <div id="user-info" style="margin-bottom: 20px; font-weight: bold; color: var(--accent);">Not Logged In</div>
+        <a href="#" class="menu-link" onclick="navigate('home')">🏠 Home & About</a>
+        <a href="#" class="menu-link" onclick="navigate('products')">🛒 Products</a>
+        <a href="#" class="menu-link" id="nav-orders" onclick="navigate('orders')" style="display:none;">📦 My Orders</a>
+        <a href="#" class="menu-link" id="nav-login" onclick="navigate('auth')">🔐 Login / Register</a>
+        <a href="#" class="menu-link" id="nav-logout" onclick="logout()" style="display:none;">🚪 Logout</a>
+        <hr style="border:0; border-top:1px solid var(--glass-border); margin: 15px 0;">
+        <a href="#" class="menu-link" onclick="navigate('admin-login')">🛡️ Admin Panel</a>
+        
+        <div class="color-picker-container">
+            <label class="neon-text">🎨 Accent Color</label>
+            <input type="color" id="colorPicker" value="#d800ff" onchange="changeColor(this.value)" style="padding: 0; height: 40px; cursor: pointer;">
+        </div>
+
+        <div class="social-icons">
+            <a href="https://tiktok.com/@manjiixit" target="_blank" class="social-btn glass">🎵</a>
+            <a href="https://wa.me/6283845203074" target="_blank" class="social-btn glass">💬</a>
+        </div>
+        <div style="text-align: center; margin-top: 10px; font-size: 12px; color: var(--text-muted);">CS: 083845203074</div>
+    </div>
+
+    <main>
+        <!-- HOME VIEW -->
+        <section id="view-home" class="view-section active">
+            <div class="slider-container">
+                <div class="slides" id="slider">
+                    <div class="slide" style="background: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80') center/cover;">MANJII iOS TOOLS</div>
+                    <div class="slide" style="background: url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80') center/cover;">DOMINATING MARKET</div>
+                    <div class="slide" style="background: url('https://images.unsplash.com/photo-1614149162883-504ce4d13909?auto=format&fit=crop&q=80') center/cover;">PREMIUM CHEATS</div>
+                </div>
+            </div>
+
+            <div id="news-container"></div>
+
+            <div class="glass" style="padding: 30px; margin-top: 20px;">
+                <h2 class="neon-text" style="margin-bottom: 15px;">Tentang <span id="site-title-about">MANJII OFFICIAL</span></h2>
+                <p id="site-desc" style="line-height: 1.6; color: var(--text-muted);">
+                    Selamat datang di MANJII OFFICIAL. Kami adalah penyedia tools dan cheat premium terbaik khususnya untuk pengguna iOS dan Free Fire. Semua transaksi otomatis dan terenkripsi.
+                </p>
+            </div>
+        </section>
+
+        <!-- PRODUCTS VIEW -->
+        <section id="view-products" class="view-section">
+            <h2 class="neon-text" style="text-align: center; margin-bottom: 30px; font-size: 30px;">Premium Products</h2>
+            <div class="product-grid" id="product-list">
+                <!-- Injected via JS -->
+            </div>
+        </section>
+
+        <!-- ORDERS VIEW -->
+        <section id="view-orders" class="view-section">
+            <h2 class="neon-text" style="margin-bottom: 20px;">My Orders</h2>
+            <div class="glass" style="padding: 20px; overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="user-orders-table"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- AUTH VIEW (User) -->
+        <section id="view-auth" class="view-section">
+            <div class="glass" style="max-width: 400px; margin: 50px auto; padding: 30px;">
+                <h2 class="neon-text" style="text-align: center; margin-bottom: 20px;" id="auth-title">Login</h2>
+                <input type="text" id="auth-username" placeholder="Username">
+                <input type="password" id="auth-password" placeholder="Password">
+                <button class="btn btn-solid" style="width: 100%;" onclick="handleAuth()">Submit</button>
+                <p style="text-align: center; margin-top: 15px; font-size: 14px;">
+                    <a href="#" style="color: var(--accent);" onclick="toggleAuthMode()">Belum punya akun? Daftar</a>
+                </p>
+            </div>
+        </section>
+
+        <!-- ADMIN LOGIN VIEW -->
+        <section id="view-admin-login" class="view-section">
+            <div class="glass" style="max-width: 400px; margin: 50px auto; padding: 30px; border-color: red;">
+                <h2 class="neon-text" style="text-align: center; margin-bottom: 20px; color: red;">Admin Panel Login</h2>
+                <input type="text" id="admin-username" placeholder="Admin Username">
+                <input type="password" id="admin-password" placeholder="Admin Password">
+                <button class="btn btn-solid" style="width: 100%; background: darkred;" onclick="adminLogin()">Access Database</button>
+            </div>
+        </section>
+
+        <!-- ADMIN DASHBOARD VIEW -->
+        <section id="view-admin-panel" class="view-section">
+            <h2 class="neon-text" style="margin-bottom: 20px;">Administrator Dashboard</h2>
+            <button class="btn" onclick="logoutAdmin()" style="margin-bottom: 20px; border-color: red;">Exit Admin</button>
+
+            <!-- Order Management -->
+            <div class="glass" style="padding: 20px; margin-bottom: 20px; overflow-x: auto;">
+                <h3 style="color: var(--accent); margin-bottom: 15px;">Pending Orders</h3>
+                <table>
+                    <thead>
+                        <tr><th>ID</th><th>User</th><th>WA</th><th>Product</th><th>Status</th><th>Action</th></tr>
+                    </thead>
+                    <tbody id="admin-orders-table"></tbody>
+                </table>
+            </div>
+
+            <!-- Product Management -->
+            <div class="glass" style="padding: 20px; margin-bottom: 20px;">
+                <h3 style="color: var(--accent); margin-bottom: 15px;">Manage Products</h3>
+                <div style="display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;">
+                    <input type="text" id="new-prod-name" placeholder="Product Name" style="flex:1; min-width: 200px;">
+                    <input type="number" id="new-prod-price" placeholder="Price (Rp)" style="flex:1; min-width: 100px;">
+                    <select id="new-prod-type" style="flex:1; min-width: 150px;">
+                        <option value="1 Hari">1 Hari</option>
+                        <option value="7 Hari">7 Hari</option>
+                        <option value="30 Hari">30 Hari</option>
+                        <option value="Anti Durasi (Lifetime)">Anti Durasi (Lifetime)</option>
+                    </select>
+                    <button class="btn btn-solid" onclick="addProduct()">Add Product</button>
+                </div>
+                <table>
+                    <thead><tr><th>Name</th><th>Price</th><th>Type</th><th>Action</th></tr></thead>
+                    <tbody id="admin-products-table"></tbody>
+                </table>
+            </div>
+
+            <!-- News Management -->
+            <div class="glass" style="padding: 20px; margin-bottom: 20px;">
+                <h3 style="color: var(--accent); margin-bottom: 15px;">Manage News/Pengumuman</h3>
+                <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                    <input type="text" id="new-news-text" placeholder="Type news announcement here..." style="flex:1;">
+                    <button class="btn btn-solid" onclick="addNews()">Broadcast</button>
+                </div>
+                <ul id="admin-news-list" style="list-style: none;"></ul>
+            </div>
+
+            <!-- Website Settings -->
+            <div class="glass" style="padding: 20px; margin-bottom: 20px;">
+                <h3 style="color: var(--accent); margin-bottom: 15px;">Website Settings</h3>
+                <label>Website Name</label>
+                <input type="text" id="set-title">
+                <label>Description</label>
+                <textarea id="set-desc" rows="3"></textarea>
+                <button class="btn btn-solid" onclick="saveSettings()">Save Settings</button>
+            </div>
+            
+            <!-- Users Database -->
+            <div class="glass" style="padding: 20px;">
+                <h3 style="color: var(--accent); margin-bottom: 15px;">Database Akun User</h3>
+                <table>
+                    <thead><tr><th>Username</th><th>Password (Encrypted/View)</th></tr></thead>
+                    <tbody id="admin-users-table"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- Checkout Modal -->
+    <div class="modal-overlay" id="checkout-modal">
+        <div class="modal-content glass">
+            <span class="close-modal" onclick="closeModal('checkout-modal')">✖</span>
+            <h2 class="neon-text" style="margin-bottom: 20px;">Checkout Format</h2>
+            <div id="checkout-prod-info" style="margin-bottom: 15px; color: var(--accent); font-weight: bold;"></div>
+            
+            <label>Username</label>
+            <input type="text" id="co-username" readonly>
+            
+            <label>Nomor WhatsApp Aktif</label>
+            <input type="text" id="co-whatsapp" placeholder="08xxxxxxxxxx">
+            
+            <button class="btn btn-solid" style="width: 100%;" onclick="proceedToPayment()">Continue to Payment</button>
+        </div>
+    </div>
+
+    <!-- Payment Modal (QRIS) -->
+    <div class="modal-overlay" id="payment-modal">
+        <div class="modal-content glass" style="text-align: center;">
+            <span class="close-modal" onclick="closeModal('payment-modal')">✖</span>
+            <h2 class="neon-text">Payment QRIS</h2>
+            <p style="margin: 10px 0; font-size: 14px; color: var(--text-muted);">Scan QRIS All Pay di bawah ini sesuai nominal.</p>
+            
+            <h1 id="pay-amount" style="color: var(--accent); margin: 15px 0;"></h1>
+            
+            <div class="qris-box glass">
+                <!-- using qris.png as requested -->
+                <img src="qris.png" alt="QRIS ALL PAY" onerror="this.onerror=null; this.src='https://via.placeholder.com/250?text=UPLOAD+qris.png';">
+                <p>SCAN ME</p>
+            </div>
+
+            <button class="btn btn-solid" style="width: 100%;" onclick="confirmPayment()">Saya Sudah Bayar</button>
+        </div>
+    </div>
+
+    <!-- Live Chat Widget -->
+    <div id="chat-widget" class="glass">
+        <div class="chat-header" onclick="toggleChat()">
+            <span>💬 Live Chat</span>
+            <span id="chat-indicator">▼</span>
+        </div>
+        <div class="chat-body glass" id="chat-body">
+            <div class="chat-messages" id="chat-messages">
+                <div class="chat-msg msg-admin">Halo! Ada yang bisa kami bantu?</div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="chat-input-text" placeholder="Ketik pesan...">
+                <button class="btn btn-solid" onclick="sendChat()">➤</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- DATABASE SIMULATION (database.json fallback via LocalStorage) ---
+        // GitHub Pages is static, so we simulate the backend using LocalStorage
+        const defaultDB = {
+            settings: { title: "MANJII OFFICIAL", desc: "Penyedia tools dan cheat premium terbaik untuk iOS. Fitur otomatis dan anti durasi." },
+            users: [],
+            products: [
+                { id: 1, name: "Cheat Manjii iOS Basic", price: 50000, type: "7 Hari" },
+                { id: 2, name: "Manjii Overlord VIP", price: 150000, type: "30 Hari" },
+                { id: 3, name: "Script Settings Auto Headshot", price: 350000, type: "Anti Durasi (Lifetime)" }
+            ],
+            orders: [],
+            news: ["📢 Welcome to MANJII OFFICIAL! Website penjualan otomatis rilis."],
+            chats: []
+        };
+
+        let db = JSON.parse(localStorage.getItem('manjii_db'));
+        if (!db) { db = defaultDB; saveDB(); }
+
+        function saveDB() {
+            localStorage.setItem('manjii_db', JSON.stringify(db));
+        }
+
+        // --- STATE VARIABLES ---
+        let currentUser = JSON.parse(sessionStorage.getItem('currentUser')) || null;
+        let isAdmin = sessionStorage.getItem('isAdmin') === 'true';
+        let currentCheckoutProduct = null;
+        let isLoginMode = true;
+
+        // --- INITIALIZATION ---
+        window.onload = () => {
+            applySettings();
+            checkAuth();
+            renderAll();
+            startSlider();
+            
+            // Hide loading screen
+            setTimeout(() => {
+                document.getElementById('loading-screen').style.opacity = '0';
+                setTimeout(() => document.getElementById('loading-screen').style.display = 'none', 300);
+            }, 800);
+        };
+
+        function showLoading(callback) {
+            const ls = document.getElementById('loading-screen');
+            ls.style.display = 'flex';
+            ls.style.opacity = '1';
+            setTimeout(() => {
+                callback();
+                ls.style.opacity = '0';
+                setTimeout(() => ls.style.display = 'none', 300);
+            }, 500);
+        }
+
+        function applySettings() {
+            document.title = db.settings.title;
+            document.getElementById('site-title-header').innerText = db.settings.title;
+            document.getElementById('site-title-loader').innerText = db.settings.title;
+            document.getElementById('site-title-about').innerText = db.settings.title;
+            document.getElementById('site-desc').innerText = db.settings.desc;
+            
+            // Set admin fields
+            document.getElementById('set-title').value = db.settings.title;
+            document.getElementById('set-desc').value = db.settings.desc;
+        }
+
+        function renderAll() {
+            renderNews();
+            renderProducts();
+            if (currentUser) renderUserOrders();
+            if (isAdmin) renderAdminPanel();
+            renderChat();
+        }
+
+        // --- NAVIGATION ---
+        function toggleMenu() {
+            document.getElementById('side-menu').classList.toggle('active');
+        }
+
+        function navigate(viewId) {
+            showLoading(() => {
+                document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+                document.getElementById('view-' + viewId).classList.add('active');
+                document.getElementById('side-menu').classList.remove('active');
+            });
+        }
+
+        function changeColor(color) {
+            document.documentElement.style.setProperty('--accent', color);
+            localStorage.setItem('manjii_color', color);
+        }
+        // Load saved color
+        if(localStorage.getItem('manjii_color')) {
+            changeColor(localStorage.getItem('manjii_color'));
+            document.getElementById('colorPicker').value = localStorage.getItem('manjii_color');
+        }
+
+        // --- SLIDER ---
+        let slideIndex = 0;
+        function startSlider() {
+            const slider = document.getElementById('slider');
+            setInterval(() => {
+                slideIndex = (slideIndex + 1) % 3;
+                slider.style.transform = `translateX(-${slideIndex * 33.333}%)`;
+            }, 3000);
+        }
+
+        // --- AUTHENTICATION ---
+        function checkAuth() {
+            const uiText = document.getElementById('user-info');
+            if (currentUser) {
+                uiText.innerText = `👋 Hello, ${currentUser.username}`;
+                document.getElementById('nav-login').style.display = 'none';
+                document.getElementById('nav-logout').style.display = 'block';
+                document.getElementById('nav-orders').style.display = 'block';
+            } else {
+                uiText.innerText = `Not Logged In`;
+                document.getElementById('nav-login').style.display = 'block';
+                document.getElementById('nav-logout').style.display = 'none';
+                document.getElementById('nav-orders').style.display = 'none';
+            }
+        }
+
+        function toggleAuthMode() {
+            isLoginMode = !isLoginMode;
+            document.getElementById('auth-title').innerText = isLoginMode ? 'Login' : 'Register';
+            document.querySelector('#view-auth p a').innerText = isLoginMode ? 'Belum punya akun? Daftar' : 'Sudah punya akun? Login';
+        }
+
+        function handleAuth() {
+            const u = document.getElementById('auth-username').value.trim();
+            const p = document.getElementById('auth-password').value.trim();
+            if(!u || !p) return alert("Isi form dengan lengkap!");
+
+            showLoading(() => {
+                if (isLoginMode) {
+                    const user = db.users.find(x => x.username === u && x.password === p);
+                    if (user) {
+                        currentUser = user;
+                        sessionStorage.setItem('currentUser', JSON.stringify(user));
+                        checkAuth();
+                        navigate('home');
+                    } else {
+                        alert("Username / Password salah!");
+                    }
+                } else {
+                    if (db.users.find(x => x.username === u)) return alert("Username sudah digunakan!");
+                    const newUser = { username: u, password: p };
+                    db.users.push(newUser);
+                    saveDB();
+                    currentUser = newUser;
+                    sessionStorage.setItem('currentUser', JSON.stringify(newUser));
+                    alert("Akun berhasil dibuat!");
+                    checkAuth();
+                    navigate('home');
+                }
+            });
+        }
+
+        function logout() {
+            showLoading(() => {
+                currentUser = null;
+                sessionStorage.removeItem('currentUser');
+                checkAuth();
+                navigate('home');
+            });
+        }
+
+        // --- DATA RENDERING (USER) ---
+        function formatRp(angka) {
+            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(angka);
+        }
+
+        function renderNews() {
+            const container = document.getElementById('news-container');
+            container.innerHTML = '';
+            db.news.forEach(n => {
+                container.innerHTML += `<div class="news-banner"><span class="neon-text">INFO:</span> ${n}</div>`;
+            });
+        }
+
+        function renderProducts() {
+            const list = document.getElementById('product-list');
+            list.innerHTML = '';
+            db.products.forEach(p => {
+                list.innerHTML += `
+                    <div class="product-card glass">
+                        <div style="font-size: 40px; margin-bottom: 10px;">📦</div>
+                        <div class="product-title">${p.name}</div>
+                        <div class="product-type">⏳ ${p.type}</div>
+                        <div class="product-price">${formatRp(p.price)}</div>
+                        <button class="btn btn-solid" style="width:100%" onclick="openCheckout(${p.id})">🛒 Beli Sekarang</button>
+                    </div>
+                `;
+            });
+        }
+
+        function renderUserOrders() {
+            const tbody = document.getElementById('user-orders-table');
+            tbody.innerHTML = '';
+            const myOrders = db.orders.filter(o => o.username === currentUser.username);
+            myOrders.forEach(o => {
+                const p = db.products.find(x => x.id === o.productId);
+                let color = o.status === 'DONE' ? 'lightgreen' : 'orange';
+                tbody.innerHTML += `
+                    <tr>
+                        <td>#${o.id}</td>
+                        <td>${p ? p.name : 'Unknown'}</td>
+                        <td>${formatRp(p ? p.price : 0)}</td>
+                        <td style="color:${color}; font-weight:bold;">${o.status}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        // --- CHECKOUT PROCESS ---
+        function openCheckout(pid) {
+            if (!currentUser) {
+                alert("Silahkan login terlebih dahulu!");
+                navigate('auth');
+                return;
+            }
+            currentCheckoutProduct = db.products.find(x => x.id === pid);
+            document.getElementById('checkout-prod-info').innerText = `${currentCheckoutProduct.name} - ${formatRp(currentCheckoutProduct.price)}`;
+            document.getElementById('co-username').value = currentUser.username;
+            document.getElementById('co-whatsapp').value = '';
+            document.getElementById('checkout-modal').classList.add('active');
+        }
+
+        function proceedToPayment() {
+            const wa = document.getElementById('co-whatsapp').value;
+            if(!wa) return alert("Masukkan nomor WA!");
+            
+            document.getElementById('checkout-modal').classList.remove('active');
+            document.getElementById('pay-amount').innerText = formatRp(currentCheckoutProduct.price);
+            document.getElementById('payment-modal').classList.add('active');
+            
+            // Store temp info
+            sessionStorage.setItem('temp_wa', wa);
+        }
+
+        function confirmPayment() {
+            showLoading(() => {
+                const wa = sessionStorage.getItem('temp_wa');
+                const newOrder = {
+                    id: Date.now(),
+                    username: currentUser.username,
+                    wa: wa,
+                    productId: currentCheckoutProduct.id,
+                    status: 'PENDING' // Pending until admin ACC
+                };
+                db.orders.push(newOrder);
+                saveDB();
+                
+                document.getElementById('payment-modal').classList.remove('active');
+                alert("Pembayaran terkonfirmasi sistem! Menunggu Admin ACC (Status: PENDING).");
+                renderUserOrders();
+                navigate('orders');
+            });
+        }
+
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+        // --- ADMIN PANEL LOGIC ---
+        // Admin credentials (Hardcoded for protection)
+        const ADMIN_USER = "admin_manjii";
+        const ADMIN_PASS = "ManjiiEscobar_2026!";
+
+        function adminLogin() {
+            const u = document.getElementById('admin-username').value;
+            const p = document.getElementById('admin-password').value;
+            showLoading(() => {
+                if (u === ADMIN_USER && p === ADMIN_PASS) {
+                    isAdmin = true;
+                    sessionStorage.setItem('isAdmin', 'true');
+                    renderAdminPanel();
+                    navigate('admin-panel');
+                } else {
+                    alert("Admin Access Denied!");
+                }
+            });
+        }
+
+        function logoutAdmin() {
+            showLoading(() => {
+                isAdmin = false;
+                sessionStorage.removeItem('isAdmin');
+                navigate('home');
+            });
+        }
+
+        function renderAdminPanel() {
+            // Render Orders
+            const otbody = document.getElementById('admin-orders-table');
+            otbody.innerHTML = '';
+            db.orders.forEach(o => {
+                const p = db.products.find(x => x.id === o.productId);
+                otbody.innerHTML += `
+                    <tr>
+                        <td>#${o.id}</td><td>${o.username}</td><td>${o.wa}</td>
+                        <td>${p ? p.name : '-'}</td>
+                        <td style="color:${o.status==='DONE'?'lightgreen':'orange'}">${o.status}</td>
+                        <td>
+                            ${o.status === 'PENDING' ? `<button class="btn" style="padding:5px 10px;" onclick="accOrder(${o.id})">ACC (Done)</button>` : '-'}
+                        </td>
+                    </tr>
+                `;
+            });
+
+            // Render Products
+            const ptbody = document.getElementById('admin-products-table');
+            ptbody.innerHTML = '';
+            db.products.forEach(p => {
+                ptbody.innerHTML += `
+                    <tr>
+                        <td>${p.name}</td><td>${formatRp(p.price)}</td><td>${p.type}</td>
+                        <td><button class="btn" style="border-color:red" onclick="deleteProduct(${p.id})">Del</button></td>
+                    </tr>
+                `;
+            });
+
+            // Render News
+            const nlist = document.getElementById('admin-news-list');
+            nlist.innerHTML = '';
+            db.news.forEach((n, i) => {
+                nlist.innerHTML += `
+                    <li style="display:flex; justify-content:space-between; margin-bottom:10px; padding:10px; background:rgba(255,255,255,0.05); border-radius:5px;">
+                        <span>${n}</span>
+                        <button class="btn" style="padding:2px 8px; border-color:red;" onclick="deleteNews(${i})">X</button>
+                    </li>
+                `;
+            });
+
+            // Render Users
+            const utbody = document.getElementById('admin-users-table');
+            utbody.innerHTML = '';
+            db.users.forEach(u => {
+                utbody.innerHTML += `<tr><td>${u.username}</td><td>${u.password}</td></tr>`;
+            });
+        }
+
+        function accOrder(id) {
+            const o = db.orders.find(x => x.id === id);
+            if (o) { o.status = 'DONE'; saveDB(); renderAdminPanel(); if(currentUser) renderUserOrders(); }
+        }
+
+        function addProduct() {
+            const name = document.getElementById('new-prod-name').value;
+            const price = document.getElementById('new-prod-price').value;
+            const type = document.getElementById('new-prod-type').value;
+            if(!name || !price) return alert("Isi data produk!");
+            db.products.push({ id: Date.now(), name, price: parseInt(price), type });
+            saveDB();
+            renderAdminPanel();
+            renderProducts();
+            document.getElementById('new-prod-name').value = '';
+            document.getElementById('new-prod-price').value = '';
+        }
+
+        function deleteProduct(id) {
+            db.products = db.products.filter(x => x.id !== id);
+            saveDB(); renderAdminPanel(); renderProducts();
+        }
+
+        function addNews() {
+            const text = document.getElementById('new-news-text').value;
+            if(!text) return;
+            db.news.push(text);
+            saveDB(); renderAdminPanel(); renderNews();
+            document.getElementById('new-news-text').value = '';
+        }
+
+        function deleteNews(index) {
+            db.news.splice(index, 1);
+            saveDB(); renderAdminPanel(); renderNews();
+        }
+
+        function saveSettings() {
+            db.settings.title = document.getElementById('set-title').value;
+            db.settings.desc = document.getElementById('set-desc').value;
+            saveDB(); applySettings();
+            alert("Settings updated!");
+        }
+
+        // --- LIVE CHAT SYSTEM (Local Simulation) ---
+        function toggleChat() {
+            const cb = document.getElementById('chat-body');
+            cb.classList.toggle('active');
+            document.getElementById('chat-indicator').innerText = cb.classList.contains('active') ? '▲' : '▼';
+            renderChat();
+        }
+
+        function sendChat() {
+            const input = document.getElementById('chat-input-text');
+            const text = input.value.trim();
+            if(!text) return;
+            
+            const sender = isAdmin ? 'Admin' : (currentUser ? currentUser.username : 'Guest');
+            db.chats.push({ sender, text });
+            saveDB();
+            input.value = '';
+            renderChat();
+        }
+
+        function renderChat() {
+            const box = document.getElementById('chat-messages');
+            box.innerHTML = '';
+            db.chats.forEach(c => {
+                const isMe = isAdmin ? (c.sender === 'Admin') : (currentUser && c.sender === currentUser.username) || (!currentUser && c.sender === 'Guest');
+                const cls = isMe ? 'msg-user' : 'msg-admin';
+                box.innerHTML += `<div class="chat-msg ${cls}"><b>${c.sender}:</b> <br>${c.text}</div>`;
+            });
+            box.scrollTop = box.scrollHeight;
+        }
+
+    </script>
+</body>
+</html>
