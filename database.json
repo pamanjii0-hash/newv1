@@ -1,0 +1,30 @@
+{
+    "website_info": {
+        "name": "MANJII OFFICIAL",
+        "description": "Dominating the market for over 3 years. Premium digital products & instant delivery.",
+        "announcement": "Welcome to Manjii Official! Enjoy our best deals today."
+    },
+    "products": [
+        {
+            "id": 1,
+            "name": "VIP Mobile APK",
+            "price": 0.9,
+            "duration": "1 Day",
+            "description": "Premium features unlocked."
+        },
+        {
+            "id": 2,
+            "name": "VIP Mobile APK",
+            "price": 2.0,
+            "duration": "1 Day",
+            "description": "Includes Root features."
+        },
+        {
+            "id": 3,
+            "name": "Premium Account",
+            "price": 5.0,
+            "duration": "7 Days",
+            "description": "Full access to all premium tools."
+        }
+    ]
+}

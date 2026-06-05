@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MANJII OFFICIAL</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="loading-screen"><div class="spinner"></div></div>
+
+    <nav class="glass">
+        <div class="logo" id="site-logo-name">MANJII OFFICIAL</div>
+        <div class="nav-links">
+            <button class="glass-btn" onclick="nav('home')">Home</button>
+            <button class="glass-btn" onclick="nav('store')">Store</button>
+            <button class="glass-btn" id="nav-login-btn" onclick="nav('login')">Login/Register</button>
+            <button class="glass-btn" id="nav-dashboard-btn" style="display:none;" onclick="nav('dashboard')">Dashboard</button>
+            <button class="glass-btn" id="nav-logout-btn" style="display:none;" onclick="logout()">Logout</button>
+        </div>
+        <div class="color-picker">
+            <div class="color-dot" style="background: #d90429;" onclick="setAccent('#d90429')"></div>
+            <div class="color-dot" style="background: #b200ff;" onclick="setAccent('#b200ff')"></div>
+            <div class="color-dot" style="background: #00d2ff;" onclick="setAccent('#00d2ff')"></div>
+            <div class="color-dot" style="background: #00ff88;" onclick="setAccent('#00ff88')"></div>
+        </div>
+    </nav>
+
+    <!-- HOME PAGE -->
+    <div id="page-home" class="page active">
+        <div class="glass" style="padding: 40px; text-align: center;">
+            <h1 style="font-size: 3rem; margin-bottom: 20px;">Dominating <span style="color: var(--accent-color)">the market</span></h1>
+            <p id="site-desc" style="color: var(--text-muted); margin-bottom: 20px;">For over 3 years.</p>
+            <div class="glass" style="padding: 15px; display: inline-block; background: rgba(255,255,255,0.02);">
+                <h3 style="color: var(--accent-color)">📢 PENGUMUMAN</h3>
+                <p id="site-news">Welcome to our official store.</p>
+            </div>
+            <br><br>
+            <button class="glass-btn" style="font-size: 1.2rem; padding: 15px 40px;" onclick="nav('store')">Shop Now</button>
+        </div>
+    </div>
+
+    <!-- STORE PAGE -->
+    <div id="page-store" class="page">
+        <h2>Drip Store / Products</h2>
+        <div class="product-grid" id="product-list">
+            <!-- Rendered via JS -->
+        </div>
+    </div>
+
+    <!-- CHECKOUT PAGE -->
+    <div id="page-checkout" class="page">
+        <div class="glass" style="max-width: 600px; margin: 0 auto; padding: 30px;">
+            <h2>Checkout</h2>
+            <p style="color: var(--text-muted); margin-bottom: 20px;">Lengkapi data di bawah untuk pembelian.</p>
+            <div class="form-group">
+                <label>Username In-Game / Akun</label>
+                <input type="text" id="co-username" placeholder="Masukkan Username">
+            </div>
+            <div class="form-group">
+                <label>Nomor WhatsApp Aktif</label>
+                <input type="text" id="co-wa" placeholder="08...">
+            </div>
+            <div class="form-group">
+                <label>Produk Terpilih</label>
+                <input type="text" id="co-product" readonly style="color: var(--accent-color); font-weight: bold;">
+                <input type="hidden" id="co-price">
+            </div>
+            <button class="glass-btn" style="width: 100%; margin-top: 10px;" onclick="processCheckout()">Lanjutkan Pembayaran</button>
+
+            <div id="qris-section" class="qris-container">
+                <h3>Scan QRIS All Pay</h3>
+                <img src="assets/qris.png" alt="QRIS">
+                <p>Harga: <span id="qris-price" style="color: var(--accent-color); font-weight: bold;"></span></p>
+                <p style="font-size: 0.8rem; color: var(--text-muted);">Setelah transfer, klik konfirmasi dan tunggu Admin ACC (Status DONE).</p>
+                <button class="glass-btn" style="width: 100%; margin-top: 15px; background: #00ff88; color: black; border: none;" onclick="confirmPayment()">Saya Sudah Bayar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOGIN / REGISTER PAGE -->
+    <div id="page-login" class="page">
+        <div class="glass" style="max-width: 400px; margin: 0 auto; padding: 30px;">
+            <h2 id="auth-title">Login Akun</h2>
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="auth-user">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="auth-pass">
+            </div>
+            <button class="glass-btn" style="width: 100%;" onclick="handleAuth()" id="auth-btn">Login</button>
+            <p style="text-align: center; margin-top: 15px; cursor: pointer; color: var(--accent-color);" onclick="toggleAuth()">Belum punya akun? Daftar</p>
+        </div>
+    </div>
+
+    <!-- USER DASHBOARD -->
+    <div id="page-dashboard" class="page">
+        <div class="glass" style="padding: 30px; margin-bottom: 20px;">
+            <h2>Halo, <span id="dash-username" style="color: var(--accent-color);"></span>!</h2>
+            <p>Welcome to your personal dashboard.</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div class="glass" style="padding: 20px;">
+                <h3>Riwayat Pembelian</h3>
+                <div id="user-orders" style="margin-top: 15px;"></div>
+            </div>
+            <div class="glass" style="padding: 20px;">
+                <h3>Live Chat Support</h3>
+                <div class="chat-box" id="user-chat-box"></div>
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" id="user-chat-input" class="form-group" style="margin:0; width: 100%; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white; padding: 10px;" placeholder="Ketik pesan...">
+                    <button class="glass-btn" onclick="sendChatUser()">Kirim</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>MANJII OFFICIAL &copy; 2026. All Rights Reserved.</p>
+        <p>Customer Service: <b>083845203074</b></p>
+        <p style="margin-top: 10px; font-size: 0.8rem;"><a href="admin.html" style="color: var(--text-muted); text-decoration: none;">Admin Panel Login</a></p>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
