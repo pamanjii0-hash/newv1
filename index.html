@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MANJII OFFICIAL</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --accent: #d900ff; /* Default Neon Purple */
+            --accent-hover: #b300d1;
+            --bg-dark: #0b0b0f;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 50% 0%, rgba(217, 0, 255, 0.1) 0%, transparent 50%);
+        }
+
+        /* Glassmorphism utility */
+        .glass {
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+        }
+
+        /* Loader */
+        #loader {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            flex-direction: column;
+            transition: opacity 0.5s;
+        }
+        .spinner {
+            width: 50px; height: 50px;
+            border: 4px solid var(--glass-border);
+            border-top: 4px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* Navbar */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        
+        .brand {
+            font-size: 1.2rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .brand span {
+            color: var(--accent);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .btn-icon {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+        }
+        .btn-icon:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        /* Hamburger Menu Overlay */
+        #menu-overlay {
+            position: fixed;
+            top: 0; right: -100%;
+            width: 300px; height: 100%;
+            background: rgba(11, 11, 15, 0.95);
+            backdrop-filter: blur(15px);
+            border-left: 1px solid var(--glass-border);
+            z-index: 1001;
+            padding: 20px;
+            transition: right 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        #menu-overlay.active { right: 0; }
+        .menu-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 15px;
+        }
+        .menu-links button {
+            width: 100%; text-align: left;
+            background: none; border: none; color: var(--text-main);
+            padding: 15px 10px; font-size: 1.1rem;
+            cursor: pointer; border-radius: 8px;
+            margin-bottom: 5px;
+        }
+        .menu-links button:hover { background: var(--bg-card); color: var(--accent); }
+        .color-picker-container { margin-top: auto; padding: 15px 0; border-top: 1px solid var(--glass-border); }
+        
+        /* Main Container */
+        main { padding: 20px; max-width: 1200px; margin: 0 auto; min-height: 80vh; }
+        .section { display: none; animation: fadeIn 0.4s; }
+        .section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Carousel */
+        .carousel {
+            width: 100%; aspect-ratio: 16/9;
+            border-radius: 15px; overflow: hidden;
+            position: relative; margin-bottom: 30px;
+            border: 1px solid var(--glass-border);
+        }
+        .carousel-inner {
+            display: flex; width: 300%; height: 100%;
+            transition: transform 0.5s ease-in-out;
+        }
+        .carousel-item {
+            width: 33.333%; height: 100%;
+            background-size: cover; background-position: center;
+            display: flex; align-items: flex-end; padding: 20px;
+        }
+        .carousel-item h2 { background: rgba(0,0,0,0.7); padding: 10px 20px; border-radius: 8px; backdrop-filter: blur(5px); }
+
+        /* Products Grid */
+        .products-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px;
+        }
+        .product-card {
+            padding: 15px; display: flex; flex-direction: column; gap: 10px;
+            position: relative; overflow: hidden;
+        }
+        .product-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+            background: var(--accent);
+        }
+        .product-img {
+            width: 100%; height: 150px; background: #1a1a24; border-radius: 8px;
+            object-fit: cover; margin-bottom: 10px; border: 1px solid var(--glass-border);
+        }
+        .product-title { font-size: 1.1rem; font-weight: bold; }
+        .product-desc { font-size: 0.85rem; color: var(--text-muted); flex-grow: 1; }
+        .product-price { font-size: 1.2rem; color: var(--accent); font-weight: bold; }
+        .btn-buy {
+            background: var(--accent); color: white; border: none;
+            padding: 12px; border-radius: 8px; cursor: pointer; font-weight: bold;
+            text-transform: uppercase; margin-top: 10px; width: 100%;
+        }
+        .btn-buy:hover { background: var(--accent-hover); box-shadow: 0 0 15px var(--accent); }
+
+        /* Modals */
+        .modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(8px);
+            z-index: 2000; justify-content: center; align-items: center; padding: 20px;
+        }
+        .modal.active { display: flex; animation: fadeIn 0.3s; }
+        .modal-content {
+            width: 100%; max-width: 400px; padding: 25px; position: relative;
+        }
+        .modal-close {
+            position: absolute; top: 15px; right: 15px; background: none; border: none;
+            color: var(--text-muted); font-size: 1.5rem; cursor: pointer;
+        }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-size: 0.9rem; color: var(--text-muted); }
+        .form-control {
+            width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.05); color: white; outline: none;
+        }
+        .form-control:focus { border-color: var(--accent); background: rgba(255, 255, 255, 0.1); }
+        .btn-submit { width: 100%; background: var(--accent); color: white; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 10px;}
+
+        /* Admin Panel */
+        .admin-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        .admin-card { padding: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.9rem;}
+        th, td { text-align: left; padding: 10px; border-bottom: 1px solid var(--glass-border); }
+        th { color: var(--accent); }
+        .badge { padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; }
+        .badge.pending { background: orange; color: black; }
+        .badge.done { background: #00ff88; color: black; }
+
+        /* Floating Social & Chat */
+        .floating-actions { position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 1000; }
+        .float-btn { width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 1.5rem; text-decoration: none; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        .btn-wa { background: #25D366; }
+        .btn-tt { background: #000000; border: 1px solid #333; }
+        .btn-chat { background: var(--accent); }
+
+        /* Live Chat Box */
+        .chat-box {
+            position: fixed; bottom: 80px; right: 20px; width: 300px; height: 400px;
+            display: none; flex-direction: column; z-index: 1000; overflow: hidden;
+        }
+        .chat-box.active { display: flex; }
+        .chat-header { background: var(--accent); padding: 15px; font-weight: bold; display: flex; justify-content: space-between; }
+        .chat-messages { flex-grow: 1; padding: 10px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: rgba(0,0,0,0.5);}
+        .msg { padding: 8px 12px; border-radius: 15px; max-width: 80%; font-size: 0.9rem; }
+        .msg.user { background: var(--accent); align-self: flex-end; border-bottom-right-radius: 0; }
+        .msg.admin { background: var(--bg-card); border: 1px solid var(--glass-border); align-self: flex-start; border-bottom-left-radius: 0; }
+        .chat-input { display: flex; padding: 10px; border-top: 1px solid var(--glass-border); background: var(--bg-card); }
+        .chat-input input { flex-grow: 1; background: transparent; border: none; color: white; outline: none; padding: 5px; }
+        .chat-input button { background: none; border: none; color: var(--accent); cursor: pointer; padding: 0 10px; }
+
+        /* Qris Image */
+        .qris-img { width: 100%; border-radius: 10px; margin-bottom: 15px; }
+
+    </style>
+</head>
+<body>
+
+    <!-- Loader -->
+    <div id="loader">
+        <div class="spinner"></div>
+        <p style="margin-top: 15px; font-weight: bold; letter-spacing: 2px;">LOADING...</p>
+    </div>
+
+    <!-- Header -->
+    <header class="glass">
+        <div class="brand">
+            <i class="fa-solid fa-store" style="color: var(--accent)"></i> 
+            <span id="site-name-display">MANJII OFFICIAL</span>
+        </div>
+        <div class="nav-actions">
+            <button class="btn-icon" onclick="openModal('auth-modal')" id="btn-user-profile" title="Login/Register"><i class="fa-solid fa-user"></i></button>
+            <button class="btn-icon" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></button>
+        </div>
+    </header>
+
+    <!-- Sidebar Menu -->
+    <div id="menu-overlay">
+        <div class="menu-header">
+            <h3>Menu</h3>
+            <button class="btn-icon" onclick="toggleMenu()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="menu-links">
+            <button onclick="navigate('home')"><i class="fa-solid fa-house"></i> Home</button>
+            <button onclick="navigate('products')"><i class="fa-solid fa-box"></i> Products</button>
+            <button onclick="navigate('news')"><i class="fa-solid fa-newspaper"></i> News</button>
+            <button onclick="navigate('orders')" id="menu-orders" style="display:none;"><i class="fa-solid fa-clock-rotate-left"></i> My Orders</button>
+            <button onclick="navigate('admin')" id="menu-admin" style="display:none; color: var(--accent);"><i class="fa-solid fa-shield-halved"></i> Admin Panel</button>
+            <button onclick="logout()" id="menu-logout" style="display:none; color: #ff4444;"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+        </div>
+        <div class="color-picker-container">
+            <label style="font-size: 0.9rem; margin-bottom: 10px; display: block;">Theme Accent Color</label>
+            <input type="color" id="accent-color" value="#d900ff" onchange="changeColor(this.value)" style="width: 100%; height: 40px; border: none; cursor: pointer; background: transparent;">
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Home Section -->
+        <section id="sec-home" class="section active">
+            <div class="carousel">
+                <div class="carousel-inner" id="carousel-track">
+                    <div class="carousel-item" style="background-image: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=80');">
+                        <h2>Welcome to Manjii Official</h2>
+                    </div>
+                    <div class="carousel-item" style="background-image: url('https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=800&q=80');">
+                        <h2>Premium Digital Products</h2>
+                    </div>
+                    <div class="carousel-item" style="background-image: url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=800&q=80');">
+                        <h2>Instant Delivery & 100% Secure</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="glass" style="padding: 20px; text-align: center;">
+                <h3 style="color: var(--accent); margin-bottom: 15px;">Tentang Kami</h3>
+                <p id="site-desc-display" style="line-height: 1.6; color: var(--text-muted);">
+                    Selamat datang di MANJII OFFICIAL, pusat kebutuhan digital terlengkap dan terpercaya. Kami menyediakan produk berkualitas tinggi dengan sistem otomatis.
+                </p>
+            </div>
+        </section>
+
+        <!-- Products Section -->
+        <section id="sec-products" class="section">
+            <h2 style="margin-bottom: 20px; border-left: 4px solid var(--accent); padding-left: 10px;">Our Products</h2>
+            <div class="products-grid" id="product-list">
+                <!-- Products injected here via JS -->
+            </div>
+        </section>
+
+        <!-- News Section -->
+        <section id="sec-news" class="section">
+            <h2 style="margin-bottom: 20px; border-left: 4px solid var(--accent); padding-left: 10px;">News & Announcements</h2>
+            <div id="news-list" style="display: flex; flex-direction: column; gap: 15px;">
+                <!-- News injected via JS -->
+            </div>
+        </section>
+
+        <!-- Orders Section (User) -->
+        <section id="sec-orders" class="section">
+            <h2 style="margin-bottom: 20px; border-left: 4px solid var(--accent); padding-left: 10px;">My Orders</h2>
+            <div class="glass admin-card">
+                <table>
+                    <thead><tr><th>ID</th><th>Product</th><th>Type/Duration</th><th>Status</th></tr></thead>
+                    <tbody id="user-orders-body"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Admin Section -->
+        <section id="sec-admin" class="section">
+            <h2 style="margin-bottom: 20px; color: var(--accent);"><i class="fa-solid fa-shield-halved"></i> Admin Dashboard</h2>
+            <div class="admin-grid">
+                
+                <div class="glass admin-card">
+                    <h3>Manage Orders</h3>
+                    <table>
+                        <thead><tr><th>User</th><th>Product</th><th>Status</th><th>Action</th></tr></thead>
+                        <tbody id="admin-orders-body"></tbody>
+                    </table>
+                </div>
+
+                <div class="glass admin-card">
+                    <h3>Manage Products</h3>
+                    <form onsubmit="addProduct(event)" style="margin-top: 15px; margin-bottom: 20px;">
+                        <input type="text" id="add-prod-name" placeholder="Product Name" class="form-control" required style="margin-bottom:10px;">
+                        <input type="text" id="add-prod-desc" placeholder="Description" class="form-control" required style="margin-bottom:10px;">
+                        <input type="text" id="add-prod-price" placeholder="Price (e.g. $1.50 or Rp 20.000)" class="form-control" required style="margin-bottom:10px;">
+                        <label style="font-size:0.8rem; color:var(--text-muted);">Has Duration Variant?</label>
+                        <select id="add-prod-duration" class="form-control" style="margin-bottom:10px;">
+                            <option value="yes">Yes (1 Day, 7 Days, etc)</option>
+                            <option value="no">No (Anti-Duration / Permanent)</option>
+                        </select>
+                        <button type="submit" class="btn-submit">Add Product</button>
+                    </form>
+                    <table>
+                        <thead><tr><th>Name</th><th>Action</th></tr></thead>
+                        <tbody id="admin-products-body"></tbody>
+                    </table>
+                </div>
+
+                <div class="glass admin-card">
+                    <h3>Manage News</h3>
+                    <form onsubmit="addNews(event)" style="margin-top: 15px; margin-bottom: 20px;">
+                        <textarea id="add-news-text" placeholder="Type news here..." class="form-control" required style="margin-bottom:10px; height: 80px;"></textarea>
+                        <button type="submit" class="btn-submit">Post News</button>
+                    </form>
+                    <table>
+                        <thead><tr><th>News</th><th>Action</th></tr></thead>
+                        <tbody id="admin-news-body"></tbody>
+                    </table>
+                </div>
+
+                <div class="glass admin-card">
+                    <h3>Website Settings</h3>
+                    <input type="text" id="set-site-name" class="form-control" placeholder="Website Name" style="margin-top:10px; margin-bottom:10px;">
+                    <textarea id="set-site-desc" class="form-control" placeholder="Website Description" style="margin-bottom:10px; height: 80px;"></textarea>
+                    <button onclick="updateSiteSettings()" class="btn-submit">Save Settings</button>
+                </div>
+
+                <div class="glass admin-card">
+                    <h3>Users Database</h3>
+                    <table>
+                        <thead><tr><th>Username</th><th>Password</th></tr></thead>
+                        <tbody id="admin-users-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Floating Actions -->
+    <div class="floating-actions">
+        <a href="https://wa.me/6283845203074" target="_blank" class="float-btn btn-wa"><i class="fa-brands fa-whatsapp"></i></a>
+        <a href="https://tiktok.com/@manjiixit" target="_blank" class="float-btn btn-tt"><i class="fa-brands fa-tiktok"></i></a>
+        <button class="float-btn btn-chat" onclick="toggleChat()"><i class="fa-solid fa-comment-dots"></i></button>
+    </div>
+
+    <!-- Live Chat Box -->
+    <div class="glass chat-box" id="chat-widget">
+        <div class="chat-header">
+            <span>Customer Service</span>
+            <button style="background:none; border:none; color:white; cursor:pointer;" onclick="toggleChat()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="chat-messages" id="chat-messages-container">
+            <div class="msg admin">Halo! Ada yang bisa kami bantu?</div>
+        </div>
+        <form class="chat-input" onsubmit="sendChat(event)">
+            <input type="text" id="chat-input-msg" placeholder="Type message..." required autocomplete="off">
+            <button type="submit"><i class="fa-solid fa-paper-plane"></i></button>
+        </form>
+    </div>
+
+    <!-- Auth Modal (Login/Register) -->
+    <div class="modal" id="auth-modal">
+        <div class="glass modal-content">
+            <button class="modal-close" onclick="closeModal('auth-modal')"><i class="fa-solid fa-xmark"></i></button>
+            <h2 style="text-align: center; margin-bottom: 20px; color: var(--accent);" id="auth-title">Login</h2>
+            
+            <form id="login-form" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="login-user" class="form-control" required autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="login-pass" class="form-control" required>
+                </div>
+                <button type="submit" class="btn-submit">Login</button>
+                <p style="text-align: center; margin-top: 15px; font-size: 0.9rem;">
+                    Don't have an account? <a href="#" onclick="switchAuth('register')" style="color: var(--accent);">Register</a><br><br>
+                    <a href="#" onclick="switchAuth('admin')" style="color: var(--text-muted); font-size: 0.8rem;">Admin Login</a>
+                </p>
+            </form>
+
+            <form id="register-form" onsubmit="handleRegister(event)" style="display: none;">
+                <div class="form-group">
+                    <label>New Username</label>
+                    <input type="text" id="reg-user" class="form-control" required autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label>New Password</label>
+                    <input type="password" id="reg-pass" class="form-control" required>
+                </div>
+                <button type="submit" class="btn-submit">Create Account</button>
+                <p style="text-align: center; margin-top: 15px; font-size: 0.9rem;">
+                    Already have an account? <a href="#" onclick="switchAuth('login')" style="color: var(--accent);">Login</a>
+                </p>
+            </form>
+
+            <form id="admin-login-form" onsubmit="handleAdminLogin(event)" style="display: none;">
+                <p style="text-align:center; color:orange; font-size:0.8rem; margin-bottom:10px;">Admin Panel Access Only</p>
+                <div class="form-group">
+                    <label>Admin Username</label>
+                    <input type="text" id="admin-user" class="form-control" required autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label>Admin Password</label>
+                    <input type="password" id="admin-pass" class="form-control" required>
+                </div>
+                <button type="submit" class="btn-submit">Access Panel</button>
+                <p style="text-align: center; margin-top: 15px; font-size: 0.9rem;">
+                    <a href="#" onclick="switchAuth('login')" style="color: var(--text-muted);">Back to User Login</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="modal" id="checkout-modal">
+        <div class="glass modal-content">
+            <button class="modal-close" onclick="closeModal('checkout-modal')"><i class="fa-solid fa-xmark"></i></button>
+            <h2 style="text-align: center; margin-bottom: 20px; color: var(--accent);">Checkout Product</h2>
+            <form onsubmit="processCheckout(event)">
+                <input type="hidden" id="co-prod-id">
+                <input type="hidden" id="co-prod-name">
+                <div class="form-group">
+                    <label>Username (Game/App)</label>
+                    <input type="text" id="co-user" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Active WhatsApp Number</label>
+                    <input type="number" id="co-wa" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Variant / Duration</label>
+                    <select id="co-variant" class="form-control" required>
+                        <!-- Injected via JS depending on product -->
+                    </select>
+                </div>
+                <button type="submit" class="btn-submit">Continue to Payment</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- QRIS Payment Modal -->
+    <div class="modal" id="qris-modal">
+        <div class="glass modal-content" style="text-align: center;">
+            <h2 style="margin-bottom: 15px; color: var(--accent);">Payment QRIS ALL PAY</h2>
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px;">Scan barcode di bawah ini untuk menyelesaikan pembayaran. Jika sudah, klik tombol Konfirmasi.</p>
+            <!-- Using a placeholder QRIS image since I cannot upload real local files to github from here -->
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg" alt="QRIS" class="qris-img" style="background: white; padding: 10px;">
+            <button onclick="confirmPayment()" class="btn-submit">Saya Sudah Membayar</button>
+        </div>
+    </div>
+
+    <!-- MAIN JAVASCRIPT LOGIC -->
+    <script>
+        // --- 1. Database Initialization (Simulating database.json via localStorage) ---
+        const defaultDB = {
+            siteSettings: { name: "MANJII OFFICIAL", desc: "Selamat datang di MANJII OFFICIAL, pusat kebutuhan digital terlengkap dan terpercaya. Kami menyediakan produk berkualitas tinggi dengan sistem otomatis." },
+            users: [],
+            admin: { user: "AdminManjii", pass: "Manjii@Secret2026!" },
+            products: [
+                { id: 1, name: "DRIP MOBILE APK", desc: "Drip Client Mobile - The ultimate solution for Android. Aimbot, ESP, Speed.", price: "$0.90", hasDuration: true },
+                { id: 2, name: "DRIP MOBILE ROOT", desc: "Drip Client Mobile ROOT version. Highest stability and safety.", price: "$0.90", hasDuration: true },
+                { id: 3, name: "MANJII VIP PANEL", desc: "Permanent access. Anti-duration. Lifetime support.", price: "$15.00", hasDuration: false }
+            ],
+            news: [
+                { id: 1, date: "2026-06-06", text: "Welcome to Manjii Official! Register now to enjoy our automated systems." },
+                { id: 2, date: "2026-06-05", text: "Drip Mobile APK updated to v2.4. All bugs fixed." }
+            ],
+            orders: [],
+            chats: {} // format: { username: [{sender: 'user', text: 'hi'}, {sender: 'admin', text: 'hello'}] }
+        };
+
+        function getDB() {
+            let db = localStorage.getItem('manjii_db');
+            if(!db) {
+                localStorage.setItem('manjii_db', JSON.stringify(defaultDB));
+                return defaultDB;
+            }
+            return JSON.parse(db);
+        }
+
+        function saveDB(db) {
+            localStorage.setItem('manjii_db', JSON.stringify(db));
+        }
+
+        // Current Session State
+        let currentUser = sessionStorage.getItem('manjii_user'); // username
+        let isAdmin = sessionStorage.getItem('manjii_admin') === 'true';
+
+        // --- 2. UI / General Functions ---
+        window.onload = () => {
+            setTimeout(() => { document.getElementById('loader').style.opacity = '0'; setTimeout(() => document.getElementById('loader').style.display = 'none', 500); }, 1000);
+            
+            // Carousel Animation
+            let slideIndex = 0;
+            const track = document.getElementById('carousel-track');
+            setInterval(() => {
+                slideIndex = (slideIndex + 1) % 3;
+                track.style.transform = `translateX(-${slideIndex * 33.333}%)`;
+            }, 3000);
+
+            applySettings();
+            updateNavUI();
+            renderProducts();
+            renderNews();
+            if(currentUser) renderUserOrders();
+            if(isAdmin) renderAdminPanels();
+        };
+
+        function triggerLoader(callback) {
+            const loader = document.getElementById('loader');
+            loader.style.display = 'flex';
+            setTimeout(() => { loader.style.opacity = '1'; }, 10);
+            setTimeout(() => {
+                callback();
+                loader.style.opacity = '0';
+                setTimeout(() => loader.style.display = 'none', 500);
+            }, 800); // 800ms fake loading
+        }
+
+        function toggleMenu() {
+            document.getElementById('menu-overlay').classList.toggle('active');
+        }
+
+        function navigate(targetId) {
+            triggerLoader(() => {
+                document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+                document.getElementById('sec-' + targetId).classList.add('active');
+                toggleMenu();
+                if(targetId === 'admin') renderAdminPanels();
+                if(targetId === 'orders') renderUserOrders();
+            });
+        }
+
+        function changeColor(color) {
+            document.documentElement.style.setProperty('--accent', color);
+        }
+
+        function openModal(id) { document.getElementById(id).classList.add('active'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+        function applySettings() {
+            let db = getDB();
+            document.getElementById('site-name-display').innerText = db.siteSettings.name;
+            document.getElementById('site-desc-display').innerText = db.siteSettings.desc;
+            document.title = db.siteSettings.name;
+        }
+
+        // --- 3. Authentication ---
+        function switchAuth(type) {
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('register-form').style.display = 'none';
+            document.getElementById('admin-login-form').style.display = 'none';
+            
+            if(type === 'login') { document.getElementById('login-form').style.display = 'block'; document.getElementById('auth-title').innerText = 'Login'; }
+            if(type === 'register') { document.getElementById('register-form').style.display = 'block'; document.getElementById('auth-title').innerText = 'Register'; }
+            if(type === 'admin') { document.getElementById('admin-login-form').style.display = 'block'; document.getElementById('auth-title').innerText = 'Admin Access'; }
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            let user = document.getElementById('reg-user').value;
+            let pass = document.getElementById('reg-pass').value;
+            let db = getDB();
+            
+            if(db.users.find(u => u.user === user)) {
+                alert("Username already exists!"); return;
+            }
+            db.users.push({ user, pass });
+            saveDB(db);
+            alert("Account created successfully! Please login.");
+            switchAuth('login');
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            let user = document.getElementById('login-user').value;
+            let pass = document.getElementById('login-pass').value;
+            let db = getDB();
+
+            let validUser = db.users.find(u => u.user === user && u.pass === pass);
+            if(validUser) {
+                sessionStorage.setItem('manjii_user', user);
+                currentUser = user;
+                isAdmin = false;
+                sessionStorage.setItem('manjii_admin', 'false');
+                alert("Login successful!");
+                closeModal('auth-modal');
+                triggerLoader(() => { updateNavUI(); renderUserOrders(); });
+            } else {
+                alert("Invalid credentials!");
+            }
+        }
+
+        function handleAdminLogin(e) {
+            e.preventDefault();
+            let user = document.getElementById('admin-user').value;
+            let pass = document.getElementById('admin-pass').value;
+            let db = getDB();
+
+            if(user === db.admin.user && pass === db.admin.pass) {
+                sessionStorage.setItem('manjii_admin', 'true');
+                isAdmin = true;
+                currentUser = "Admin";
+                alert("Admin Access Granted!");
+                closeModal('auth-modal');
+                triggerLoader(() => { updateNavUI(); navigate('admin'); });
+            } else {
+                alert("Invalid admin credentials!");
+            }
+        }
+
+        function logout() {
+            triggerLoader(() => {
+                sessionStorage.removeItem('manjii_user');
+                sessionStorage.removeItem('manjii_admin');
+                currentUser = null;
+                isAdmin = false;
+                updateNavUI();
+                navigate('home');
+            });
+        }
+
+        function updateNavUI() {
+            const btnProfile = document.getElementById('btn-user-profile');
+            const menuLogout = document.getElementById('menu-logout');
+            const menuOrders = document.getElementById('menu-orders');
+            const menuAdmin = document.getElementById('menu-admin');
+
+            if(currentUser || isAdmin) {
+                btnProfile.style.display = 'none';
+                menuLogout.style.display = 'block';
+                if(isAdmin) {
+                    menuAdmin.style.display = 'block';
+                    menuOrders.style.display = 'none';
+                } else {
+                    menuAdmin.style.display = 'none';
+                    menuOrders.style.display = 'block';
+                }
+            } else {
+                btnProfile.style.display = 'block';
+                menuLogout.style.display = 'none';
+                menuOrders.style.display = 'none';
+                menuAdmin.style.display = 'none';
+            }
+        }
+
+        // --- 4. Store Core (Products & Checkout) ---
+        function renderProducts() {
+            let db = getDB();
+            let container = document.getElementById('product-list');
+            container.innerHTML = '';
+            
+            db.products.forEach(p => {
+                container.innerHTML += `
+                    <div class="glass product-card">
+                        <div class="product-img"></div>
+                        <div class="product-title">${p.name}</div>
+                        <div class="product-desc">${p.desc}</div>
+                        <div class="product-price">From ${p.price}</div>
+                        <button class="btn-buy" onclick="buyProduct(${p.id})"><i class="fa-solid fa-cart-shopping"></i> Buy</button>
+                    </div>
+                `;
+            });
+        }
+
+        function buyProduct(id) {
+            if(!currentUser && !isAdmin) {
+                alert("Please login or register first to make a purchase.");
+                openModal('auth-modal');
+                return;
+            }
+            if(isAdmin) { alert("Admin cannot buy products."); return; }
+
+            let db = getDB();
+            let p = db.products.find(x => x.id === id);
+            
+            document.getElementById('co-prod-id').value = p.id;
+            document.getElementById('co-prod-name').value = p.name;
+            
+            let sel = document.getElementById('co-variant');
+            sel.innerHTML = '';
+            if(p.hasDuration) {
+                sel.innerHTML += `<option value="1 Day">1 Day - ${p.price}</option>
+                                  <option value="7 Days">7 Days</option>
+                                  <option value="30 Days">30 Days</option>`;
+            } else {
+                sel.innerHTML += `<option value="Anti-Duration (Permanent)">Anti-Duration (Permanent) - ${p.price}</option>`;
+            }
+            
+            openModal('checkout-modal');
+        }
+
+        function processCheckout(e) {
+            e.preventDefault();
+            closeModal('checkout-modal');
+            triggerLoader(() => { openModal('qris-modal'); });
+        }
+
+        function confirmPayment() {
+            let db = getDB();
+            let newOrder = {
+                id: 'ORD-' + Math.floor(Math.random()*10000),
+                user: currentUser,
+                gameUser: document.getElementById('co-user').value,
+                wa: document.getElementById('co-wa').value,
+                product: document.getElementById('co-prod-name').value,
+                variant: document.getElementById('co-variant').value,
+                status: 'Pending'
+            };
+            db.orders.push(newOrder);
+            saveDB(db);
+            
+            closeModal('qris-modal');
+            alert("Payment confirmation sent to Admin! Status is 'Pending'.");
+            triggerLoader(() => navigate('orders'));
+        }
+
+        function renderUserOrders() {
+            if(isAdmin) return;
+            let db = getDB();
+            let tbody = document.getElementById('user-orders-body');
+            tbody.innerHTML = '';
+            let myOrders = db.orders.filter(o => o.user === currentUser);
+            
+            myOrders.forEach(o => {
+                let badgeClass = o.status === 'Done' ? 'done' : 'pending';
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${o.id}</td>
+                        <td>${o.product}</td>
+                        <td>${o.variant}</td>
+                        <td><span class="badge ${badgeClass}">${o.status}</span></td>
+                    </tr>
+                `;
+            });
+        }
+
+        // --- 5. News System ---
+        function renderNews() {
+            let db = getDB();
+            let cont = document.getElementById('news-list');
+            cont.innerHTML = '';
+            db.news.slice().reverse().forEach(n => {
+                cont.innerHTML += `
+                    <div class="glass" style="padding: 15px;">
+                        <span style="font-size: 0.8rem; color: var(--accent);">${n.date}</span>
+                        <p style="margin-top: 5px;">${n.text}</p>
+                    </div>
+                `;
+            });
+        }
+
+        // --- 6. Admin Panel Logic ---
+        function renderAdminPanels() {
+            let db = getDB();
+            
+            // Render Orders
+            let oBody = document.getElementById('admin-orders-body');
+            oBody.innerHTML = '';
+            db.orders.forEach((o, i) => {
+                let badge = o.status === 'Done' ? 'done' : 'pending';
+                let btn = o.status === 'Pending' ? `<button class="badge done" onclick="accOrder(${i})" style="border:none;cursor:pointer;">ACC/Done</button>` : `<span style="color:gray;font-size:0.8rem;">Completed</span>`;
+                oBody.innerHTML += `<tr><td>${o.user}<br><small>${o.gameUser}</small></td><td>${o.product}</td><td><span class="badge ${badge}">${o.status}</span></td><td>${btn}</td></tr>`;
+            });
+
+            // Render Products
+            let pBody = document.getElementById('admin-products-body');
+            pBody.innerHTML = '';
+            db.products.forEach((p, i) => {
+                pBody.innerHTML += `<tr><td>${p.name}</td><td><button onclick="delProduct(${i})" style="background:red; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;">Delete</button></td></tr>`;
+            });
+
+            // Render News
+            let nBody = document.getElementById('admin-news-body');
+            nBody.innerHTML = '';
+            db.news.forEach((n, i) => {
+                nBody.innerHTML += `<tr><td>${n.text.substring(0,30)}...</td><td><button onclick="delNews(${i})" style="background:red; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;">Delete</button></td></tr>`;
+            });
+
+            // Render Users
+            let uBody = document.getElementById('admin-users-body');
+            uBody.innerHTML = '';
+            db.users.forEach(u => {
+                uBody.innerHTML += `<tr><td>${u.user}</td><td>${u.pass}</td></tr>`;
+            });
+
+            // Settings
+            document.getElementById('set-site-name').value = db.siteSettings.name;
+            document.getElementById('set-site-desc').value = db.siteSettings.desc;
+        }
+
+        function accOrder(index) {
+            let db = getDB();
+            db.orders[index].status = 'Done';
+            saveDB(db);
+            renderAdminPanels();
+        }
+
+        function addProduct(e) {
+            e.preventDefault();
+            let db = getDB();
+            db.products.push({
+                id: Date.now(),
+                name: document.getElementById('add-prod-name').value,
+                desc: document.getElementById('add-prod-desc').value,
+                price: document.getElementById('add-prod-price').value,
+                hasDuration: document.getElementById('add-prod-duration').value === 'yes'
+            });
+            saveDB(db);
+            renderAdminPanels();
+            renderProducts();
+            e.target.reset();
+        }
+
+        function delProduct(index) {
+            let db = getDB();
+            db.products.splice(index, 1);
+            saveDB(db);
+            renderAdminPanels();
+            renderProducts();
+        }
+
+        function addNews(e) {
+            e.preventDefault();
+            let db = getDB();
+            let d = new Date();
+            db.news.push({
+                id: Date.now(),
+                date: d.toISOString().split('T')[0],
+                text: document.getElementById('add-news-text').value
+            });
+            saveDB(db);
+            renderAdminPanels();
+            renderNews();
+            e.target.reset();
+        }
+
+        function delNews(index) {
+            let db = getDB();
+            db.news.splice(index, 1);
+            saveDB(db);
+            renderAdminPanels();
+            renderNews();
+        }
+
+        function updateSiteSettings() {
+            let db = getDB();
+            db.siteSettings.name = document.getElementById('set-site-name').value;
+            db.siteSettings.desc = document.getElementById('set-site-desc').value;
+            saveDB(db);
+            applySettings();
+            alert("Settings updated!");
+        }
+
+        // --- 7. Live Chat System (Simulation) ---
+        function toggleChat() {
+            if(!currentUser && !isAdmin) {
+                alert("Please login to use live chat.");
+                openModal('auth-modal');
+                return;
+            }
+            let box = document.getElementById('chat-widget');
+            box.classList.toggle('active');
+            if(box.classList.contains('active')) renderChatMessages();
+        }
+
+        function renderChatMessages() {
+            let db = getDB();
+            let cont = document.getElementById('chat-messages-container');
+            cont.innerHTML = '<div class="msg admin">Halo! Ada yang bisa kami bantu?</div>';
+            
+            // Simple logic: if user, show their chat. If admin, show combined chat stream (simplified for demo)
+            let chatTarget = isAdmin ? "AdminView" : currentUser;
+            
+            if(!db.chats[chatTarget]) db.chats[chatTarget] = [];
+            
+            db.chats[chatTarget].forEach(m => {
+                cont.innerHTML += `<div class="msg ${m.sender}">${m.text}</div>`;
+            });
+            cont.scrollTop = cont.scrollHeight;
+        }
+
+        function sendChat(e) {
+            e.preventDefault();
+            let inp = document.getElementById('chat-input-msg');
+            if(!inp.value.trim()) return;
+
+            let db = getDB();
+            let chatTarget = isAdmin ? "AdminView" : currentUser;
+            if(!db.chats[chatTarget]) db.chats[chatTarget] = [];
+
+            db.chats[chatTarget].push({
+                sender: isAdmin ? 'admin' : 'user',
+                text: inp.value
+            });
+            saveDB(db);
+            inp.value = '';
+            renderChatMessages();
+        }
+
+    </script>
+</body>
+</html>
