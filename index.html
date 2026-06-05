@@ -1,0 +1,2149 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MANJII OFFICIAL - Premium Store</title>
+    <!-- FontAwesome & Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --accent-color: #b026ff;
+            --accent-glow: rgba(176, 38, 255, 0.4);
+            --accent-glow-intense: rgba(176, 38, 255, 0.7);
+            --bg-base: #06060c;
+            --bg-surface: rgba(13, 13, 23, 0.45);
+            --bg-card: rgba(20, 20, 35, 0.6);
+            --border-glass: rgba(255, 255, 255, 0.07);
+            --border-glow: rgba(176, 38, 255, 0.2);
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 15%, rgba(176, 38, 255, 0.12), transparent 30%),
+                radial-gradient(circle at 85% 75%, rgba(176, 38, 255, 0.1), transparent 35%),
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%23ffffff' fill-opacity='0.01'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29-14c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z'/%3E%3C/g%3E%3C/svg%3E");
+            background-attachment: fixed;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-base);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-color);
+            border-radius: 10px;
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        /* Glassmorphism Styles */
+        .glass-panel {
+            background: var(--bg-surface);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border: 1px solid var(--border-glass);
+            border-radius: 20px;
+        }
+
+        .glass-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-glass);
+            border-radius: 16px;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.03), transparent);
+            transform: translateX(-100%);
+            transition: 0.6s;
+        }
+
+        .glass-card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--accent-color);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), 0 0 20px var(--border-glow);
+        }
+
+        /* Transparent Blurred Button */
+        .btn-transparent {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-primary);
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .btn-transparent:hover {
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 20px var(--accent-glow-intense);
+            transform: translateY(-2px);
+        }
+
+        .btn-transparent:active {
+            transform: translateY(0);
+        }
+
+        /* Neon & Typography Elements */
+        .neon-title {
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #ffffff;
+            text-shadow: 0 0 10px var(--accent-glow), 0 0 20px var(--accent-glow);
+        }
+
+        .text-glow {
+            color: var(--accent-color);
+            text-shadow: 0 0 8px var(--accent-glow);
+        }
+
+        /* Modern Navbar & Header */
+        header {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            height: 76px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            border-bottom: 1px solid var(--border-glass);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .brand-logo-zone {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .brand-logo-zone i {
+            background: linear-gradient(135deg, #fff, var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 26px;
+        }
+
+        .menu-trigger {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 22px;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .menu-trigger:hover {
+            background: rgba(255,255,255,0.05);
+            color: var(--accent-color);
+            box-shadow: 0 0 12px var(--border-glow);
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .accent-picker-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.03);
+            padding: 6px 12px;
+            border-radius: 30px;
+            border: 1px solid var(--border-glass);
+        }
+
+        .accent-picker-wrapper label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .color-picker-input {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            width: 24px; height: 24px;
+            background-color: transparent;
+            border: none; cursor: pointer;
+        }
+
+        .color-picker-input::-webkit-color-swatch {
+            border-radius: 50%;
+            border: 2px solid #ffffff;
+        }
+
+        /* Sidebar Navigation Drawer */
+        .sidebar-drawer {
+            position: fixed;
+            top: 0; left: -320px;
+            width: 300px; height: 100vh;
+            z-index: 2000;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 20px 0 40px rgba(0,0,0,0.7);
+            border-right: 1px solid rgba(176, 38, 255, 0.2);
+            border-radius: 0 24px 24px 0;
+        }
+
+        .sidebar-drawer.open {
+            left: 0;
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(3, 3, 6, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 1999;
+            display: none;
+        }
+
+        .sidebar-overlay.visible {
+            display: block;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            border-bottom: 1px solid var(--border-glass);
+            padding-bottom: 15px;
+        }
+
+        .sidebar-menu-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 14px 20px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 12px;
+            transition: 0.3s;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            color: #ffffff;
+            background: rgba(176, 38, 255, 0.1);
+            border-color: rgba(176, 38, 255, 0.2);
+            padding-left: 26px;
+        }
+
+        .nav-item i {
+            font-size: 18px;
+            transition: 0.3s;
+        }
+
+        .nav-item:hover i, .nav-item.active i {
+            color: var(--accent-color);
+            text-shadow: 0 0 8px var(--accent-glow);
+        }
+
+        /* Loading Screen Overlay */
+        .loading-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: var(--bg-base);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.4s ease;
+        }
+
+        .loader-glow-circle {
+            width: 64px; height: 64px;
+            border: 4px solid rgba(255, 255, 255, 0.03);
+            border-top-color: var(--accent-color);
+            border-radius: 50%;
+            animation: cycleLoader 1s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+            box-shadow: 0 0 15px var(--accent-glow);
+            margin-bottom: 24px;
+        }
+
+        @keyframes cycleLoader {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Main Workspace Container */
+        main {
+            margin-top: 106px;
+            padding: 0 30px 40px 30px;
+            flex: 1;
+            max-width: 1300px;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Carousel Layout (16:9 Aspect Ratio) */
+        .carousel-view {
+            width: 100%;
+            aspect-ratio: 16 / 7;
+            position: relative;
+            overflow: hidden;
+            border-radius: 24px;
+            margin-bottom: 40px;
+            border: 1px solid var(--border-glass);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        @media (max-width: 768px) {
+            .carousel-view { aspect-ratio: 16 / 9; }
+        }
+
+        .carousel-track {
+            width: 100%; height: 100%;
+            position: relative;
+        }
+
+        .slide-frame {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0;
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            padding: 60px;
+        }
+
+        .slide-frame::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(90deg, rgba(6,6,12,0.85) 30%, rgba(6,6,12,0.2) 100%);
+            z-index: 1;
+        }
+
+        .slide-frame.active {
+            opacity: 1;
+            z-index: 2;
+        }
+
+        .slide-inner-content {
+            position: relative;
+            z-index: 3;
+            max-width: 600px;
+        }
+
+        .slide-inner-content h2 {
+            font-size: 38px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .slide-inner-content p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .carousel-arrow {
+            position: absolute;
+            top: 50%; transform: translateY(-50%);
+            width: 44px; height: 44px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border-glass);
+            color: white;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; z-index: 10; transition: 0.3s;
+        }
+
+        .carousel-arrow:hover {
+            background: var(--accent-color);
+            box-shadow: 0 0 15px var(--accent-glow-intense);
+        }
+
+        .carousel-arrow.left-arr { left: 20px; }
+        .carousel-arrow.right-arr { right: 20px; }
+
+        /* Catalog Grid Elements */
+        .products-grid-view {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+            gap: 25px;
+        }
+
+        .item-card {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            height: 100%;
+        }
+
+        .item-badge-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .tag-badge {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-glass);
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .tag-badge.accent-badge {
+            background: rgba(176, 38, 255, 0.1);
+            border-color: rgba(176, 38, 255, 0.3);
+            color: #ffffff;
+            box-shadow: 0 0 10px rgba(176, 38, 255, 0.1);
+        }
+
+        .tag-badge.infinite-badge {
+            background: rgba(234, 179, 8, 0.1);
+            border-color: rgba(234, 179, 8, 0.3);
+            color: #facc15;
+        }
+
+        .item-title {
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        .item-description {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.6;
+            flex: 1;
+        }
+
+        .item-pricing-zone {
+            border-top: 1px solid var(--border-glass);
+            padding-top: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .price-tag-value {
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        /* Step-by-Step Interactive Checkout Overlay Layout */
+        .checkout-modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(4, 4, 8, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 3000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .checkout-modal-overlay.active {
+            display: flex;
+        }
+
+        .checkout-card-box {
+            width: 100%;
+            max-width: 520px;
+            padding: 32px;
+            position: relative;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6), 0 0 30px var(--border-glow);
+        }
+
+        .close-checkout {
+            position: absolute;
+            top: 20px; right: 20px;
+            background: transparent; border: none; color: var(--text-secondary);
+            font-size: 20px; cursor: pointer; transition: 0.3s;
+        }
+
+        .close-checkout:hover { color: #ffffff; }
+
+        .checkout-steps-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .checkout-steps-indicator::before {
+            content: '';
+            position: absolute;
+            top: 15px; left: 0; width: 100%; height: 2px;
+            background: rgba(255,255,255,0.05);
+            z-index: 1;
+        }
+
+        .step-dot {
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            background: var(--bg-base);
+            border: 2px solid var(--border-glass);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px; font-weight: 700; z-index: 2;
+            transition: 0.3s;
+            color: var(--text-secondary);
+        }
+
+        .step-dot.active {
+            border-color: var(--accent-color);
+            color: #ffffff;
+            box-shadow: 0 0 12px var(--accent-color);
+            background: var(--accent-color);
+        }
+
+        .checkout-step-content {
+            display: none;
+        }
+
+        .checkout-step-content.active {
+            display: block;
+        }
+
+        .form-group-block {
+            margin-bottom: 20px;
+        }
+
+        .form-group-block label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .input-glass-field {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            color: white;
+            font-size: 15px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .input-glass-field:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 10px var(--border-glow);
+        }
+
+        .variant-option-row {
+            padding: 14px 18px;
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.3s;
+            background: rgba(255,255,255,0.01);
+        }
+
+        .variant-option-row:hover, .variant-option-row.selected {
+            border-color: var(--accent-color);
+            background: rgba(176, 38, 255, 0.05);
+        }
+
+        .qris-graphic-frame {
+            text-align: center;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .qris-graphic-frame img {
+            max-width: 240px;
+            width: 100%;
+            height: auto;
+        }
+
+        /* Live Chat Architecture Layout */
+        .live-chat-anchor-btn {
+            position: fixed;
+            bottom: 30px; right: 30px;
+            width: 60px; height: 60px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px; z-index: 999;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+
+        .chat-overlay-widget {
+            position: fixed;
+            bottom: 105px; right: 30px;
+            width: 360px; height: 500px;
+            z-index: 1500;
+            display: none;
+            flex-direction: column;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            overflow: hidden;
+            border: 1px solid var(--border-glass);
+        }
+
+        @media (max-width: 480px) {
+            .chat-overlay-widget {
+                width: calc(100vw - 40px);
+                right: 20px; bottom: 95px;
+            }
+        }
+
+        .chat-overlay-widget.active { display: flex; }
+
+        .chat-header-banner {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-glass);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0,0,0,0.2);
+        }
+
+        .chat-messages-body {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .chat-bubble {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 16px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .chat-bubble.client-side {
+            background: var(--accent-color);
+            color: #ffffff;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+            box-shadow: 0 4px 12px var(--accent-glow);
+        }
+
+        .chat-bubble.support-side {
+            background: rgba(255,255,255,0.06);
+            color: var(--text-primary);
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+            border: 1px solid var(--border-glass);
+        }
+
+        .chat-footer-input-row {
+            padding: 15px;
+            border-top: 1px solid var(--border-glass);
+            display: flex;
+            gap: 10px;
+            background: rgba(0,0,0,0.15);
+        }
+
+        /* Floating Minimalist Social Rows */
+        .floating-social-dock {
+            position: fixed;
+            bottom: 30px; left: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 1000;
+        }
+
+        .dock-icon-btn {
+            width: 50px; height: 50px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px;
+            color: white;
+            text-decoration: none;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        }
+
+        /* Tables & Administration Panels */
+        .admin-dashboard-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .admin-grid-sections {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 30px;
+        }
+
+        @media (max-width: 600px) {
+            .admin-grid-sections { grid-template-columns: 1fr; }
+        }
+
+        .admin-block-container {
+            padding: 26px;
+        }
+
+        .table-scroll-container {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 15px;
+            border-radius: 12px;
+            border: 1px solid var(--border-glass);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        th {
+            background: rgba(0,0,0,0.3);
+            color: var(--text-secondary);
+            padding: 16px;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border-glass);
+        }
+
+        td {
+            padding: 16px;
+            border-bottom: 1px solid var(--border-glass);
+            color: var(--text-primary);
+        }
+
+        tr:last-child td { border-bottom: none; }
+
+        .status-pill {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .status-pill.pending-pill { background: rgba(234, 179, 8, 0.15); color: #facc15; border: 1px solid rgba(234,179,8,0.3); }
+        .status-pill.done-pill { background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
+
+        .news-item-box {
+            padding: 18px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border-glass);
+            margin-bottom: 15px;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        /* Utilities */
+        .hidden-workspace { display: none !important; }
+        .text-center { text-align: center; }
+        .mb-4 { margin-bottom: 24px; }
+        .w-100 { width: 100%; }
+        .flex-space { display: flex; justify-content: space-between; align-items: center; gap: 15px; }
+    </style>
+</head>
+<body>
+
+    <!-- Real-time Transition Loading Screen -->
+    <div class="loading-screen" id="global-loading-screen">
+        <div class="loader-glow-circle"></div>
+        <h3 class="neon-title" id="loading-txt-label">MANJII OFFICIAL</h3>
+    </div>
+
+    <!-- Header / Top Bar Layout -->
+    <header class="glass-panel">
+        <div class="header-left">
+            <button class="menu-trigger" onclick="openSidebarDrawer()" aria-label="Open Navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="brand-logo-zone">
+                <i class="fas fa-microchip"></i>
+                <span class="neon-title" id="site-title-rendered">MANJII OFFICIAL</span>
+            </div>
+        </div>
+        <div class="header-controls">
+            <div class="accent-picker-wrapper">
+                <label for="accentColorThemePicker"><i class="fas fa-palette"></i> Theme</label>
+                <input type="color" id="accentColorThemePicker" class="color-picker-input" value="#b026ff" onchange="adjustAccentColor(this.value)">
+            </div>
+            <div id="auth-header-placement">
+                <!-- Swapped dynamically via javascript -->
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar Overlay & Container Drawer -->
+    <div class="sidebar-overlay" id="drawer-overlay" onclick="closeSidebarDrawer()"></div>
+    <div class="sidebar-drawer var-sidebar-bg glass-panel" id="sidebar-drawer-container">
+        <div class="sidebar-header">
+            <div class="brand-logo-zone">
+                <i class="fas fa-shield-halved"></i>
+                <span class="neon-title" style="font-size: 18px;">MENU HUB</span>
+            </div>
+            <button class="menu-trigger" onclick="closeSidebarDrawer()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="sidebar-menu-list">
+            <div class="nav-item active" id="nav-home" onclick="switchSection('home')">
+                <i class="fas fa-home"></i> Beranda
+            </div>
+            <div class="nav-item" id="nav-products" onclick="switchSection('products')">
+                <i class="fas fa-cubes"></i> Katalog Produk
+            </div>
+            <div class="nav-item" id="nav-news" onclick="switchSection('news')">
+                <i class="fas fa-bullhorn"></i> Pengumuman
+            </div>
+            <div class="nav-item" id="nav-client-orders" onclick="switchSection('client-orders')" style="display: none;">
+                <i class="fas fa-receipt"></i> Pesanan Saya
+            </div>
+            <div class="nav-item" id="nav-admin-dashboard" onclick="switchSection('admin-dashboard')" style="display: none; border-color: rgba(239, 68, 68, 0.3);">
+                <i class="fas fa-unlock-keyhole" style="color: #ef4444;"></i> Admin Console
+            </div>
+            <div class="nav-item" id="nav-admin-auth" onclick="switchSection('admin-auth-panel')">
+                <i class="fas fa-user-shield"></i> Gerbang Admin
+            </div>
+            <div class="nav-item" id="nav-logout-btn" onclick="terminateSession()" style="display: none; margin-top: auto; background: rgba(239, 68, 68, 0.05); color: #f87171;">
+                <i class="fas fa-power-off"></i> Logout Akun
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Section Presentation Context -->
+    <main>
+        
+        <!-- WORKSPACE: HOME -->
+        <section id="workspace-home" class="view-workspace-block">
+            <!-- Aspect Ratio 16:9 Premium Carousel Header Frame -->
+            <div class="carousel-view">
+                <div class="carousel-track">
+                    <div class="slide-frame active" style="background-image: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1400&q=80');">
+                        <div class="slide-inner-content">
+                            <h2 class="neon-title">DOMINATING THE MARKET</h2>
+                            <p>Menyediakan tools optimasi performa, drag smoothing, dan skrip konfigurasi premium kelas dunia yang terbukti unggul selama lebih dari 3 tahun.</p>
+                            <button class="btn-transparent" onclick="switchSection('products')"><i class="fas fa-bag-shopping"></i> Explore Tools</button>
+                        </div>
+                    </div>
+                    <div class="slide-frame" style="background-image: url('https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1400&q=80');">
+                        <div class="slide-inner-content">
+                            <h2 class="neon-title" style="color: #facc15; text-shadow: 0 0 10px rgba(234,179,8,0.4);">100% SECURE SYSTEM</h2>
+                            <p>Sistem enkripsi transaksi mutakhir, aman, terpercaya dengan integrasi otomatisasi status order instan.</p>
+                            <button class="btn-transparent" onclick="switchSection('products')"><i class="fas fa-shield"></i> Lihat Lisensi</button>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-arrow left-arr" onclick="shiftCarouselSlide(-1)"><i class="fas fa-chevron-left"></i></button>
+                <button class="carousel-arrow right-arr" onclick="shiftCarouselSlide(1)"><i class="fas fa-chevron-right"></i></button>
+            </div>
+
+            <!-- About Website Box -->
+            <div class="glass-panel" style="padding: 40px; margin-top: 30px; position: relative; overflow: hidden;">
+                <div style="position: absolute; right: -20px; bottom: -20px; font-size: 180px; opacity: 0.02; color: white;"><i class="fas fa-info-circle"></i></div>
+                <h2 class="neon-title mb-4" style="font-size: 24px;"><i class="fas fa-address-card text-glow"></i> Tentang Platform Kami</h2>
+                <p id="site-description-rendered" style="color: var(--text-secondary); line-height: 1.8; font-size: 16px; max-width: 900px;">
+                    Selamat datang di MANJII OFFICIAL. Kami adalah developer tools dan penyedia sistem kustomisasi otomasi performa paling mutakhir untuk meningkatkan rasio headshot, meringankan drag sensitivitas, serta memaksimalkan frame-rate gaming Anda pada perangkat seluler. Dapatkan produk eksklusif "Anti Durasi" kami sekarang juga.
+                </p>
+            </div>
+        </section>
+
+        <!-- WORKSPACE: PRODUCTS -->
+        <section id="workspace-products" class="view-workspace-block hidden-workspace">
+            <div class="flex-space mb-4" style="border-bottom: 1px solid var(--border-glass); padding-bottom: 15px;">
+                <h2 class="neon-title" style="font-size: 24px;"><i class="fas fa-boxes-stacked text-glow"></i> Katalog Produk Eksklusif</h2>
+                <p style="color: var(--text-secondary); font-size: 14px;">Silakan pilih varian lisensi premium Anda</p>
+            </div>
+            <div class="products-grid-view" id="katalog-products-placement">
+                <!-- Rendered through Javascript array dynamically -->
+            </div>
+        </section>
+
+        <!-- WORKSPACE: NEWS -->
+        <section id="workspace-news" class="view-workspace-block hidden-workspace">
+            <div class="glass-panel" style="padding: 35px; max-width: 850px; margin: 0 auto;">
+                <h2 class="neon-title mb-4 text-center" style="font-size: 24px;"><i class="fas fa-bullhorn text-glow"></i> Pusat Pengumuman & Berita</h2>
+                <div id="news-board-placement">
+                    <!-- Rendered content inside DB -->
+                </div>
+            </div>
+        </section>
+
+        <!-- WORKSPACE: CLIENT ORDERS -->
+        <section id="workspace-client-orders" class="view-workspace-block hidden-workspace">
+            <div class="glass-panel" style="padding: 30px;">
+                <h2 class="neon-title mb-4" style="font-size: 22px;"><i class="fas fa-receipt text-glow"></i> Riwayat Riil Transaksi Anda</h2>
+                <div class="table-scroll-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID Pesanan</th>
+                                <th>Nama Produk</th>
+                                <th>Tipe Lisensi</th>
+                                <th>Nomor WhatsApp</th>
+                                <th>Waktu Pemesanan</th>
+                                <th>Status Transaksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="client-orders-table-body">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- WORKSPACE: USER AUTH GATE (LOGIN / REGISTER) -->
+        <section id="workspace-user-auth" class="view-workspace-block hidden-workspace">
+            <div style="max-width: 440px; margin: 40px auto 0 auto;">
+                
+                <!-- LOGIN CONTAINER CARD -->
+                <div class="glass-panel" id="auth-login-card" style="padding: 35px;">
+                    <h2 class="neon-title text-center mb-4" style="font-size: 22px;"><i class="fas fa-right-to-bracket text-glow"></i> Masuk Pengguna</h2>
+                    <div class="form-group-block">
+                        <label for="login-username-field">Username</label>
+                        <input type="text" id="login-username-field" class="input-glass-field" placeholder="Ketik username Anda...">
+                    </div>
+                    <div class="form-group-block">
+                        <label for="login-password-field">Password</label>
+                        <input type="password" id="login-password-field" class="input-glass-field" placeholder="Ketik password Anda...">
+                    </div>
+                    <button class="btn-transparent w-100 mt-2" onclick="executeUserLogin()"><i class="fas fa-sign-in-alt"></i> Autentikasi Masuk</button>
+                    <p style="text-align: center; margin-top: 20px; font-size: 13px; color: var(--text-secondary);">
+                        Belum terdaftar sebagai member? <span class="text-glow" style="cursor: pointer; font-weight:600;" onclick="toggleAuthForms(true)">Buat Akun Baru</span>
+                    </p>
+                </div>
+
+                <!-- REGISTER CONTAINER CARD -->
+                <div class="glass-panel hidden-workspace" id="auth-register-card" style="padding: 35px;">
+                    <h2 class="neon-title text-center mb-4" style="font-size: 22px;"><i class="fas fa-user-plus text-glow"></i> Pendaftaran Member</h2>
+                    <div class="form-group-block">
+                        <label for="register-username-field">Username Baru (Tanpa Spasi)</label>
+                        <input type="text" id="register-username-field" class="input-glass-field" placeholder="Contoh: manjiicreator">
+                    </div>
+                    <div class="form-group-block">
+                        <label for="register-password-field">Password Akun</label>
+                        <input type="password" id="register-password-field" class="input-glass-field" placeholder="Buat kata sandi aman...">
+                    </div>
+                    <button class="btn-transparent w-100 mt-2" onclick="executeUserRegistration()"><i class="fas fa-circle-check"></i> Selesaikan Registrasi</button>
+                    <p style="text-align: center; margin-top: 20px; font-size: 13px; color: var(--text-secondary);">
+                        Sudah memiliki akun terdaftar? <span class="text-glow" style="cursor: pointer; font-weight:600;" onclick="toggleAuthForms(false)">Login Di Sini</span>
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- WORKSPACE: ADMIN AUTH GATE -->
+        <section id="workspace-admin-auth-panel" class="view-workspace-block hidden-workspace">
+            <div class="glass-panel" style="max-width: 440px; margin: 50px auto 0 auto; border-color: rgba(239, 68, 68, 0.4); padding: 35px; box-shadow: 0 0 30px rgba(239, 68, 68, 0.15);">
+                <h2 class="text-center mb-4" style="color: #ef4444; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;"><i class="fas fa-lock-open"></i> Admin Secure Gate</h2>
+                <p class="text-center" style="font-size: 12px; color: var(--text-secondary); margin-bottom: 20px;">Konsol Khusus Pengelola Website MANJII OFFICIAL</p>
+                <div class="form-group-block">
+                    <label style="color: #ef4444;">Admin Username Key</label>
+                    <input type="text" id="admin-username-auth-input" class="input-glass-field" style="border-color: rgba(239, 68, 68, 0.2);" placeholder="Masukkan secure ID...">
+                </div>
+                <div class="form-group-block">
+                    <label style="color: #ef4444;">Admin Secret Password</label>
+                    <input type="password" id="admin-password-auth-input" class="input-glass-field" style="border-color: rgba(239, 68, 68, 0.2);" placeholder="Masukkan secret pass...">
+                </div>
+                <button class="btn-transparent w-100" style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239,68,68,0.4); color: #f87171;" onclick="executeAdminLogin()"><i class="fas fa-shield-halved"></i> Unlock Dashboard</button>
+            </div>
+        </section>
+
+        <!-- WORKSPACE: ADMIN MAIN CONSOLE DASHBOARD -->
+        <section id="workspace-admin-dashboard" class="view-workspace-block hidden-workspace">
+            <div class="admin-dashboard-layout">
+                
+                <div class="glass-panel flex-space" style="padding: 24px;">
+                    <div>
+                        <h2 class="neon-title" style="font-size: 24px; color: #ef4444; text-shadow: 0 0 10px rgba(239,68,68,0.3);"><i class="fas fa-gears"></i> Central Admin Control</h2>
+                        <p style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">Kelola sistem, basis data, inventori produk, pengumuman, dan validasi transaksi.</p>
+                    </div>
+                    <button class="btn-transparent" style="background: #22c55e; border-color: #22c55e;" onclick="exportDatabaseJsonFile()"><i class="fas fa-file-arrow-down"></i> Unduh database.json</button>
+                </div>
+
+                <!-- Admin Core System Configurations -->
+                <div class="glass-panel admin-block-container">
+                    <h3 class="text-glow mb-4" style="font-size: 18px;"><i class="fas fa-sliders"></i> Konfigurasi Identitas Website</h3>
+                    <div class="admin-grid-sections" style="grid-template-columns: 1fr 2fr 1fr; align-items: flex-end;">
+                        <div class="form-group-block" style="margin-bottom:0;">
+                            <label>Nama Platform/Website</label>
+                            <input type="text" id="admin-cfg-site-title" class="input-glass-field">
+                        </div>
+                        <div class="form-group-block" style="margin-bottom:0;">
+                            <label>Deskripsi Singkat Platform</label>
+                            <input type="text" id="admin-cfg-site-desc" class="input-glass-field">
+                        </div>
+                        <button class="btn-transparent w-100" onclick="saveAdminSystemConfig()"><i class="fas fa-floppy-disk"></i> Terapkan Perubahan</button>
+                    </div>
+                </div>
+
+                <!-- Admin Inventory Management & News Form Split Row -->
+                <div class="admin-grid-sections">
+                    
+                    <!-- Form Create Product -->
+                    <div class="glass-panel admin-block-container">
+                        <h3 class="text-glow mb-4" style="font-size: 18px;"><i class="fas fa-plus-circle"></i> Tambah / Daftarkan Produk Baru</h3>
+                        <div class="form-group-block">
+                            <label>Nama Mod / Tools</label>
+                            <input type="text" id="form-p-name" class="input-glass-field" placeholder="Contoh: MANJII OVERLORD Injector">
+                        </div>
+                        <div class="form-group-block">
+                            <label>Harga Produk (Rupiah murni angka)</label>
+                            <input type="number" id="form-p-price" class="input-glass-field" placeholder="Contoh: 75000">
+                        </div>
+                        <div class="form-group-block">
+                            <label>Kategori / Tipe Produk</label>
+                            <input type="text" id="form-p-type" class="input-glass-field" placeholder="Contoh: VIP APK, iOS Premium">
+                        </div>
+                        <div class="form-group-block">
+                            <label>Masa Aktif / Durasi Lisensi</label>
+                            <input type="text" id="form-p-duration" class="input-glass-field" placeholder="Ketik durasi / ketik 'Anti Durasi' untuk selamanya">
+                        </div>
+                        <div class="form-group-block">
+                            <label>Deskripsi Detail Fitur & Optimalisasi</label>
+                            <textarea id="form-p-desc" class="input-glass-field" style="height: 80px; resize: none;" placeholder="Tulis rincian keuntungan produk..."></textarea>
+                        </div>
+                        <button class="btn-transparent w-100" onclick="createNewProductViaAdmin()"><i class="fas fa-check"></i> Simpan Ke Katalog</button>
+                    </div>
+
+                    <!-- Form Publish Bulletin/News -->
+                    <div class="glass-panel admin-block-container" style="display:flex; flex-direction:column;">
+                        <h3 class="text-glow mb-4" style="font-size: 18px;"><i class="fas fa-paper-plane"></i> Siarkan Pengumuman (News)</h3>
+                        <div class="form-group-block" style="flex:1; display:flex; flex-direction:column;">
+                            <label>Konten Informasi Pengumuman</label>
+                            <textarea id="form-n-content" class="input-glass-field" style="flex:1; min-height: 240px; resize:none;" placeholder="Tulis pesan pengumuman penting untuk semua pengguna..."></textarea>
+                        </div>
+                        <button class="btn-transparent w-100" onclick="publishNewsViaAdmin()"><i class="fas fa-bullhorn"></i> Siarkan Sekarang</button>
+                    </div>
+
+                </div>
+
+                <!-- Checkout Transactions Processing Desk -->
+                <div class="glass-panel admin-block-container">
+                    <h3 class="text-glow mb-3" style="font-size: 18px;"><i class="fas fa-cash-register"></i> Meja Validasi Checkout Masuk</h3>
+                    <div class="table-scroll-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID Pesanan</th>
+                                    <th>Pelanggan</th>
+                                    <th>Nomor WhatsApp</th>
+                                    <th>Produk & Varian</th>
+                                    <th>Status Transaksi</th>
+                                    <th>Aksi Konfirmasi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-orders-control-table-body">
+                                <!-- Rendered dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Product Catalog Matrix Control Desk -->
+                <div class="glass-panel admin-block-container">
+                    <h3 class="text-glow mb-3" style="font-size: 18px;"><i class="fas fa-boxes-packing"></i> Inventori Katalog Aktif</h3>
+                    <div class="table-scroll-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nama Produk</th>
+                                    <th>Kategori</th>
+                                    <th>Durasi</th>
+                                    <th>Harga</th>
+                                    <th>Tindakan</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-inventory-table-body">
+                                <!-- Rendered dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- News / Bulletin Management Grid -->
+                <div class="glass-panel admin-block-container">
+                    <h3 class="text-glow mb-3" style="font-size: 18px;"><i class="fas fa-newspaper"></i> Manajemen Siaran Pengumuman</h3>
+                    <div class="table-scroll-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Waktu Penyiaran</th>
+                                    <th>Isi Pesan Pengumuman</th>
+                                    <th>Tindakan</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-news-table-body">
+                                <!-- Rendered dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Registered Users Framework Records -->
+                <div class="glass-panel admin-block-container">
+                    <h3 class="text-glow mb-3" style="font-size: 18px;"><i class="fas fa-database"></i> Basis Data Akun Pengguna Terdaftar</h3>
+                    <div class="table-scroll-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>No. Index</th>
+                                    <th>Registered Username</th>
+                                    <th>Encrypted/Plain Password</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-users-table-body">
+                                <!-- Rendered dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Live Chat Hub Workspace for Admin -->
+                <div class="glass-panel admin-block-container">
+                    <h3 class="text-glow mb-3" style="font-size: 18px;"><i class="fas fa-headset"></i> Interaksi Live Chat Center (Admin Perspective)</h3>
+                    <div style="display: grid; grid-template-columns: 280px 1fr; gap: 20px; min-height: 400px; border: 1px solid var(--border-glass); border-radius:12px; overflow:hidden;">
+                        <!-- Left Users List -->
+                        <div style="background: rgba(0,0,0,0.2); border-right: 1px solid var(--border-glass); overflow-y:auto; display:flex; flex-direction:column;" id="admin-chat-users-list-dock">
+                            <!-- Populated with users who sent chats -->
+                        </div>
+                        <!-- Right Chat Workspace Context -->
+                        <div style="display:flex; flex-direction:column; background: rgba(0,0,0,0.15);" id="admin-chat-workspace-context">
+                            <div style="padding:15px; border-bottom:1px solid var(--border-glass); font-weight:700;" id="admin-chat-selected-user-title">Silakan Pilih Ruang Obrolan Pengguna</div>
+                            <div style="flex:1; padding:20px; overflow-y:auto; display:flex; flex-direction:column; gap:10px;" id="admin-chat-messages-scroll-area"></div>
+                            <div style="padding:15px; border-top:1px solid var(--border-glass); display:flex; gap:10px;">
+                                <input type="text" id="admin-chat-response-input-field" class="input-glass-field" placeholder="Ketik tanggapan admin..." disabled>
+                                <button class="btn-transparent" id="admin-chat-send-trigger-btn" onclick="executeAdminChatMessageSend()" disabled><i class="fas fa-paper-plane"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Interactive Step Checkout Screen Overlay Wrapper -->
+    <div class="checkout-modal-overlay" id="interactive-checkout-modal-frame">
+        <div class="glass-panel checkout-card-box">
+            <button class="close-checkout" onclick="closeInteractiveCheckoutWindow()"><i class="fas fa-times"></i></button>
+            <h3 class="neon-title mb-4" style="font-size: 18px;" id="checkout-product-title-header">Beli Lisensi</h3>
+            
+            <div class="checkout-steps-indicator">
+                <div class="step-dot active" id="dot-step-1">1</div>
+                <div class="step-dot" id="dot-step-2">2</div>
+                <div class="step-dot" id="dot-step-3">3</div>
+            </div>
+
+            <!-- STEP 1: VARIANT CONFIGURATION SELECTION -->
+            <div class="checkout-step-content active" id="checkout-step-content-1">
+                <h4 style="font-size: 15px; margin-bottom: 15px; font-weight: 600;">Pilih Varian Durasi Tersedia:</h4>
+                <div id="checkout-variants-injection-panel">
+                    <!-- Standard Variant options injected here based on regular vs anti-durasi parameters -->
+                </div>
+                <button class="btn-transparent w-100 mt-4" onclick="proceedCheckoutToStep(2)">Lanjutkan Pengisian Format <i class="fas fa-arrow-right"></i></button>
+            </div>
+
+            <!-- STEP 2: USER METADATA INFORMATION DETAILS -->
+            <div class="checkout-step-content" id="checkout-step-content-2">
+                <h4 style="font-size: 15px; margin-bottom: 15px; font-weight: 600;">Lengkapi Informasi Pembelian:</h4>
+                <div class="form-group-block">
+                    <label>Username Terautentikasi</label>
+                    <input type="text" id="co-meta-username" class="input-glass-field" readonly>
+                </div>
+                <div class="form-group-block">
+                    <label>Nomor WhatsApp Aktif Pelanggan</label>
+                    <input type="number" id="co-meta-whatsapp-num" class="input-glass-field" placeholder="Contoh: 083845203074">
+                </div>
+                <div class="form-group-block">
+                    <label>Tipe / Kategori Lisensi Pilihan</label>
+                    <input type="text" id="co-meta-product-type" class="input-glass-field" readonly>
+                </div>
+                <div class="flex-space mt-4">
+                    <button class="btn-transparent" style="flex:1;" onclick="proceedCheckoutToStep(1)"><i class="fas fa-arrow-left"></i> Kembali</button>
+                    <button class="btn-transparent" style="flex:2;" onclick="validateAndProceedToPaymentStep()">Buka QRIS All Pay <i class="fas fa-qrcode"></i></button>
+                </div>
+            </div>
+
+            <!-- STEP 3: QRIS GRAPHIC DISPLAY & VERIFICATION WORKFLOW -->
+            <div class="checkout-step-content" id="checkout-step-content-3">
+                <h4 class="text-center mb-2" style="font-size: 15px; font-weight: 700; color: #4ade80;"><i class="fas fa-wallet"></i> QRIS ALL PAY AUTOMATION</h4>
+                <p class="text-center" style="font-size: 12px; color: var(--text-secondary); margin-bottom: 15px;">Pindai dan selesaikan nominal transfer Anda di bawah ini:</p>
+                <div class="text-center">
+                    <div class="qris-graphic-frame">
+                        <img src="qris.png" alt="QRIS ALL PAY SECURE" onerror="this.onerror=null; this.src='https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=MANJII_OFFICIAL_DIRECT_PAYMENT';">
+                    </div>
+                </div>
+                <p class="text-center" style="font-size: 12px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 20px;">
+                    Setelah berhasil melakukan transfer dana, tekan tombol konfirmasi pembayaran di bawah. Status pesanan Anda akan otomatis dikirim ke antrean Admin Panel untuk di-ACC.
+                </p>
+                <div class="flex-space">
+                    <button class="btn-transparent" style="flex:1;" onclick="proceedCheckoutToStep(2)"><i class="fas fa-arrow-left"></i> Back</button>
+                    <button class="btn-transparent" style="flex:2; background:#22c55e; border-color:#22c55e;" onclick="commitCheckoutTransactionToQueue()"><i class="fas fa-circle-check"></i> Kirim Konfirmasi Pembayaran</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Integrated Live Chat Overlay Widget UI Frame -->
+    <button class="btn-transparent live-chat-anchor-btn" id="client-live-chat-shortcut-trigger" style="display: none;" onclick="toggleClientLiveChatWidgetWindow()" title="Buka Live Chat Support">
+        <i class="fas fa-comments text-glow"></i>
+    </button>
+
+    <div class="glass-panel chat-overlay-widget" id="client-live-chat-overlay-box">
+        <div class="chat-header-banner">
+            <div style="display:flex; align-items:center; gap:10px;">
+                <div style="width:10px; height:10px; border-radius:50%; background:#22c55e; box-shadow: 0 0 8px #22c55e;"></div>
+                <strong style="font-size: 14px;">Live Support Hub</strong>
+            </div>
+            <button class="menu-trigger" style="width:30px; height:30px; font-size:16px;" onclick="toggleClientLiveChatWidgetWindow()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="chat-messages-body" id="client-chat-scroll-viewport">
+            <!-- Messages stream injected dynamically -->
+        </div>
+        <div class="chat-footer-input-row">
+            <input type="text" id="client-chat-raw-text-input" class="input-glass-field" style="padding: 10px 14px; font-size: 14px;" placeholder="Ketik pesan ke admin..." onkeypress="handleClientChatKeypress(event)">
+            <button class="btn-transparent" style="padding: 10px 16px;" onclick="executeClientMessageTransmission()"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <!-- Fixed Modern Minimalist Floating Social Dock Placement -->
+    <div class="floating-social-dock">
+        <a href="https://tiktok.com/@manjiixit" target="_blank" class="dock-icon-btn" style="background: linear-gradient(135deg, #000000, #25f4ee);" title="Ikuti TikTok Kami">
+            <i class="fab fa-tiktok"></i>
+        </a>
+        <a href="https://wa.me/6283845203074" target="_blank" class="dock-icon-btn" style="background: linear-gradient(135deg, #25d366, #128c7e);" title="Hubungi CS WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+    </div>
+
+    <!-- BUSINESS APPLICATION ALGORITHM ENGINE SCRIPT -->
+    <script>
+        // --- BASE DATABASE ARCHITECTURE SPECIFICATION (LocalStorage Core System Architecture) ---
+        const CONFIG_DB_STORAGE_KEY = "MANJII_OFFICIAL_CORE_ENGINE_STATE_DB";
+        let applicationStateDatabase = JSON.parse(localStorage.getItem(CONFIG_DB_STORAGE_KEY));
+
+        // Self-Repair / Seeding Initial Fallback Structure Matching database.json Schema requirement
+        if (!applicationStateDatabase) {
+            applicationStateDatabase = {
+                siteName: "MANJII OFFICIAL",
+                siteDesc: "Selamat datang di MANJII OFFICIAL. Kami adalah developer tools dan penyedia sistem kustomisasi otomasi performa paling mutakhir untuk meningkatkan rasio headshot, meringankan drag sensitivitas, serta memaksimalkan frame-rate gaming Anda pada perangkat seluler. Dapatkan produk eksklusif 'Anti Durasi' kami sekarang juga.",
+                users: [], 
+                products: [
+                    { id: 101, name: "MANJII OVERLORD Injector High Pro", price: 65000, type: "VIP Injector", duration: "Anti Durasi", desc: "Meringankan drag shot, memaksimalkan akselerasi kustomisasi dpi layar, dan memperhalus stabilitas grafik gaming tanpa lagging berat." },
+                    { id: 102, name: "Automated Settings Script FF Engine", price: 35000, type: "Script Premium", duration: "30 Hari", desc: "Membuka rasio headshot maksimal lewat kalkulasi sensitivitas otomatis untuk ekosistem Android, iPad, dan lini iPhone." },
+                    { id: 103, name: "Telegram Analytics Market Trading Bot", price: 175000, type: "Premium Bot", duration: "Anti Durasi", desc: "Membaca tangkapan layar chart market real-time secara cerdas untuk menghasilkan output laporan hasil analisis instan beserta sinyal trading akurat." }
+                ],
+                orders: [],
+                news: [
+                    { id: 1, timestamp: new Date().toLocaleString('id-ID'), content: "Selamat datang di platform MANJII OFFICIAL versi pembaruan total UI Glassmorphic! Seluruh sistem registrasi, modul order QRIS, dan live chat otomatis kini telah aktif penuh." }
+                ],
+                chats: {} 
+            };
+            saveApplicationDatabaseState();
+        }
+
+        function saveApplicationDatabaseState() {
+            localStorage.setItem(CONFIG_DB_STORAGE_KEY, JSON.stringify(applicationStateDatabase));
+        }
+
+        // --- INTERNAL CORE APP STATE VARIABLES ---
+        let currentAuthenticatedUserContext = null; // Structure: { username: string, isAdmin: boolean }
+        let indexActiveCarouselSlide = 0;
+        let threadIntervalCarouselTracker = null;
+        let selectedProductForCheckoutFlow = null;
+        let currentSelectedAdminChatUsernameTarget = null;
+
+        // --- VIEW ROUTING ENGINE WITH REAL-TIME LOADING SCENE ---
+        function triggerDisplayLoadingScreen(labelText = "MEMUAT WORKSPACE...", executionCallback = null) {
+            const screenOverlay = document.getElementById('global-loading-screen');
+            document.getElementById('loading-txt-label').innerText = labelText;
+            screenOverlay.style.display = 'flex';
+            screenOverlay.style.opacity = '1';
+
+            setTimeout(() => {
+                if (executionCallback) executionCallback();
+                setTimeout(() => {
+                    screenOverlay.style.opacity = '0';
+                    setTimeout(() => { screenOverlay.style.display = 'none'; }, 400);
+                }, 350);
+            }, 400);
+        }
+
+        function switchSection(targetSectionId) {
+            triggerDisplayLoadingScreen("MEMPROSES TRANSISI...", () => {
+                // Deactivate all workspaces
+                document.querySelectorAll('.view-workspace-block').forEach(element => {
+                    element.classList.add('hidden-workspace');
+                });
+                // Remove active marker states from nav menus
+                document.querySelectorAll('.nav-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+
+                // Display target section
+                const targetDomNode = document.getElementById(`workspace-${targetSectionId}`);
+                if (targetDomNode) targetDomNode.classList.remove('hidden-workspace');
+
+                // Apply dynamic link focus style
+                const targetNavItem = document.getElementById(`nav-${targetSectionId}`);
+                if (targetNavItem) targetNavItem.classList.add('active');
+
+                // Trigger targeted view compilation renders
+                if (targetSectionId === 'home') compileAndInitCarouselWorkspace();
+                if (targetSectionId === 'products') compileProductCatalogCardsLayout();
+                if (targetSectionId === 'news') compileClientNewsBulletinDisplay();
+                if (targetSectionId === 'client-orders') compileClientPurchaseTransactionTable();
+                if (targetSectionId === 'admin-dashboard') compileAllAdministrationDashboardModules();
+
+                closeSidebarDrawer();
+            });
+        }
+
+        // --- DRAWER LAYOUT INTERACTION CONTROLS ---
+        function openSidebarDrawer() {
+            document.getElementById('sidebar-drawer-container').classList.add('open');
+            document.getElementById('drawer-overlay').classList.add('visible');
+        }
+
+        function closeSidebarDrawer() {
+            document.getElementById('sidebar-drawer-container').classList.remove('open');
+            document.getElementById('drawer-overlay').classList.remove('visible');
+        }
+
+        function adjustAccentColor(chosenHexCode) {
+            document.documentElement.style.setProperty('--accent-color', chosenHexCode);
+            // Derive subtle transparency shades for modern glow effects
+            const r = parseInt(chosenHexCode.slice(1, 3), 16);
+            const g = parseInt(chosenHexCode.slice(3, 5), 16);
+            const b = parseInt(chosenHexCode.slice(5, 7), 16);
+            document.documentElement.style.setProperty('--accent-glow', `rgba(${r}, ${g}, ${b}, 0.35)`);
+            document.documentElement.style.setProperty('--accent-glow-intense', `rgba(${r}, ${g}, ${b}, 0.65)`);
+            document.documentElement.style.setProperty('--border-glow', `rgba(${r}, ${g}, ${b}, 0.25)`);
+        }
+
+        // --- CAROUSEL DISPLAY CODE DRIVER ---
+        function compileAndInitCarouselWorkspace() {
+            clearInterval(threadIntervalCarouselTracker);
+            indexActiveCarouselSlide = 0;
+            const slides = document.querySelectorAll('.slide-frame');
+            slides.forEach((frame, idx) => {
+                if(idx === 0) frame.classList.add('active');
+                else frame.classList.remove('active');
+            });
+
+            threadIntervalCarouselTracker = setInterval(() => {
+                shiftCarouselSlide(1);
+            }, 5000);
+        }
+
+        function shiftCarouselSlide(directionInteger) {
+            const slides = document.querySelectorAll('.slide-frame');
+            if (slides.length === 0) return;
+            slides[indexActiveCarouselSlide].classList.remove('active');
+            indexActiveCarouselSlide = (indexActiveCarouselSlide + directionInteger + slides.length) % slides.length;
+            slides[indexActiveCarouselSlide].classList.add('active');
+        }
+
+        // --- CATALOG CARD COMPILATION LOGIC ENGINE ---
+        function compileProductCatalogCardsLayout() {
+            const placementContainer = document.getElementById('katalog-products-placement');
+            placementContainer.innerHTML = '';
+
+            applicationStateDatabase.products.forEach(product => {
+                // Evaluate dynamic styling class strings based on duration configurations
+                const isAntiDurasi = product.duration && product.duration.toLowerCase().includes('anti durasi');
+                const badgeDurationClass = isAntiDurasi ? 'tag-badge infinite-badge' : 'tag-badge';
+                const durationIcon = isAntiDurasi ? 'fas fa-infinity' : 'fas fa-clock';
+
+                const cardHtmlMarkup = `
+                    <div class="glass-card item-card">
+                        <div class="item-badge-row">
+                            <span class="tag-badge accent-badge"><i class="fas fa-microchip"></i> ${product.type || 'VIP Mod'}</span>
+                            <span class="${badgeDurationClass}"><i class="${durationIcon}"></i> ${product.duration || 'Lisensi'}</span>
+                        </div>
+                        <h3 class="item-title">${product.name}</h3>
+                        <p class="item-description">${product.desc || 'Tidak ada deskripsi rincian produk.'}</p>
+                        <div class="item-pricing-zone">
+                            <div class="price-tag-value text-glow">Rp ${parseInt(product.price).toLocaleString('id-ID')}</div>
+                            <button class="btn-transparent" style="padding: 10px 18px; font-size:14px;" onclick="triggerProductPurchaseFlow(${product.id})">
+                                <i class="fas fa-shopping-cart"></i> Beli
+                            </button>
+                        </div>
+                    </div>
+                `;
+                placementContainer.insertAdjacentHTML('beforeend', cardHtmlMarkup);
+            });
+        }
+
+        // --- CLIENT SIDE NEWS INJECTION ENGINE ---
+        function compileClientNewsBulletinDisplay() {
+            const targetBoard = document.getElementById('news-board-placement');
+            targetBoard.innerHTML = '';
+
+            if(applicationStateDatabase.news.length === 0) {
+                targetBoard.innerHTML = `<p class="text-center text-secondary">Belum ada pengumuman resmi yang disiarkan dari admin.</p>`;
+                return;
+            }
+
+            applicationStateDatabase.news.slice().reverse().forEach(bulletin => {
+                const markup = `
+                    <div class="news-item-box">
+                        <div class="flex-space" style="font-size: 12px; color: var(--accent-color); font-weight:700; margin-bottom: 8px;">
+                            <span><i class="fas fa-circle-check"></i> OFFICIAL ANNOUNCEMENT</span>
+                            <span style="color: var(--text-secondary); font-weight:400;">${bulletin.timestamp}</span>
+                        </div>
+                        <p style="font-size: 14px; color: #ffffff; line-height: 1.6;">${bulletin.content}</p>
+                    </div>
+                `;
+                targetBoard.insertAdjacentHTML('beforeend', markup);
+            });
+        }
+
+        // --- CLIENT PURCHASE HISTORY INJECTION ENGINE ---
+        function compileClientPurchaseTransactionTable() {
+            const tableBody = document.getElementById('client-orders-table-body');
+            tableBody.innerHTML = '';
+
+            if(!currentAuthenticatedUserContext) return;
+
+            const relevantRows = applicationStateDatabase.orders.filter(ord => ord.clientUsername === currentAuthenticatedUserContext.username);
+
+            if(relevantRows.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="6" class="text-center" style="color: var(--text-secondary); padding: 30px;">Anda belum melakukan pemesanan produk apapun.</td></tr>`;
+                return;
+            }
+
+            relevantRows.slice().reverse().forEach(order => {
+                const pillClass = order.status === 'DONE' ? 'status-pill done-pill' : 'status-pill pending-pill';
+                const rowHtml = `
+                    <tr>
+                        <td style="font-weight:700; color: var(--accent-color);">${order.orderId}</td>
+                        <td style="font-weight:600;">${order.productName}</td>
+                        <td>${order.variantChosen}</td>
+                        <td style="font-family:monospace;">${order.whatsappContact}</td>
+                        <td style="font-size: 13px; color: var(--text-secondary);">${order.creationTime}</td>
+                        <td><span class="${pillClass}">${order.status}</span></td>
+                    </tr>
+                `;
+                tableBody.insertAdjacentHTML('beforeend', rowHtml);
+            });
+        }
+
+        // --- CHECKOUT MODAL LOGIC FLOW CONTROLLER ---
+        function triggerProductPurchaseFlow(productIdKey) {
+            if(!currentAuthenticatedUserContext) {
+                alert("Akses Ditolak! Anda wajib membuat akun atau melakukan login pengguna terlebih dahulu untuk melakukan order.");
+                switchSection('user-auth');
+                return;
+            }
+            if(currentAuthenticatedUserContext.isAdmin) {
+                alert("Identitas Terdeteksi Pengelola: Akun Administrator tidak diizinkan membuat data pesanan transaksi.");
+                return;
+            }
+
+            const targetProduct = applicationStateDatabase.products.find(item => item.id === productIdKey);
+            if(!targetProduct) return;
+
+            selectedProductForCheckoutFlow = targetProduct;
+            
+            // Compile product title layouts inside step view elements
+            document.getElementById('checkout-product-title-header').innerText = `Checkout: ${targetProduct.name}`;
+            
+            // Build out variants panel selection mapping regular parameters or anti durasi parameters
+            const variantsContainer = document.getElementById('checkout-variants-injection-panel');
+            variantsContainer.innerHTML = '';
+
+            // Map layout choices according to values
+            let variantOptionsArray = [];
+            if(targetProduct.duration && targetProduct.duration.toLowerCase().includes('anti durasi')) {
+                variantOptionsArray = [
+                    { label: `Lisensi Full Lifetime (${targetProduct.duration})`, premiumPrice: targetProduct.price }
+                ];
+            } else {
+                variantOptionsArray = [
+                    { label: `Lisensi Uji Coba Varian Awal (${targetProduct.duration || 'Akses'})`, premiumPrice: targetProduct.price },
+                    { label: "Upgrade Varian - Paket Anti Durasi / Lifetime Access", premiumPrice: targetProduct.price * 2.5 }
+                ];
+            }
+
+            variantOptionsArray.forEach((variant, index) => {
+                const itemMarkup = `
+                    <div class="variant-option-row ${index === 0 ? 'selected' : ''}" data-label="${variant.label}" data-price="${variant.premiumPrice}" onclick="selectCheckoutVariantElement(this)">
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <i class="fas fa-circle-dot text-glow"></i>
+                            <span style="font-size:14px; font-weight:600;">${variant.label}</span>
+                        </div>
+                        <strong class="text-glow" style="font-size:15px;">Rp ${parseInt(variant.premiumPrice).toLocaleString('id-ID')}</strong>
+                    </div>
+                `;
+                variantsContainer.insertAdjacentHTML('beforeend', itemMarkup);
+            });
+
+            // Initialize Form parameters mapping
+            document.getElementById('co-meta-username').value = currentAuthenticatedUserContext.username;
+            document.getElementById('co-meta-product-type').value = targetProduct.type || "Lisensi Premium Mod";
+
+            // Enforce reset state sequence defaults
+            proceedCheckoutToStep(1);
+            document.getElementById('interactive-checkout-modal-frame').classList.add('active');
+        }
+
+        function selectCheckoutVariantElement(domNode) {
+            domNode.parentElement.querySelectorAll('.variant-option-row').forEach(row => row.classList.remove('selected'));
+            domNode.classList.add('selected');
+        }
+
+        function proceedCheckoutToStep(targetStepInteger) {
+            // Update active dots views
+            document.querySelectorAll('.step-dot').forEach((dot, index) => {
+                if(index + 1 <= targetStepInteger) dot.classList.add('active');
+                else dot.classList.remove('active');
+            });
+
+            // Toggle step view contents panels
+            document.querySelectorAll('.checkout-step-content').forEach((block, index) => {
+                if(index + 1 === targetStepInteger) block.classList.add('active');
+                else block.classList.remove('active');
+            });
+        }
+
+        function validateAndProceedToPaymentStep() {
+            const waInput = document.getElementById('co-meta-whatsapp-num').value.trim();
+            if(!waInput) {
+                alert("Kesalahan Validasi: Nomor kontak WhatsApp aktif wajib diisi untuk pengiriman lisensi!");
+                return;
+            }
+            proceedCheckoutToStep(3);
+        }
+
+        function closeInteractiveCheckoutWindow() {
+            document.getElementById('interactive-checkout-modal-frame').classList.remove('active');
+            selectedProductForCheckoutFlow = null;
+        }
+
+        function commitCheckoutTransactionToQueue() {
+            const waContact = document.getElementById('co-meta-whatsapp-num').value.trim();
+            const selectedVariantNode = document.querySelector('.variant-option-row.selected');
+            
+            const labelVar = selectedVariantNode ? selectedVariantNode.getAttribute('data-label') : "Lisensi Standar";
+            const calculatedFinalCost = selectedVariantNode ? parseInt(selectedVariantNode.getAttribute('data-price')) : selectedProductForCheckoutFlow.price;
+
+            const transactionReceiptPayload = {
+                orderId: "MNJ-ORD-" + Math.floor(100000 + Math.random() * 900000),
+                clientUsername: currentAuthenticatedUserContext.username,
+                whatsappContact: waContact,
+                productId: selectedProductForCheckoutFlow.id,
+                productName: selectedProductForCheckoutFlow.name,
+                variantChosen: labelVar,
+                finalPricePaid: calculatedFinalCost,
+                status: "PENDING",
+                creationTime: new Date().toLocaleString('id-ID')
+            };
+
+            // Commit to structural local storage schema state array
+            applicationStateDatabase.orders.push(transactionReceiptPayload);
+            saveApplicationDatabaseState();
+
+            closeInteractiveCheckoutWindow();
+            
+            triggerDisplayLoadingScreen("MENGIRIMKAN BUKTI TRANSAKSI...", () => {
+                alert(`Konfirmasi Pembayaran Terkirim Sukses!
+ID Transaksi Anda: ${transactionReceiptPayload.orderId}
+Status pesanan sekarang adalah PENDING. Silakan tunggu hingga admin melakukan verifikasi pembayaran.`);
+                switchSection('client-orders');
+            });
+        }
+
+        // --- AUTHENTICATION INFRASTRUCTURE LOGIC PROCESSING ---
+        function toggleAuthForms(displayRegisterBoolean) {
+            if(displayRegisterBoolean) {
+                document.getElementById('auth-login-card').classList.add('hidden-workspace');
+                document.getElementById('auth-register-card').classList.remove('hidden-workspace');
+            } else {
+                document.getElementById('auth-login-card').classList.remove('hidden-workspace');
+                document.getElementById('auth-register-card').classList.add('hidden-workspace');
+            }
+        }
+
+        function executeUserRegistration() {
+            const u = document.getElementById('register-username-field').value.trim();
+            const p = document.getElementById('register-password-field').value;
+
+            if(!u || !p) {
+                alert("Kesalahan Input: Form username dan kata sandi pendaftaran tidak boleh kosong!");
+                return;
+            }
+            if(u.includes(" ")) {
+                alert("Kesalahan Format: Username tidak boleh mengandung unsur spasi!");
+                return;
+            }
+
+            // Verify existence checks duplicates
+            const checkExits = applicationStateDatabase.users.find(usr => usr.username.toLowerCase() === u.toLowerCase());
+            if(checkExits) {
+                alert("Gagal Registrasi: Username tersebut telah terdaftar dalam sistem basis data!");
+                return;
+            }
+
+            // Insert new structural client records item
+            applicationStateDatabase.users.push({ username: u, password: p });
+            saveApplicationDatabaseState();
+
+            alert("Selamat! Registrasi Akun Member Berhasil. Silakan masuk menggunakan form login.");
+            document.getElementById('register-username-field').value = '';
+            document.getElementById('register-password-field').value = '';
+            toggleAuthForms(false);
+        }
+
+        function executeUserLogin() {
+            const u = document.getElementById('login-username-field').value.trim();
+            const p = document.getElementById('login-password-field').value;
+
+            const verifiedRecord = applicationStateDatabase.users.find(usr => usr.username.toLowerCase() === u.toLowerCase() && usr.password === p);
+            
+            if(!verifiedRecord) {
+                alert("Gagal Masuk: Kombinasi username atau password pengguna tidak valid!");
+                return;
+            }
+
+            currentAuthenticatedUserContext = { username: verifiedRecord.username, isAdmin: false };
+            
+            document.getElementById('login-username-field').value = '';
+            document.getElementById('login-password-field').value = '';
+
+            triggerDisplayLoadingScreen("MENYIAPKAN PENGGUNA...", () => {
+                synchronizeSecurityInterfaceStateUIRow();
+                switchSection('home');
+            });
+        }
+
+        function executeAdminLogin() {
+            const adminUserField = document.getElementById('admin-username-auth-input').value;
+            const adminPassField = document.getElementById('admin-password-auth-input').value;
+
+            // Highly complex unguessable static secure fallback credential specification
+            if (adminUserField === "manjii_overlord_admin_2026" && adminPassField === "Escobar_Neon_Ultimate_Secure_99#1a") {
+                currentAuthenticatedUserContext = { username: "MANJII_ESCOBAR_ADMIN", isAdmin: true };
+                
+                document.getElementById('admin-username-auth-input').value = '';
+                document.getElementById('admin-password-auth-input').value = '';
+
+                triggerDisplayLoadingScreen("UNLOCKING SYSTEM CORE ACCESS...", () => {
+                    synchronizeSecurityInterfaceStateUIRow();
+                    switchSection('admin-dashboard');
+                });
+            } else {
+                alert("AKSES DITOLAK: Kredensial kunci Secure Gate Admin tidak sah!");
+            }
+        }
+
+        function terminateSession() {
+            currentAuthenticatedUserContext = null;
+            triggerDisplayLoadingScreen("MENGHANCURKAN TOKEN OTORISASI...", () => {
+                synchronizeSecurityInterfaceStateUIRow();
+                switchSection('home');
+            });
+        }
+
+        function synchronizeSecurityInterfaceStateUIRow() {
+            const placementBlock = document.getElementById('auth-header-placement');
+            const clientOrdersLink = document.getElementById('nav-client-orders');
+            const adminDashboardLink = document.getElementById('nav-admin-dashboard');
+            const logoutLink = document.getElementById('nav-logout-btn');
+            const liveChatShortcut = document.getElementById('client-live-chat-shortcut-trigger');
+
+            // Reset dynamic styles variables state visibility indicators
+            clientOrdersLink.style.display = 'none';
+            adminDashboardLink.style.display = 'none';
+            logoutLink.style.display = 'none';
+            liveChatShortcut.style.display = 'none';
+            document.getElementById('client-live-chat-overlay-box').classList.remove('active');
+
+            if(currentAuthenticatedUserContext) {
+                // Populate interface text strings
+                placementBlock.innerHTML = `
+                    <button class="btn-transparent" style="border-color: var(--accent-color); background: rgba(176,38,255,0.05);">
+                        <i class="fas fa-user-circle text-glow"></i> ${currentAuthenticatedUserContext.username}
+                    </button>
+                `;
+                logoutLink.style.display = 'flex';
+
+                if(currentAuthenticatedUserContext.isAdmin) {
+                    adminDashboardLink.style.display = 'flex';
+                } else {
+                    clientOrdersLink.style.display = 'flex';
+                    liveChatShortcut.style.display = 'flex';
+                }
+            } else {
+                placementBlock.innerHTML = `
+                    <button class="btn-transparent" onclick="switchSection('user-auth')">
+                        <i class="fas fa-user-lock"></i> Login Member
+                    </button>
+                `;
+            }
+        }
+
+        // --- INTERACTIVE LIVE CHAT SYSTEM FLOW ALGORITHMS ---
+        function toggleClientLiveChatWidgetWindow() {
+            const chatBox = document.getElementById('client-live-chat-overlay-box');
+            chatBox.classList.toggle('active');
+            if(chatBox.classList.contains('active')) {
+                renderClientChatMessageStream();
+            }
+        }
+
+        function renderClientTransitionsStreamScrollDown() {
+            const viewport = document.getElementById('client-chat-scroll-viewport');
+            viewport.scrollTop = viewport.scrollHeight;
+        }
+
+        function renderClientChatMessageStream() {
+            if(!currentAuthenticatedUserContext) return;
+            const targetUsername = currentAuthenticatedUserContext.username;
+            const viewport = document.getElementById('client-chat-scroll-viewport');
+            viewport.innerHTML = '';
+
+            // Init conversation space structurally if missing
+            if(!applicationStateDatabase.chats[targetUsername]) {
+                applicationStateDatabase.chats[targetUsername] = [
+                    { dispatcher: 'support', payload: "Halo member MANJII OFFICIAL! Ada yang bisa kami bantu? Sampaikan pertanyaan Anda di sini mengenai setup tools mod.", clock: new Date().toLocaleTimeString('id-ID') }
+                ];
+                saveApplicationDatabaseState();
+            }
+
+            applicationStateDatabase.chats[targetUsername].forEach(msg => {
+                const alignmentClass = msg.dispatcher === 'user' ? 'client-side' : 'support-side';
+                const nodeElement = `
+                    <div class="chat-bubble ${alignmentClass}">
+                        <div>${msg.payload}</div>
+                        <div style="font-size: 9px; text-align: right; opacity:0.6; margin-top:5px; font-family:monospace;">${msg.clock}</div>
+                    </div>
+                `;
+                viewport.insertAdjacentHTML('beforeend', nodeElement);
+            });
+            renderClientTransitionsStreamScrollDown();
+        }
+
+        function executeClientMessageTransmission() {
+            const inputNode = document.getElementById('client-chat-raw-text-input');
+            const messageString = inputNode.value.trim();
+            if(!messageString || !currentAuthenticatedUserContext) return;
+
+            const activeUser = currentAuthenticatedUserContext.username;
+            
+            applicationStateDatabase.chats[activeUser].push({
+                dispatcher: 'user',
+                payload: messageString,
+                clock: new Date().toLocaleTimeString('id-ID')
+            });
+
+            saveApplicationDatabaseState();
+            inputNode.value = '';
+            renderClientChatMessageStream();
+
+            // Auto simulated bot support escalation triggers
+            setTimeout(() => {
+                if(applicationStateDatabase.chats[activeUser]) {
+                    applicationStateDatabase.chats[activeUser].push({
+                        dispatcher: 'support',
+                        payload: "[Sistem Otomatis]: Pesan Anda masuk antrean respon Admin Panel. Untuk penanganan urgent lisensi key, hubungi WhatsApp CS kami.",
+                        clock: new Date().toLocaleTimeString('id-ID')
+                    });
+                    saveApplicationDatabaseState();
+                    renderClientChatMessageStream();
+                }
+            }, 2500);
+        }
+
+        function handleClientChatKeypress(eventObj) {
+            if(eventObj.key === 'Enter') executeClientMessageTransmission();
+        }
+
+
+        // --- INTEGRATED CENTRAL ADMIN DASHBOARD MODULE COMPILER ---
+        function compileAllAdministrationDashboardModules() {
+            if(!currentAuthenticatedUserContext || !currentAuthenticatedUserContext.isAdmin) return;
+
+            // Sync Configuration text variables fields inputs
+            document.getElementById('admin-cfg-site-title').value = applicationStateDatabase.siteName;
+            document.getElementById('admin-cfg-site-desc').value = applicationStateDatabase.siteDesc;
+
+            // View 1: Compile checkout orders rows list table
+            const checkoutTableBody = document.getElementById('admin-orders-control-table-body');
+            checkoutTableBody.innerHTML = '';
+            if(applicationStateDatabase.orders.length === 0) {
+                checkoutTableBody.innerHTML = `<tr><td colspan="6" class="text-center text-secondary">Belum ada transaksi checkout masuk.</td></tr>`;
+            } else {
+                applicationStateDatabase.orders.slice().reverse().forEach(ord => {
+                    const pillStyle = ord.status === 'DONE' ? 'status-pill done-pill' : 'status-pill pending-pill';
+                    const actionButtonMarkup = ord.status === 'PENDING' ? `
+                        <button class="btn-transparent" style="padding: 6px 12px; font-size:11px; background:#22c55e; border-color:#22c55e;" onclick="adminApproveOrderTransaction('${ord.orderId}')">
+                            <i class="fas fa-check"></i> ACC DONE
+                        </button>
+                    ` : `<span style="color:var(--text-secondary); font-size:12px;">Verified</span>`;
+
+                    const rowString = `
+                        <tr>
+                            <td style="font-weight:700; color:var(--accent-color);">${ord.orderId}</td>
+                            <td style="font-weight:600;">${ord.clientUsername}</td>
+                            <td style="font-family:monospace;">${ord.whatsappContact}</td>
+                            <td>${ord.productName} <br><small style="color:var(--text-secondary);">${ord.variantChosen}</small></td>
+                            <td><span class="${pillStyle}">${ord.status}</span></td>
+                            <td>${actionButtonMarkup}</td>
+                        </tr>
+                    `;
+                    checkoutTableBody.insertAdjacentHTML('beforeend', rowString);
+                });
+            }
+
+            // View 2: Compile active inventory matrix database controls rows list table
+            const inventoryTableBody = document.getElementById('admin-inventory-table-body');
+            inventoryTableBody.innerHTML = '';
+            applicationStateDatabase.products.forEach(p => {
+                const row = `
+                    <tr>
+                        <td>${p.id}</td>
+                        <td style="font-weight:600;">${p.name}</td>
+                        <td><span class="tag-badge accent-badge">${p.type}</span></td>
+                        <td><span class="tag-badge">${p.duration}</span></td>
+                        <td class="text-glow" style="font-weight:700;">Rp ${p.price.toLocaleString('id-ID')}</td>
+                        <td>
+                            <button class="btn-transparent" style="padding: 5px 10px; background:rgba(239,68,68,0.1); border-color:#ef4444; color:#f87171; font-size:12px;" onclick="adminDeleteProductRecord(${p.id})">
+                                <i class="fas fa-trash"></i> Hapus
+                            </button>
+                        </td>
+                    </tr>
+                `;
+                inventoryTableBody.insertAdjacentHTML('beforeend', row);
+            });
+
+            // View 3: Compile News bulletins management dashboard matrix list row table
+            const newsTableBody = document.getElementById('admin-news-table-body');
+            newsTableBody.innerHTML = '';
+            if(applicationStateDatabase.news.length === 0) {
+                newsTableBody.innerHTML = `<tr><td colspan="3" class="text-center text-secondary">Belum ada siaran berita aktif.</td></tr>`;
+            } else {
+                applicationStateDatabase.news.forEach(n => {
+                    const row = `
+                        <tr>
+                            <td style="font-size:12px; color:var(--text-secondary); white-space:nowrap;">${n.timestamp}</td>
+                            <td style="line-height:1.4; max-width:400px; overflow:hidden; text-overflow:ellipsis;">${n.content}</td>
+                            <td>
+                                <button class="btn-transparent" style="padding: 5px 10px; background:rgba(239,68,68,0.1); border-color:#ef4444; color:#f87171; font-size:12px;" onclick="adminDeleteNewsRecord(${n.id})">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                    newsTableBody.insertAdjacentHTML('beforeend', row);
+                });
+            }
+
+            // View 4: Compile User structural profile database rows list table
+            const usersTableBody = document.getElementById('admin-users-table-body');
+            usersTableBody.innerHTML = '';
+            if(applicationStateDatabase.users.length === 0) {
+                usersTableBody.innerHTML = `<tr><td colspan="3" class="text-center text-secondary">Belum ada akun pengguna member yang terdaftar.</td></tr>`;
+            } else {
+                applicationStateDatabase.users.forEach((u, index) => {
+                    const row = `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td style="font-weight:700; color:var(--accent-color);"><i class="fas fa-user"></i> ${u.username}</td>
+                            <td style="font-family:monospace; color:#facc15; letter-spacing:0.5px;">${u.password}</td>
+                        </tr>
+                    `;
+                    usersTableBody.insertAdjacentHTML('beforeend', row);
+                });
+            }
+
+            // View 5: Compile dynamic chat rooms channels listing frameworks contexts
+            compileAdminLiveChatControlWorkspacePanel();
+        }
+
+        // --- ADMIN SYSTEM ACTION SUB-ENGINES ---
+        function saveAdminSystemConfig() {
+            const name = document.getElementById('admin-cfg-site-title').value.trim();
+            const desc = document.getElementById('admin-cfg-site-desc').value.trim();
+            if(!name) return alert("Error: Judul website tidak boleh kosong!");
+            
+            applicationStateDatabase.siteName = name;
+            applicationStateDatabase.siteDesc = desc;
+            saveApplicationDatabaseState();
+
+            // Refresh DOM Elements text parameters instantly
+            document.getElementById('site-title-rendered').innerText = name;
+            document.getElementById('site-description-rendered').innerText = desc;
+            document.title = name + " - Premium Store";
+            
+            alert("Berhasil! Pengaturan konfigurasi identitas dasar website berhasil diterapkan.");
+        }
+
+        function createNewProductViaAdmin() {
+            const name = document.getElementById('form-p-name').value.trim();
+            const price = parseInt(document.getElementById('form-p-price').value);
+            const type = document.getElementById('form-p-type').value.trim();
+            const duration = document.getElementById('form-p-duration').value.trim();
+            const desc = document.getElementById('form-p-desc').value.trim();
+
+            if(!name || !price || !type || !duration) {
+                alert("Gagal Input: Mohon lengkapi seluruh field isian data produk baru!");
+                return;
+            }
+
+            const payloadNewProduct = {
+                id: Date.now(),
+                name, price, type, duration, desc
+            };
+
+            applicationStateDatabase.products.push(payloadNewProduct);
+            saveApplicationDatabaseState();
+
+            // Clear inputs text parameters
+            document.getElementById('form-p-name').value = '';
+            document.getElementById('form-p-price').value = '';
+            document.getElementById('form-p-type').value = '';
+            document.getElementById('form-p-duration').value = '';
+            document.getElementById('form-p-desc').value = '';
+
+            alert("Sukses! Produk baru berhasil ditambahkan masuk ke katalog platform.");
+            compileAllAdministrationDashboardModules();
+        }
+
+        function adminDeleteProductRecord(productIdKey) {
+            if(confirm("Apakah Anda benar-benar yakin ingin menghapus item produk ini dari sistem katalog?")) {
+                applicationStateDatabase.products = applicationStateDatabase.products.filter(item => item.id !== productIdKey);
+                saveApplicationDatabaseState();
+                compileAllAdministrationDashboardModules();
+            }
+        }
+
+        function publishNewsViaAdmin() {
+            const txt = document.getElementById('form-n-content').value.trim();
+            if(!txt) return alert("Pesan penyiaran informasi berita kosong!");
+
+            applicationStateDatabase.news.push({
+                id: Date.now(),
+                timestamp: new Date().toLocaleString('id-ID'),
+                content: txt
+            });
+            saveApplicationDatabaseState();
+            document.getElementById('form-n-content').value = '';
+            alert("Sukses! Informasi berita berhasil disiarkan ke seluruh member.");
+            compileAllAdministrationDashboardModules();
+        }
+
+        function adminDeleteNewsRecord(newsIdKey) {
+            if(confirm("Hapus siaran pengumuman berita ini?")) {
+                applicationStateDatabase.news = applicationStateDatabase.news.filter(n => n.id !== newsIdKey);
+                saveApplicationDatabaseState();
+                compileAllAdministrationDashboardModules();
+            }
+        }
+
+        function adminApproveOrderTransaction(orderIdKey) {
+            const matchedReceipt = applicationStateDatabase.orders.find(ord => ord.orderId === orderIdKey);
+            if(matchedReceipt) {
+                matchedReceipt.status = "DONE";
+                saveApplicationDatabaseState();
+                alert(`Transaksi ${orderIdKey} Berhasil Di-ACC! Status kini berubah menjadi DONE.`);
+                compileAllAdministrationDashboardModules();
+            }
+        }
+
+        function exportDatabaseJsonFile() {
+            const dataStrString = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(applicationStateDatabase, null, 4));
+            const anchorElementNode = document.createElement('a');
+            anchorElementNode.setAttribute("href", dataStrString);
+            anchorElementNode.setAttribute("download", "database.json");
+            document.body.appendChild(anchorElementNode);
+            anchorElementNode.click();
+            anchorElementNode.remove();
+        }
+
+        // --- ADMIN LIVE CHAT HELPER ACTIONS WORKSPACE ---
+        function compileAdminLiveChatControlWorkspacePanel() {
+            const usersDock = document.getElementById('admin-chat-users-list-dock');
+            usersDock.innerHTML = '';
+            const chatActiveUsernamesKeys = Object.keys(applicationStateDatabase.chats);
+
+            if(chatActiveUsernamesKeys.length === 0) {
+                usersDock.innerHTML = `<div style="padding:20px; font-size:12px; color:var(--text-secondary); text-align:center;">Belum ada interaksi live chat dari pelanggan.</div>`;
+                return;
+            }
+
+            chatActiveUsernamesKeys.forEach(usrname => {
+                const isSelected = currentSelectedAdminChatUsernameTarget === usrname ? 'rgba(176,38,255,0.15)' : 'transparent';
+                const buttonItemString = `
+                    <div style="padding:15px; border-bottom:1px solid var(--border-glass); background:${isSelected}; cursor:pointer; font-weight:600; display:flex; align-items:center; gap:10px;" onclick="adminSelectActiveChatChannelTarget('${usrname}')">
+                        <i class="fas fa-comment-dots text-glow"></i>
+                        <span>${usrname}</span>
+                    </div>
+                `;
+                usersDock.insertAdjacentHTML('beforeend', buttonItemString);
+            });
+
+            renderAdminLiveChatMessagesLogsViewport();
+        }
+
+        function adminSelectActiveChatChannelTarget(targetClientUsernameString) {
+            currentSelectedAdminChatUsernameTarget = targetClientUsernameString;
+            document.getElementById('admin-chat-selected-user-title').innerText = `Chat Dengan: ${targetClientUsernameString}`;
+            
+            // Activate Input controllers elements nodes
+            document.getElementById('admin-chat-response-input-field').disabled = false;
+            document.getElementById('admin-chat-send-trigger-btn').disabled = false;
+
+            compileAdminLiveChatControlWorkspacePanel();
+        }
+
+        function renderAdminLiveChatMessagesLogsViewport() {
+            const viewport = document.getElementById('admin-chat-messages-scroll-area');
+            viewport.innerHTML = '';
+            if(!currentSelectedAdminChatUsernameTarget) return;
+
+            const conversationArrayLog = applicationStateDatabase.chats[currentSelectedAdminChatUsernameTarget] || [];
+            conversationArrayLog.forEach(m => {
+                const alignmentClass = m.dispatcher === 'support' ? 'client-side' : 'support-side'; 
+                const displayName = m.dispatcher === 'support' ? 'ADMIN' : currentSelectedAdminChatUsernameTarget;
+                const bubble = `
+                    <div class="chat-bubble ${alignmentClass}">
+                        <strong style="display:block; font-size:10px; opacity:0.8; margin-bottom:3px;">${displayName}</strong>
+                        <div>${m.payload}</div>
+                        <div style="font-size: 9px; text-align:right; opacity:0.5; margin-top:4px; font-family:monospace;">${m.clock}</div>
+                    </div>
+                `;
+                viewport.insertAdjacentHTML('beforeend', bubble);
+            });
+            viewport.scrollTop = viewport.scrollHeight;
+        }
+
+        function executeAdminChatMessageSend() {
+            const inputNode = document.getElementById('admin-chat-response-input-field');
+            const val = inputNode.value.trim();
+            if(!val || !currentSelectedAdminChatUsernameTarget) return;
+
+            applicationStateDatabase.chats[currentSelectedAdminChatUsernameTarget].push({
+                dispatcher: 'support',
+                payload: val,
+                clock: new Date().toLocaleTimeString('id-ID')
+            });
+            saveApplicationDatabaseState();
+            inputNode.value = '';
+            renderAdminLiveChatMessagesLogsViewport();
+        }
+
+
+        // --- APPLICATION ENGINE BOOTSTRAP INITIALIZATION ENGINE ---
+        window.onload = () => {
+            // Restore persistent custom color picker value if customized in previous runtime loop
+            const recoveredHexTheme = localStorage.getItem("MANJII_OFFICIAL_GLOBAL_THEME_HEX_STATE");
+            if(recoveredHexTheme) {
+                adjustAccentColor(recoveredHexTheme);
+                document.getElementById('accentColorThemePicker').value = recoveredHexTheme;
+            }
+
+            // Sync text content titles from dynamic local storage config variables records instantly
+            document.getElementById('site-title-rendered').innerText = applicationStateDatabase.siteName;
+            document.getElementById('site-description-rendered').innerText = applicationStateDatabase.siteDesc;
+            document.title = applicationStateDatabase.siteName + " - Premium Store";
+
+            synchronizeSecurityInterfaceStateUIRow();
+            
+            // Switch screen default views smoothly
+            triggerDisplayLoadingScreen("BOOTING APPLICATION PLATFORM...", () => {
+                compileAndInitCarouselWorkspace();
+                updateSecurityRowDisplayContextFallback();
+            });
+        };
+
+        function updateSecurityRowDisplayContextFallback() {
+            // Self contained block enforcing home view display parameters state default consistency
+            document.getElementById('workspace-home').classList.remove('hidden-workspace');
+        }
+    </script>
+</body>
+</html>
