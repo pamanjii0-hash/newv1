@@ -61,7 +61,7 @@
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="flex items-center space-x-2 cursor-pointer" onclick="switchView('home')">
                 <div class="w-8 h-8 rounded-lg neon-btn flex items-center justify-center text-white font-bold">D</div>
-                <span class="font-header text-2xl font-bold tracking-wider text-white id-site-name">DRIP STORE</span>
+                <span class="font-header text-2xl font-bold tracking-wider text-white id-site-name">MANJII OFFICIAL</span>
             </div>
             
             <div class="flex items-center space-x-4">
@@ -121,7 +121,7 @@
                 <div id="carousel-track" class="w-full h-full flex transition-transform duration-700 ease-in-out">
                     <div class="min-w-full h-full relative bg-gradient-to-br from-purple-950 to-black flex flex-col justify-center items-center text-center px-6">
                         <div class="absolute inset-0 opacity-20 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]"></div>
-                        <h2 class="text-3xl md:text-5xl font-header font-bold uppercase tracking-wider text-white neon-text mb-2">Drip Client</h2>
+                        <h2 class="text-3xl md:text-5xl font-header font-bold uppercase tracking-wider text-white neon-text mb-2">MANJII OFFICIAL</h2>
                         <p class="text-purple-400 font-header text-lg md:text-2xl italic tracking-widest"><span class="lang-txt" data-id="Dominasi pasar lebih dari" data-en="Dominating the market for over">Dominasi pasar lebih dari</span> <span class="text-white underline font-bold">3 years</span></p>
                     </div>
                     <div class="min-w-full h-full relative bg-gradient-to-br from-indigo-950 to-black flex flex-col justify-center items-center text-center px-6">
@@ -469,7 +469,7 @@
         <div class="glass-card w-full max-w-md rounded-2xl overflow-hidden neon-border flex flex-col relative animate-zoomIn">
             <button onclick="closeCheckoutModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-xl">&times;</button>
             <div class="p-5 border-b border-purple-900/50 bg-purple-950/30">
-                <h3 id="chk-modal-title" class="font-header font-bold text-lg text-white uppercase tracking-wider">DRIP MOBILE APK</h3>
+                <h3 id="chk-modal-title" class="font-header font-bold text-lg text-white uppercase tracking-wider">MANJII OFFICIAL</h3>
             </div>
 
             <div class="p-5 space-y-4 flex-1">
@@ -513,7 +513,7 @@
 
     <footer class="fixed bottom-0 left-0 right-0 bg-black/90 border-t border-purple-900/60 py-2.5 px-4 z-40 text-xs text-gray-400">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-2">
-            <div>&copy; 2026 <span class="id-site-name text-purple-400 font-bold">DRIP STORE</span>.</div>
+            <div>&copy; 2026 <span class="id-site-name text-purple-400 font-bold">MANJII OFFICIAL</span>.</div>
             <div class="flex items-center space-x-4">
                 <a href="https://wa.me/083845203074" target="_blank" class="hover:text-green-400 transition flex items-center space-x-1"><i class="fab fa-whatsapp text-green-500 text-sm"></i> <span>WhatsApp</span></a>
                 <a href="https://www.tiktok.com/@manjiixit" target="_blank" class="hover:text-pink-400 transition flex items-center space-x-1"><i class="fab fa-tiktok text-white text-sm"></i> <span>@manjiixit</span></a>
@@ -548,11 +548,9 @@
 
 async function initSystemDatabase() {
     try {
-        // Mengambil data dari Google Sheets (GET)
         const req = await fetch(APP_SCRIPT_URL, { redirect: "follow" });
         const res = await req.json();
         
-        // Memetakan tabel Sheets kembali menjadi format yang dibaca website
         appState.products = (res.PRODUK || []).map(p => {
             let prod = { id: p.id, name: p.nama, desc: p.deskripsi, licenseType: p.tipe_lisensi };
             if(p.tipe_lisensi === 'DURASI') {
@@ -567,28 +565,31 @@ async function initSystemDatabase() {
         });
 
         appState.payments = (res.PAYMENT || []).map(p => ({ id: p.id, name: p.nama_payment, detail: p.detail }));
-        
-        appState.users = (res.USER || []).map(u => ({ 
-            username: u.username, email: u.email, password: u.password, role: u.role, totalSpent: parseInt(u.total_belanja) || 0 
-        }));
-        
-        appState.orders = (res.ORDERS || []).map(o => ({ 
-            orderId: o.id, username: o.username, productName: o.produk_id, variant: o.durasi, priceIdr: parseInt(o.harga), status: o.status, timestamp: o.tanggal, paymentMethod: o.paymentMethod || 'Manual', currency: 'IDR', priceUsd: 0 
-        }));
+        appState.users = (res.USER || []).map(u => ({ username: u.username, email: u.email, password: u.password, role: u.role, totalSpent: parseInt(u.total_belanja) || 0 }));
+        appState.orders = (res.ORDERS || []).map(o => ({ orderId: o.id, username: o.username, productName: o.produk_id, variant: o.durasi, priceIdr: parseInt(o.harga), status: o.status, timestamp: o.tanggal, paymentMethod: o.paymentMethod || 'Manual', currency: 'IDR', priceUsd: 0 }));
 
-        // Melindungi data jika kosong
         if(!appState.lang) appState.lang = "ID";
         if(!appState.chats) appState.chats = [];
 
     } catch(e) {
-        console.error('Koneksi ke server gagal. Pastikan URL Apps Script benar.', e);
+        console.error('Koneksi ke server gagal.', e);
     }
     
+    // --- KODE BARU: MENGINGAT SESI LOGIN SAAT REFRESH ---
+    const savedSession = localStorage.getItem('drip_user_session');
+    if (savedSession) {
+        appState.currentUser = JSON.parse(savedSession);
+    } else {
+        appState.currentUser = null;
+    }
+    // -----------------------------------------------------
+
     document.getElementById('langPicker').value = appState.lang;
     applyDynamicSettings();
     renderProductsUI();
     updateLanguageUI();
 }
+
 
 async function saveToDatabase() { 
     // MENGHAPUS SEMUA LOCAL STORAGE, 100% menggunakan Fetch API
@@ -811,26 +812,48 @@ async function saveToDatabase() {
             e.target.reset(); switchView('login-user');
         }
 
-        function handleUserLogin(e) {
-            e.preventDefault();
-            const user = document.getElementById('login-user-username').value.trim();
-            const pass = document.getElementById('login-user-password').value;
-            const targetUser = appState.users.find(u => u.username.toLowerCase() === user.toLowerCase() && u.password === pass);
-            if(targetUser) {
-                appState.currentUser = { username: targetUser.username, role: 'user' };
-                saveToDatabase(); applyDynamicSettings(); switchView('home'); e.target.reset();
-            } else alert("Username / Password salah!");
-        }
+        // Mengganti fungsi handleUserLogin
+function handleUserLogin(e) {
+    e.preventDefault();
+    const user = document.getElementById('login-user-username').value.trim();
+    const pass = document.getElementById('login-user-password').value;
+    const targetUser = appState.users.find(u => u.username.toLowerCase() === user.toLowerCase() && u.password === pass);
+    if(targetUser) {
+        appState.currentUser = { username: targetUser.username, role: 'user' };
+        
+        // SIMPAN TIKET LOGIN KE BROWSER
+        localStorage.setItem('drip_user_session', JSON.stringify(appState.currentUser));
+        
+        applyDynamicSettings(); switchView('home'); e.target.reset();
+    } else alert("Username / Password salah!");
+}
 
-        function handleAdminLogin(e) {
-            e.preventDefault();
-            const user = document.getElementById('login-admin-username').value.trim();
-            const pass = document.getElementById('login-admin-password').value;
-            if (user === MASTER_ADMIN_USER && pass === MASTER_ADMIN_PASS) {
-                appState.currentUser = { username: "Admin", role: 'admin' };
-                saveToDatabase(); applyDynamicSettings(); switchView('admin-dashboard'); e.target.reset();
-            } else alert("AKSES DITOLAK");
-        }
+// Mengganti fungsi handleAdminLogin
+function handleAdminLogin(e) {
+    e.preventDefault();
+    const user = document.getElementById('login-admin-username').value.trim();
+    const pass = document.getElementById('login-admin-password').value;
+    if (user === MASTER_ADMIN_USER && pass === MASTER_ADMIN_PASS) {
+        appState.currentUser = { username: "Admin", role: 'admin' };
+        
+        // SIMPAN TIKET LOGIN KE BROWSER
+        localStorage.setItem('drip_user_session', JSON.stringify(appState.currentUser));
+        
+        applyDynamicSettings(); switchView('admin-dashboard'); e.target.reset();
+    } else alert("AKSES DITOLAK");
+}
+
+// Mengganti fungsi logout
+function logout() {
+    appState.currentUser = null;
+    
+    // HAPUS TIKET LOGIN DARI BROWSER
+    localStorage.removeItem('manjii_user_session');
+    
+    applyDynamicSettings();
+    switchView('home');
+}
+
 
         // ================= CHECKOUT WORKFLOW =================
         let chkProduct = null;
@@ -916,7 +939,7 @@ async function saveToDatabase() {
                 const payObj = appState.payments.find(p => p.id == payId);
                 const disp = document.getElementById('chk-gateway-display');
                 if(payObj.name.toLowerCase().includes('qris') || payObj.detail.includes('.png') || payObj.detail.includes('.jpg')) {
-                    disp.innerHTML = `<img src="${payObj.detail}" onerror="this.src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=DRIPSTORE'" class="w-44 h-44 object-contain mx-auto">`;
+                    disp.innerHTML = `<img src="${payObj.detail}" onerror="this.src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=MANJIIOFFICIAL'" class="w-44 h-44 object-contain mx-auto">`;
                 } else {
                     disp.innerHTML = `<div class="p-4 text-center"><p class="text-sm font-bold text-gray-800">Transfer ke:</p><p class="text-lg font-mono text-purple-600">${payObj.detail}</p></div>`;
                 }
@@ -931,7 +954,7 @@ async function saveToDatabase() {
             const payId = document.getElementById('chk-payment-select').value;
             const payName = appState.payments.find(p => p.id == payId).name;
             const newOrder = {
-                orderId: "DRIP-" + Math.floor(100000 + Math.random() * 900000),
+                orderId: "MANJIIOFC-" + Math.floor(100000 + Math.random() * 900000),
                 username: appState.currentUser.username,
                 productName: chkProduct.name,
                 variant: chkVariant.name,
