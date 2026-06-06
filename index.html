@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="site-title-meta">DRIP STORE - Digital Experience</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome Icons -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
@@ -60,7 +57,6 @@
 </head>
 <body class="min-h-screen overflow-x-hidden">
 
-    <!-- TOP NAVIGATION BAR -->
     <nav class="glass-card fixed top-0 left-0 right-0 z-50 border-b border-purple-900/40 px-4 py-3">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="flex items-center space-x-2 cursor-pointer" onclick="switchView('home')">
@@ -69,13 +65,11 @@
             </div>
             
             <div class="flex items-center space-x-4">
-                <!-- User Profile Indicator -->
                 <div id="user-indicator" class="hidden md:flex items-center space-x-2 text-sm bg-purple-950/40 px-3 py-1.5 rounded-full border border-purple-500/30">
                     <span class="w-2 h-2 rounded-full bg-green-400 animate-ping"></span>
                     <span id="user-indicator-name" class="text-purple-300 font-medium"></span>
                 </div>
                 
-                <!-- Hamburger Menu Button -->
                 <button onclick="toggleHamburger()" class="p-2 rounded-lg border border-purple-500/30 text-white focus:outline-none hover:bg-purple-950/50 transition">
                     <i class="fas fa-bars text-xl"></i>
                 </button>
@@ -83,13 +77,13 @@
         </div>
     </nav>
 
-    <!-- HAMBURGER OVERLAY MENU -->
     <div id="hamburger-menu" class="fixed inset-0 bg-black/90 z-40 transition-all duration-300 transform translate-x-full flex flex-col justify-center items-center space-y-6 text-xl font-header tracking-widest">
         <button onclick="toggleHamburger()" class="absolute top-5 right-5 p-2 text-white text-2xl">&times;</button>
-        <a href="#" onclick="navigateMenu('home')" class="text-white hover:text-purple-400 transition"><i class="fas fa-home mr-2"></i>BERANDA</a>
-        <a href="#" onclick="navigateMenu('products')" class="text-white hover:text-purple-400 transition"><i class="fas fa-box-open mr-2"></i>MENU PRODUK</a>
+        <a href="#" onclick="navigateMenu('home')" class="text-white hover:text-purple-400 transition"><i class="fas fa-home mr-2"></i><span class="lang-txt" data-id="BERANDA" data-en="HOME">BERANDA</span></a>
+        <a href="#" onclick="navigateMenu('products')" class="text-white hover:text-purple-400 transition"><i class="fas fa-box-open mr-2"></i><span class="lang-txt" data-id="MENU PRODUK" data-en="PRODUCTS">MENU PRODUK</span></a>
         <a href="#" onclick="navigateMenu('news')" class="text-white hover:text-purple-400 transition"><i class="fas fa-newspaper mr-2"></i>NEWS</a>
         <a href="#" onclick="navigateMenu('chat')" class="text-white hover:text-purple-400 transition"><i class="fas fa-comments mr-2"></i>LIVE CHAT</a>
+        <a href="#" id="nav-history-link" onclick="navigateMenu('history')" class="text-white hover:text-purple-400 transition hidden"><i class="fas fa-clock-rotate-left mr-2"></i><span class="lang-txt" data-id="HISTORY PEMBELIAN" data-en="ORDER HISTORY">HISTORY PEMBELIAN</span></a>
         <hr class="w-32 border-purple-800">
         <div id="nav-auth-buttons" class="flex flex-col space-y-4 w-64 text-center">
             <button onclick="navigateMenu('login-user')" class="px-4 py-2 rounded-lg border border-purple-500 text-sm font-semibold tracking-normal text-white hover:bg-purple-500/20">LOGIN USER</button>
@@ -100,112 +94,117 @@
         </div>
     </div>
 
-    <!-- MAIN CONTENT CONTAINER -->
     <main class="pt-24 pb-16 px-4 max-w-7xl mx-auto space-y-8">
 
-        <!-- ================= BERANDA VIEW ================= -->
         <section id="view-home" class="space-y-8 view-section">
-            <!-- Accent Color Picker & Welcome Row -->
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center p-4 glass-card rounded-xl gap-4">
                 <div>
                     <h1 class="text-xl font-bold id-site-name text-white">DRIP STORE</h1>
                     <p class="text-xs text-gray-400 id-site-desc">Dominating the market with standard retail excellence.</p>
                 </div>
-                <div class="flex items-center space-x-3 bg-black/40 p-2 rounded-lg border border-white/5">
-                    <span class="text-xs text-gray-400"><i class="fas fa-palette mr-1"></i> Accent Color:</span>
-                    <input type="color" id="accentPicker" value="#bc00dd" onchange="changeAccentColor(this.value)" class="w-8 h-8 rounded border-0 cursor-pointer bg-transparent">
+                <div class="flex flex-wrap items-center gap-3">
+                    <div class="flex items-center space-x-3 bg-black/40 p-2 rounded-lg border border-white/5">
+                        <span class="text-xs text-gray-400"><i class="fas fa-globe mr-1"></i> Lang:</span>
+                        <select id="langPicker" onchange="changeLanguage(this.value)" class="bg-transparent text-white text-xs font-bold focus:outline-none">
+                            <option value="ID" class="bg-black">ID (Rupiah)</option>
+                            <option value="EN" class="bg-black">EN (Dollar)</option>
+                        </select>
+                    </div>
+                    <div class="flex items-center space-x-3 bg-black/40 p-2 rounded-lg border border-white/5">
+                        <span class="text-xs text-gray-400"><i class="fas fa-palette mr-1"></i> Accent:</span>
+                        <input type="color" id="accentPicker" value="#bc00dd" onchange="changeAccentColor(this.value)" class="w-6 h-6 rounded border-0 cursor-pointer bg-transparent">
+                    </div>
                 </div>
             </div>
 
-            <!-- Moving Banner (16:9 Carousel Aspect Ratio) -->
             <div class="relative w-full aspect-video md:h-[400px] md:aspect-auto rounded-2xl overflow-hidden neon-border">
                 <div id="carousel-track" class="w-full h-full flex transition-transform duration-700 ease-in-out">
-                    <!-- Slide 1 -->
                     <div class="min-w-full h-full relative bg-gradient-to-br from-purple-950 to-black flex flex-col justify-center items-center text-center px-6">
                         <div class="absolute inset-0 opacity-20 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]"></div>
                         <h2 class="text-3xl md:text-5xl font-header font-bold uppercase tracking-wider text-white neon-text mb-2">Drip Client</h2>
-                        <p class="text-purple-400 font-header text-lg md:text-2xl italic tracking-widest">Dominating the market for over <span class="text-white underline font-bold">3 years</span></p>
+                        <p class="text-purple-400 font-header text-lg md:text-2xl italic tracking-widest"><span class="lang-txt" data-id="Dominasi pasar lebih dari" data-en="Dominating the market for over">Dominasi pasar lebih dari</span> <span class="text-white underline font-bold">3 years</span></p>
                     </div>
-                    <!-- Slide 2 -->
                     <div class="min-w-full h-full relative bg-gradient-to-br from-indigo-950 to-black flex flex-col justify-center items-center text-center px-6">
                         <h2 class="text-3xl md:text-5xl font-header font-bold uppercase tracking-wider text-white text-indigo-400 mb-2">Instant Delivery</h2>
-                        <p class="text-gray-300 max-w-md text-sm md:text-base">Dapatkan lisensi produk digital Anda secara otomatis dalam hitungan detik setelah pembayaran berhasil terverifikasi.</p>
+                        <p class="text-gray-300 max-w-md text-sm md:text-base lang-txt" data-id="Dapatkan lisensi produk digital Anda secara otomatis dalam hitungan detik setelah pembayaran berhasil terverifikasi." data-en="Get your digital product licenses automatically in seconds after payment is successfully verified.">Dapatkan lisensi produk digital Anda secara otomatis dalam hitungan detik setelah pembayaran berhasil terverifikasi.</p>
                     </div>
                 </div>
-                <!-- Carousel Controls -->
                 <button onclick="moveCarousel(-1)" class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/60 flex items-center justify-center text-white border border-white/10 hover:bg-purple-600"><i class="fas fa-chevron-left"></i></button>
                 <button onclick="moveCarousel(1)" class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/60 flex items-center justify-center text-white border border-white/10 hover:bg-purple-600"><i class="fas fa-chevron-right"></i></button>
             </div>
 
-            <!-- Features Info Row -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div class="glass-card p-6 rounded-xl text-center space-y-2 border-t-2 border-purple-500">
                     <div class="w-12 h-12 rounded-full bg-purple-500/10 flex items-center justify-center mx-auto text-purple-400 text-xl"><i class="fas fa-bolt"></i></div>
                     <h3 class="font-bold text-white">INSTANT DELIVERY</h3>
-                    <p class="text-xs text-gray-400">Get your keys delivered within seconds after structural payment approval.</p>
+                    <p class="text-xs text-gray-400 lang-txt" data-id="Dapatkan lisensi Anda terkirim seketika setelah approval." data-en="Get your keys delivered within seconds after approval.">Dapatkan lisensi Anda terkirim seketika setelah approval.</p>
                 </div>
                 <div class="glass-card p-6 rounded-xl text-center space-y-2 border-t-2 border-purple-500">
                     <div class="w-12 h-12 rounded-full bg-purple-500/10 flex items-center justify-center mx-auto text-purple-400 text-xl"><i class="fas fa-headset"></i></div>
                     <h3 class="font-bold text-white">24/7 SUPPORT</h3>
-                    <p class="text-xs text-gray-400">Our support team is dynamically standing by to sort any systemic operational inquiries.</p>
+                    <p class="text-xs text-gray-400 lang-txt" data-id="Tim dukungan kami siap membantu menangani kendala teknis." data-en="Our support team is standing by to sort any inquiries.">Tim dukungan kami siap membantu menangani kendala teknis.</p>
                 </div>
                 <div class="glass-card p-6 rounded-xl text-center space-y-2 border-t-2 border-purple-500">
                     <div class="w-12 h-12 rounded-full bg-purple-500/10 flex items-center justify-center mx-auto text-purple-400 text-xl"><i class="fas fa-shield-halved"></i></div>
                     <h3 class="font-bold text-white">100% SECURE</h3>
-                    <p class="text-xs text-gray-400">Safe, fully encrypted QRIS workflow ensuring zero systematic integrity failure risk.</p>
+                    <p class="text-xs text-gray-400 lang-txt" data-id="Sistem enkripsi dan pembayaran aman bebas resiko." data-en="Safe, fully encrypted workflow ensuring zero risk.">Sistem enkripsi dan pembayaran aman bebas resiko.</p>
                 </div>
             </div>
 
-            <!-- Dynamic News Ticker Area -->
             <div class="glass-card p-4 rounded-xl flex items-center space-x-4 overflow-hidden border-l-4 border-purple-500">
                 <span class="bg-purple-900 text-purple-300 text-xs px-2.5 py-1 rounded font-bold uppercase tracking-wider animate-pulse">LATEST_NEWS</span>
-                <marquee id="home-news-ticker" class="text-sm text-gray-300 font-medium">Selamat datang di Drip Store! Menjual berbagai macam lisensi aplikasi berkualitas premium dengan sistem serba otomatis.</marquee>
+                <marquee id="home-news-ticker" class="text-sm text-gray-300 font-medium"></marquee>
             </div>
         </section>
 
-
-        <!-- ================= PRODUCTS MENU VIEW ================= -->
         <section id="view-products" class="space-y-6 view-section hidden">
             <div class="border-b border-purple-900/50 pb-3">
-                <h2 class="text-2xl font-header font-bold text-white uppercase tracking-wider"><i class="fas fa-box-open mr-2 text-purple-500"></i>Menu Produk</h2>
-                <p class="text-xs text-gray-400">Pilih paket lisensi premium yang sesuai dengan kebutuhan performa Anda.</p>
+                <h2 class="text-2xl font-header font-bold text-white uppercase tracking-wider"><i class="fas fa-box-open mr-2 text-purple-500"></i><span class="lang-txt" data-id="Menu Produk" data-en="Products Menu">Menu Produk</span></h2>
+                <p class="text-xs text-gray-400 lang-txt" data-id="Pilih paket lisensi premium yang sesuai dengan kebutuhan performa Anda." data-en="Choose a premium license package that suits your performance needs.">Pilih paket lisensi premium yang sesuai dengan kebutuhan performa Anda.</p>
             </div>
-            
-            <!-- Products Grid Container -->
-            <div id="products-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Injected via JavaScript -->
+            <div id="products-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+        </section>
+
+        <section id="view-history" class="space-y-6 view-section hidden">
+            <div class="border-b border-purple-900/50 pb-3">
+                <h2 class="text-2xl font-header font-bold text-white uppercase tracking-wider"><i class="fas fa-clock-rotate-left mr-2 text-purple-500"></i><span class="lang-txt" data-id="Riwayat Pembelian" data-en="Purchase History">Riwayat Pembelian</span></h2>
+                <p class="text-xs text-gray-400 lang-txt" data-id="Daftar rekam jejak pesanan akun Anda." data-en="Track record of your account orders.">Daftar rekam jejak pesanan akun Anda.</p>
+            </div>
+            <div class="glass-card p-6 rounded-xl overflow-x-auto">
+                <table class="w-full text-left text-xs border-collapse">
+                    <thead>
+                        <tr class="border-b border-purple-900 bg-purple-950/40 text-purple-300 uppercase">
+                            <th class="p-3">Order ID</th>
+                            <th class="p-3">Produk & Varian</th>
+                            <th class="p-3">Total Harga</th>
+                            <th class="p-3">Payment</th>
+                            <th class="p-3">Status</th>
+                            <th class="p-3">Waktu</th>
+                        </tr>
+                    </thead>
+                    <tbody id="user-history-table-body" class="divide-y divide-purple-950/40 text-gray-300">
+                        </tbody>
+                </table>
             </div>
         </section>
 
-
-        <!-- ================= NEWS VIEW ================= -->
         <section id="view-news" class="space-y-6 view-section hidden">
             <div class="border-b border-purple-900/50 pb-3">
-                <h2 class="text-2xl font-header font-bold text-white uppercase tracking-wider"><i class="fas fa-newspaper mr-2 text-purple-500"></i>Pemberitahuan & Berita</h2>
-                <p class="text-xs text-gray-400">Informasi update sistem, produk baru, dan pengumuman penting berkala.</p>
+                <h2 class="text-2xl font-header font-bold text-white uppercase tracking-wider"><i class="fas fa-newspaper mr-2 text-purple-500"></i><span class="lang-txt" data-id="Pemberitahuan & Berita" data-en="News & Announcements">Pemberitahuan & Berita</span></h2>
             </div>
-            <div id="news-container" class="space-y-4">
-                <!-- Injected via JavaScript -->
-            </div>
+            <div id="news-container" class="space-y-4"></div>
         </section>
 
-
-        <!-- ================= USER LIVE CHAT VIEW ================= -->
         <section id="view-chat" class="space-y-6 view-section hidden">
             <div class="border-b border-purple-900/50 pb-3">
                 <h2 class="text-2xl font-header font-bold text-white uppercase tracking-wider"><i class="fas fa-comments mr-2 text-purple-500"></i>Live Chat Admin Hub</h2>
-                <p class="text-xs text-gray-400">Hubungi tim admin secara langsung untuk konfirmasi kendala teknis.</p>
             </div>
-            
             <div id="chat-gate-unauth" class="glass-card p-8 text-center rounded-xl max-w-md mx-auto space-y-4">
                 <i class="fas fa-lock text-4xl text-purple-500"></i>
-                <h3 class="font-bold text-white text-lg">Akses Live Chat Terkunci</h3>
-                <p class="text-sm text-gray-400">Anda diharuskan melakukan login akun pengguna terlebih dahulu untuk memulai sesi percakapan dengan tim Admin.</p>
+                <h3 class="font-bold text-white text-lg lang-txt" data-id="Akses Live Chat Terkunci" data-en="Live Chat Access Locked">Akses Live Chat Terkunci</h3>
                 <button onclick="switchView('login-user')" class="w-full py-2.5 rounded-lg text-white font-semibold text-sm neon-btn">Login Sekarang</button>
             </div>
-
             <div id="chat-box-wrapper" class="glass-card rounded-xl max-w-2xl mx-auto flex flex-col h-[450px] overflow-hidden hidden">
-                <!-- Chat Header -->
                 <div class="bg-purple-950/60 p-4 border-b border-purple-900/50 flex items-center space-x-3">
                     <div class="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
                     <div>
@@ -213,34 +212,27 @@
                         <p class="text-[10px] text-purple-300">Online & Siap Melayani</p>
                     </div>
                 </div>
-                <!-- Chat Log -->
-                <div id="user-chat-messages" class="flex-1 p-4 overflow-y-auto space-y-3 bg-black/20">
-                    <!-- Injected via JavaScript -->
-                </div>
-                <!-- Chat Input Form -->
+                <div id="user-chat-messages" class="flex-1 p-4 overflow-y-auto space-y-3 bg-black/20"></div>
                 <form onsubmit="sendUserMessage(event)" class="p-3 bg-purple-950/20 border-t border-purple-900/50 flex gap-2">
-                    <input type="text" id="user-chat-input" placeholder="Ketik pesan Anda di sini..." class="flex-1 bg-black/40 border border-purple-900/60 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-purple-500" required>
-                    <button type="submit" class="px-4 py-2 rounded-lg text-white neon-btn flex items-center justify-center"><i class="fas fa-paper-plane"></i></button>
+                    <input type="text" id="user-chat-input" placeholder="Ketik pesan Anda..." class="flex-1 bg-black/40 border border-purple-900/60 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-purple-500" required>
+                    <button type="submit" class="px-4 py-2 rounded-lg text-white neon-btn"><i class="fas fa-paper-plane"></i></button>
                 </form>
             </div>
         </section>
 
-
-        <!-- ================= USER LOGIN VIEW ================= -->
         <section id="view-login-user" class="view-section hidden">
             <div class="glass-card p-8 rounded-2xl max-w-md mx-auto space-y-6 border border-purple-900/40 shadow-2xl">
                 <div class="text-center space-y-1">
                     <h2 class="text-2xl font-header font-bold text-white uppercase tracking-wider">User Portal Login</h2>
-                    <p class="text-xs text-gray-400">Masuk ke dashboard panel pengorderan Anda.</p>
                 </div>
                 <form onsubmit="handleUserLogin(event)" class="space-y-4">
                     <div>
                         <label class="block text-xs font-semibold text-purple-300 mb-1.5 uppercase">Username</label>
-                        <input type="text" id="login-user-username" class="w-full bg-black/60 border border-purple-900/60 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-purple-500" placeholder="Masukkan username" required>
+                        <input type="text" id="login-user-username" class="w-full bg-black/60 border border-purple-900/60 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-purple-500" required>
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-purple-300 mb-1.5 uppercase">Password</label>
-                        <input type="password" id="login-user-password" class="w-full bg-black/60 border border-purple-900/60 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-purple-500" placeholder="••••••••" required>
+                        <input type="password" id="login-user-password" class="w-full bg-black/60 border border-purple-900/60 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-purple-500" required>
                     </div>
                     <button type="submit" class="w-full py-3 rounded-lg text-white font-semibold text-sm neon-btn">MASUK SEKARANG</button>
                 </form>
@@ -250,26 +242,23 @@
             </div>
         </section>
 
-
-        <!-- ================= USER REGISTER VIEW ================= -->
         <section id="view-register-user" class="view-section hidden">
             <div class="glass-card p-8 rounded-2xl max-w-md mx-auto space-y-6 border border-purple-900/40 shadow-2xl">
                 <div class="text-center space-y-1">
                     <h2 class="text-2xl font-header font-bold text-white uppercase tracking-wider">Registrasi Akun</h2>
-                    <p class="text-xs text-gray-400">Buat akun Drip Store baru Anda secara instan.</p>
                 </div>
                 <form onsubmit="handleUserRegister(event)" class="space-y-4">
                     <div>
                         <label class="block text-xs font-semibold text-purple-300 mb-1.5 uppercase">Username Baru</label>
-                        <input type="text" id="reg-username" class="w-full bg-black/60 border border-purple-900/60 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-purple-500" placeholder="Alfanumerik tanpa spasi" required>
+                        <input type="text" id="reg-username" class="w-full bg-black/60 border border-purple-900/60 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-purple-500" required>
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-purple-300 mb-1.5 uppercase">Alamat Email</label>
-                        <input type="email" id="reg-email" class="w-full bg-black/60 border border-purple-900/60 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-purple-500" placeholder="nama@email.com" required>
+                        <input type="email" id="reg-email" class="w-full bg-black/60 border border-purple-900/60 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-purple-500" required>
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-purple-300 mb-1.5 uppercase">Password</label>
-                        <input type="password" id="reg-password" class="w-full bg-black/60 border border-purple-900/60 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-purple-500" placeholder="Minimal 6 karakter" required>
+                        <input type="password" id="reg-password" class="w-full bg-black/60 border border-purple-900/60 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-purple-500" required>
                     </div>
                     <button type="submit" class="w-full py-3 rounded-lg text-white font-semibold text-sm neon-btn">DAFTARKAN AKUN</button>
                 </form>
@@ -279,45 +268,36 @@
             </div>
         </section>
 
-
-        <!-- ================= ADMIN LOGIN VIEW ================= -->
         <section id="view-login-admin" class="view-section hidden">
             <div class="glass-card p-8 rounded-2xl max-w-md mx-auto space-y-6 border border-purple-900/40 shadow-2xl">
                 <div class="text-center space-y-1">
                     <div class="w-12 h-12 bg-red-500/10 rounded-full flex items-center justify-center mx-auto text-red-400 text-lg border border-red-500/30"><i class="fas fa-user-shield"></i></div>
                     <h2 class="text-2xl font-header font-bold text-white uppercase tracking-wider">Secure Admin Terminal</h2>
-                    <p class="text-xs text-gray-400">Otorisasi akses internal root sistem manajemen web.</p>
                 </div>
                 <form onsubmit="handleAdminLogin(event)" class="space-y-4">
                     <div>
                         <label class="block text-xs font-semibold text-purple-300 mb-1.5 uppercase">Secure Root ID</label>
-                        <input type="text" id="login-admin-username" class="w-full bg-black/60 border border-purple-900/60 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-red-500" placeholder="Admin ID" required>
+                        <input type="text" id="login-admin-username" class="w-full bg-black/60 border border-purple-900/60 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-red-500" required>
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-purple-300 mb-1.5 uppercase">Security Encryption Key</label>
-                        <input type="password" id="login-admin-password" class="w-full bg-black/60 border border-purple-900/60 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-red-500" placeholder="••••••••" required>
+                        <input type="password" id="login-admin-password" class="w-full bg-black/60 border border-purple-900/60 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-red-500" required>
                     </div>
                     <button type="submit" class="w-full py-3 rounded-lg text-white font-semibold text-sm bg-gradient-to-r from-red-600 to-purple-700 shadow-lg shadow-red-950 hover:opacity-90 transition">VERIFIKASI LOG IN</button>
                 </form>
             </div>
         </section>
 
-
-        <!-- ================= CENTRAL ADMIN DASHBOARD VIEW ================= -->
         <section id="view-admin-dashboard" class="space-y-8 view-section hidden">
             <div class="flex justify-between items-center border-b border-purple-900/50 pb-4">
-                <div>
-                    <h2 class="text-3xl font-header font-bold text-white uppercase tracking-wider text-red-400"><i class="fas fa-sliders mr-2"></i>Admin Core Dashboard</h2>
-                    <p class="text-xs text-gray-400">Panel pemantauan real-time struktural, tata kelola data, dan manajemen omzet.</p>
-                </div>
-                <button onclick="logout()" class="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-xs font-bold text-white"><i class="fas fa-sign-out-alt mr-1"></i> Exit Admin</button>
+                <h2 class="text-3xl font-header font-bold text-white uppercase tracking-wider text-red-400"><i class="fas fa-sliders mr-2"></i>Admin Core Dashboard</h2>
+                <button onclick="logout()" class="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-xs font-bold text-white">Exit Admin</button>
             </div>
 
-            <!-- Operational Statistics Row -->
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div class="glass-card p-5 rounded-xl border-l-4 border-emerald-500">
-                    <span class="text-xs text-gray-400 font-semibold uppercase tracking-wider">TOTAL REVENUE (SUCCESS)</span>
-                    <div id="adm-stat-revenue" class="text-2xl font-bold font-header text-emerald-400 mt-1">$0.00</div>
+                    <span class="text-xs text-gray-400 font-semibold uppercase tracking-wider">TOTAL REVENUE (IDR)</span>
+                    <div id="adm-stat-revenue" class="text-2xl font-bold font-header text-emerald-400 mt-1">Rp 0</div>
                 </div>
                 <div class="glass-card p-5 rounded-xl border-l-4 border-yellow-500">
                     <span class="text-xs text-gray-400 font-semibold uppercase tracking-wider">PENDING ORDERS</span>
@@ -333,63 +313,83 @@
                 </div>
             </div>
 
-            <!-- Layout Grid: Form Management Controls -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Column 1: Website Configuration -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div class="glass-card p-6 rounded-xl space-y-4">
-                    <h3 class="font-bold font-header text-lg text-white border-b border-white/5 pb-2"><i class="fas fa-globe mr-2 text-purple-400"></i>Config Website Settings</h3>
-                    <div class="space-y-3">
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-400 mb-1">NAMA WEBSITE</label>
-                            <input type="text" id="cfg-site-name" class="w-full bg-black/40 border border-purple-900/60 rounded px-3 py-1.5 text-sm text-white focus:outline-none focus:border-purple-500">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-400 mb-1">DESKRIPSI WEBSITE</label>
-                            <textarea id="cfg-site-desc" rows="3" class="w-full bg-black/40 border border-purple-900/60 rounded px-3 py-1.5 text-sm text-white focus:outline-none focus:border-purple-500"></textarea>
-                        </div>
-                        <button onclick="updateWebsiteMeta()" class="w-full py-2 bg-purple-600 hover:bg-purple-700 text-xs font-bold text-white rounded">SAVE CONFIG CHANGES</button>
-                    </div>
-                </div>
-
-                <!-- Column 2: Add Product Form -->
-                <div class="glass-card p-6 rounded-xl space-y-4">
-                    <h3 class="font-bold font-header text-lg text-white border-b border-white/5 pb-2"><i class="fas fa-plus-circle mr-2 text-purple-400"></i>Add New Product Bundle</h3>
-                    <div class="space-y-3">
-                        <div>
+                    <h3 class="font-bold font-header text-lg text-white border-b border-white/5 pb-2"><i class="fas fa-plus-circle mr-2 text-purple-400"></i>Manage & Add Product</h3>
+                    <input type="hidden" id="p-edit-id">
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="col-span-2">
                             <label class="block text-xs font-semibold text-gray-400 mb-1">NAMA PRODUK</label>
-                            <input type="text" id="p-add-name" class="w-full bg-black/40 border border-purple-900/60 rounded px-3 py-1.5 text-sm text-white focus:outline-none" placeholder="Contoh: DRIP MOBILE APKS">
+                            <input type="text" id="p-add-name" class="w-full bg-black/40 border border-purple-900/60 rounded px-3 py-1.5 text-sm text-white focus:outline-none">
                         </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-400 mb-1">HARGA BASE ($)</label>
-                            <input type="number" step="0.01" id="p-add-price" class="w-full bg-black/40 border border-purple-900/60 rounded px-3 py-1.5 text-sm text-white focus:outline-none" placeholder="0.90">
+                        <div class="col-span-2">
+                            <label class="block text-xs font-semibold text-gray-400 mb-1">DESKRIPSI PRODUK</label>
+                            <textarea id="p-add-desc" rows="2" class="w-full bg-black/40 border border-purple-900/60 rounded px-3 py-1.5 text-sm text-white focus:outline-none"></textarea>
                         </div>
-                        <div>
+                        <div class="col-span-2">
                             <label class="block text-xs font-semibold text-gray-400 mb-1">TIPE LISENSI</label>
-                            <select id="p-add-license" class="w-full bg-black/40 border border-purple-900/60 rounded px-3 py-1.5 text-sm text-gray-300 focus:outline-none">
-                                <option value="DURASI">DURASI (1 Day, 7 Day, 30 Day)</option>
-                                <option value="LIFE TIME">LIFETIME (Permanent Account Access)</option>
+                            <select id="p-add-license" onchange="toggleAdminPriceInputs()" class="w-full bg-black/40 border border-purple-900/60 rounded px-3 py-1.5 text-sm text-gray-300 focus:outline-none">
+                                <option value="DURASI">DURASI</option>
+                                <option value="LIFETIME">LIFE TIME</option>
                             </select>
                         </div>
-                        <button onclick="addNewProduct()" class="w-full py-2 bg-indigo-600 hover:bg-indigo-700 text-xs font-bold text-white rounded">INJECT NEW PRODUCT</button>
+                    </div>
+                    
+                    <div id="admin-prices-durasi" class="space-y-3">
+                        <p class="text-xs text-yellow-400 italic">Isi harga Durasi (Kosongkan jika durasi tidak tersedia)</p>
+                        <div class="grid grid-cols-3 gap-2 items-center">
+                            <span class="text-xs text-gray-300">1 Day</span>
+                            <input type="number" id="p-1d-idr" placeholder="IDR (Rp)" class="w-full bg-black/40 border border-purple-900/60 rounded px-2 py-1 text-sm text-white">
+                            <input type="number" step="0.01" id="p-1d-usd" placeholder="USD ($)" class="w-full bg-black/40 border border-purple-900/60 rounded px-2 py-1 text-sm text-white">
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 items-center">
+                            <span class="text-xs text-gray-300">3 Day</span>
+                            <input type="number" id="p-3d-idr" placeholder="IDR (Rp)" class="w-full bg-black/40 border border-purple-900/60 rounded px-2 py-1 text-sm text-white">
+                            <input type="number" step="0.01" id="p-3d-usd" placeholder="USD ($)" class="w-full bg-black/40 border border-purple-900/60 rounded px-2 py-1 text-sm text-white">
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 items-center">
+                            <span class="text-xs text-gray-300">7 Day</span>
+                            <input type="number" id="p-7d-idr" placeholder="IDR (Rp)" class="w-full bg-black/40 border border-purple-900/60 rounded px-2 py-1 text-sm text-white">
+                            <input type="number" step="0.01" id="p-7d-usd" placeholder="USD ($)" class="w-full bg-black/40 border border-purple-900/60 rounded px-2 py-1 text-sm text-white">
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 items-center">
+                            <span class="text-xs text-gray-300">15 Day</span>
+                            <input type="number" id="p-15d-idr" placeholder="IDR (Rp)" class="w-full bg-black/40 border border-purple-900/60 rounded px-2 py-1 text-sm text-white">
+                            <input type="number" step="0.01" id="p-15d-usd" placeholder="USD ($)" class="w-full bg-black/40 border border-purple-900/60 rounded px-2 py-1 text-sm text-white">
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 items-center">
+                            <span class="text-xs text-gray-300">30 Day</span>
+                            <input type="number" id="p-30d-idr" placeholder="IDR (Rp)" class="w-full bg-black/40 border border-purple-900/60 rounded px-2 py-1 text-sm text-white">
+                            <input type="number" step="0.01" id="p-30d-usd" placeholder="USD ($)" class="w-full bg-black/40 border border-purple-900/60 rounded px-2 py-1 text-sm text-white">
+                        </div>
+                    </div>
+                    <div id="admin-prices-lifetime" class="space-y-3 hidden">
+                        <p class="text-xs text-yellow-400 italic">Isi harga untuk Life Time Access</p>
+                        <div class="grid grid-cols-2 gap-2">
+                            <input type="number" id="p-lt-idr" placeholder="Harga IDR (Rp)" class="w-full bg-black/40 border border-purple-900/60 rounded px-2 py-1 text-sm text-white">
+                            <input type="number" step="0.01" id="p-lt-usd" placeholder="Harga USD ($)" class="w-full bg-black/40 border border-purple-900/60 rounded px-2 py-1 text-sm text-white">
+                        </div>
+                    </div>
+
+                    <div class="flex gap-2">
+                        <button onclick="saveAdminProduct()" class="flex-1 py-2 bg-indigo-600 hover:bg-indigo-700 text-xs font-bold text-white rounded">SAVE PRODUCT</button>
+                        <button onclick="resetAdminProductForm()" class="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-xs font-bold text-white rounded">RESET</button>
                     </div>
                 </div>
 
-                <!-- Column 3: Global News Broadcaster -->
                 <div class="glass-card p-6 rounded-xl space-y-4">
-                    <h3 class="font-bold font-header text-lg text-white border-b border-white/5 pb-2"><i class="fas fa-bullhorn mr-2 text-purple-400"></i>Broadcast System News</h3>
-                    <div class="space-y-3">
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-400 mb-1">PEMBERITAHUAN NEWS BARU</label>
-                            <textarea id="p-add-news" rows="4" class="w-full bg-black/40 border border-purple-900/60 rounded px-3 py-1.5 text-sm text-white focus:outline-none" placeholder="Tulis pengumuman penting yang akan dimunculkan di halaman News & Beranda Ticker..."></textarea>
-                        </div>
-                        <button onclick="broadcastNews()" class="w-full py-2 bg-blue-600 hover:bg-blue-700 text-xs font-bold text-white rounded">PUBLISH TO SYSTEM</button>
+                    <h3 class="font-bold font-header text-lg text-white border-b border-white/5 pb-2"><i class="fas fa-list mr-2 text-purple-400"></i>List Produk Tersedia</h3>
+                    <div class="overflow-y-auto max-h-[400px]">
+                        <table class="w-full text-left text-xs">
+                            <tbody id="admin-product-list" class="divide-y divide-purple-950/20 text-gray-300">
+                                </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
 
-            <!-- Order Operational Pipeline (Tables) -->
             <div class="glass-card p-6 rounded-xl space-y-4">
-                <h3 class="font-bold font-header text-lg text-white border-b border-white/5 pb-2"><i class="fas fa-receipt mr-2 text-yellow-400"></i>Customer Order Pipeline Terminal</h3>
+                <h3 class="font-bold font-header text-lg text-white border-b border-white/5 pb-2"><i class="fas fa-receipt mr-2 text-yellow-400"></i>Order Pipeline Terminal</h3>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-xs border-collapse">
                         <thead>
@@ -398,116 +398,106 @@
                                 <th class="p-3">User</th>
                                 <th class="p-3">Produk / Lisensi</th>
                                 <th class="p-3">Harga</th>
+                                <th class="p-3">Payment</th>
                                 <th class="p-3">Status</th>
                                 <th class="p-3 text-center">Tindakan Otorisasi</th>
                             </tr>
                         </thead>
                         <tbody id="admin-orders-table-body" class="divide-y divide-purple-950/40 text-gray-300">
-                            <!-- Injected via JavaScript -->
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- Middle Splitted: User Database & Live Chat Admin Monitor -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <!-- User Accounts Data Vault -->
                 <div class="glass-card p-6 rounded-xl space-y-4">
-                    <h3 class="font-bold font-header text-lg text-white border-b border-white/5 pb-2"><i class="fas fa-users-config mr-2 text-purple-400"></i>Registered Registered Users</h3>
-                    <div class="overflow-y-auto max-h-[300px]">
-                        <table class="w-full text-left text-xs">
+                    <h3 class="font-bold font-header text-lg text-white border-b border-white/5 pb-2"><i class="fas fa-users-cog mr-2 text-purple-400"></i>Registered Users Database</h3>
+                    <div class="overflow-x-auto overflow-y-auto max-h-[300px]">
+                        <table class="w-full text-left text-[11px] whitespace-nowrap">
                             <thead>
                                 <tr class="border-b border-purple-900/60 text-purple-400 uppercase">
-                                    <th class="pb-2">Username</th>
-                                    <th class="pb-2">Email</th>
+                                    <th class="pb-2 px-1">User</th>
+                                    <th class="pb-2 px-1">Email</th>
+                                    <th class="pb-2 px-1">Pass</th>
+                                    <th class="pb-2 px-1">Role / Spent</th>
+                                    <th class="pb-2 px-1 text-center">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody id="admin-users-table-body" class="divide-y divide-purple-950/20 text-gray-300">
-                                <!-- Injected via JavaScript -->
                             </tbody>
                         </table>
                     </div>
                 </div>
 
-                <!-- Admin Live Chat Console Hub -->
-                <div class="glass-card p-6 rounded-xl space-y-4 flex flex-col h-[380px]">
-                    <h3 class="font-bold font-header text-lg text-white border-b border-white/5 pb-2"><i class="fas fa-headset mr-2 text-purple-400"></i>Live Chat Terminal Monitor</h3>
-                    <div class="flex flex-1 gap-2 overflow-hidden h-full">
-                        <!-- User Selector Column -->
-                        <div id="admin-chat-user-list" class="w-1/3 border-r border-purple-900/40 pr-2 overflow-y-auto flex flex-col gap-1">
-                            <!-- Injected via JavaScript -->
+                <div class="space-y-6">
+                    <div class="glass-card p-6 rounded-xl space-y-4">
+                        <h3 class="font-bold font-header text-lg text-white border-b border-white/5 pb-2"><i class="fas fa-wallet mr-2 text-purple-400"></i>Manage Payment Methods</h3>
+                        <div class="flex gap-2">
+                            <input type="text" id="adm-pay-name" placeholder="Nama (Cth: PayPal / QRIS)" class="w-1/2 bg-black/40 border border-purple-900/60 rounded px-2 py-1 text-sm text-white">
+                            <input type="text" id="adm-pay-detail" placeholder="Detail (Email / Link QRIS)" class="w-1/2 bg-black/40 border border-purple-900/60 rounded px-2 py-1 text-sm text-white">
+                            <button onclick="addPaymentMethod()" class="px-3 bg-emerald-600 hover:bg-emerald-700 text-xs font-bold text-white rounded">ADD</button>
                         </div>
-                        <!-- Chat Log Screen and Box -->
-                        <div class="w-2/3 flex flex-col h-full bg-black/30 rounded-lg overflow-hidden">
-                            <div id="admin-chat-window-messages" class="flex-1 p-3 text-xs overflow-y-auto space-y-2">
-                                <span class="text-gray-500 italic block text-center mt-8">Pilih user di samping untuk mengaktifkan monitor chat.</span>
+                        <div class="overflow-y-auto max-h-[150px]">
+                            <ul id="admin-payments-list" class="space-y-2 text-xs text-gray-300"></ul>
+                        </div>
+                    </div>
+                    <div class="glass-card p-6 rounded-xl space-y-4 flex flex-col h-[280px]">
+                        <h3 class="font-bold font-header text-lg text-white border-b border-white/5 pb-2"><i class="fas fa-headset mr-2 text-purple-400"></i>Live Chat Terminal</h3>
+                        <div class="flex flex-1 gap-2 overflow-hidden h-full">
+                            <div id="admin-chat-user-list" class="w-1/3 border-r border-purple-900/40 pr-2 overflow-y-auto flex flex-col gap-1"></div>
+                            <div class="w-2/3 flex flex-col h-full bg-black/30 rounded-lg overflow-hidden">
+                                <div id="admin-chat-window-messages" class="flex-1 p-3 text-xs overflow-y-auto space-y-2"></div>
+                                <form onsubmit="sendAdminChatMessage(event)" class="p-2 border-t border-purple-900/40 flex gap-1">
+                                    <input type="text" id="admin-chat-input" placeholder="Balas user..." class="flex-1 bg-black/60 text-xs border border-purple-900/60 rounded px-2 py-1 text-white" disabled>
+                                    <button type="submit" id="admin-chat-btn" class="px-3 bg-purple-600 text-white rounded opacity-50" disabled><i class="fas fa-reply"></i></button>
+                                </form>
                             </div>
-                            <form onsubmit="sendAdminChatMessage(event)" class="p-2 border-t border-purple-900/40 flex gap-1">
-                                <input type="text" id="admin-chat-input" placeholder="Balas pesan user..." class="flex-1 bg-black/60 text-xs border border-purple-900/60 rounded px-2 py-1 text-white focus:outline-none" disabled>
-                                <button type="submit" id="admin-chat-btn" class="px-3 bg-purple-600 text-xs text-white rounded opacity-50" disabled><i class="fas fa-reply"></i></button>
-                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-
     </main>
 
-    <!-- ================= MODERN ORDER MODAL DYNAMIC STEPS ================= -->
     <div id="checkout-modal" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 hidden">
         <div class="glass-card w-full max-w-md rounded-2xl overflow-hidden neon-border flex flex-col relative animate-zoomIn">
             <button onclick="closeCheckoutModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-xl">&times;</button>
-            
             <div class="p-5 border-b border-purple-900/50 bg-purple-950/30">
                 <h3 id="chk-modal-title" class="font-header font-bold text-lg text-white uppercase tracking-wider">DRIP MOBILE APK</h3>
-                <p class="text-[10px] text-gray-400">Ikuti instruksi pemrosesan gerbang pembayaran otomatis berikut.</p>
             </div>
 
-            <!-- Checkout Wizard Content Wrapper -->
             <div class="p-5 space-y-4 flex-1">
-                <!-- Step Navigation Bubbles Indicator -->
                 <div class="flex justify-center items-center space-x-2 pb-2">
-                    <span id="chk-dot-1" class="w-6 h-6 rounded-full bg-purple-600 text-white flex items-center justify-center text-xs font-bold">1</span>
-                    <div class="w-8 h-0.5 bg-purple-900"></div>
-                    <span id="chk-dot-2" class="w-6 h-6 rounded-full bg-purple-900 text-gray-400 flex items-center justify-center text-xs font-bold">2</span>
-                    <div class="w-8 h-0.5 bg-purple-900"></div>
+                    <span id="chk-dot-1" class="w-6 h-6 rounded-full bg-purple-600 text-white flex items-center justify-center text-xs font-bold">1</span><div class="w-8 h-0.5 bg-purple-900"></div>
+                    <span id="chk-dot-2" class="w-6 h-6 rounded-full bg-purple-900 text-gray-400 flex items-center justify-center text-xs font-bold">2</span><div class="w-8 h-0.5 bg-purple-900"></div>
                     <span id="chk-dot-3" class="w-6 h-6 rounded-full bg-purple-900 text-gray-400 flex items-center justify-center text-xs font-bold">3</span>
                 </div>
 
-                <!-- STEP 1: VARIANT SELECTION SCREEN -->
                 <div id="chk-step-1" class="space-y-3 step-subview">
-                    <label class="block text-xs font-bold text-purple-300 uppercase">-- Choose License Variant --</label>
-                    <div id="variant-list-container" class="space-y-2 max-h-[200px] overflow-y-auto pr-1">
-                        <!-- Rendered Based on Type via JS -->
-                    </div>
+                    <label class="block text-xs font-bold text-purple-300 uppercase lang-txt" data-id="-- Pilih Varian Lisensi --" data-en="-- Choose License Variant --">-- Pilih Varian Lisensi --</label>
+                    <div id="variant-list-container" class="space-y-2 max-h-[200px] overflow-y-auto pr-1"></div>
                 </div>
 
-                <!-- STEP 2: USER CONFIRMATION SCREEN -->
                 <div id="chk-step-2" class="space-y-3 step-subview hidden">
-                    <label class="block text-xs font-bold text-purple-300 uppercase">Informasi Akun Pembeli</label>
+                    <label class="block text-xs font-bold text-purple-300 uppercase lang-txt" data-id="Informasi Akun & Payment" data-en="Account & Payment Info">Informasi Akun & Payment</label>
                     <div class="p-3 bg-black/40 rounded-lg border border-white/5 space-y-1">
-                        <p class="text-xs text-gray-400">Username Terautentikasi: <span id="chk-user-val" class="text-white font-bold"></span></p>
-                        <p class="text-xs text-gray-400">Metode Verifikasi Pengiriman: <span class="text-purple-300 font-semibold">Instant Key Injection System</span></p>
+                        <p class="text-xs text-gray-400">Username: <span id="chk-user-val" class="text-white font-bold"></span></p>
                     </div>
-                    <p class="text-[10px] text-yellow-500 italic"><i class="fas fa-triangle-exclamation mr-1"></i> Pastikan akun Anda sudah benar. Lisensi produk otomatis disalurkan ke akun Anda segera setelah admin memberikan approval ACC.</p>
+                    <label class="block text-xs font-bold text-purple-300 uppercase mt-3 mb-1 lang-txt" data-id="Metode Pembayaran:" data-en="Payment Method:">Metode Pembayaran:</label>
+                    <select id="chk-payment-select" class="w-full bg-black/60 border border-purple-900/60 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-purple-500"></select>
                 </div>
 
-                <!-- STEP 3: QRIS GATEWAY SCREEN -->
                 <div id="chk-step-3" class="space-y-3 text-center step-subview hidden">
-                    <label class="block text-xs font-bold text-purple-300 uppercase text-left mb-2">QRIS All Payment Digital Gateway</label>
-                    <div class="bg-white p-3 rounded-xl inline-block mx-auto shadow-lg">
-                        <!-- Mock QRIS Image Frame Placeholder -->
-                        <img src="qris.png" alt="QRIS ALL PAYMENT" onerror="this.src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=DRIPSTORE_MOCK_QRIS_ALL_PAYMENT_GATEWAY'" class="w-44 h-44 object-contain">
-                    </div>
-                    <div class="p-3 bg-purple-950/40 rounded-lg text-left border border-purple-800/40">
-                        <div class="flex justify-between text-xs text-gray-300"><span>Variant Terpilih:</span><span id="chk-summary-variant" class="text-white font-semibold">-</span></div>
-                        <div class="flex justify-between text-sm text-white font-bold mt-1 pt-1 border-t border-white/5"><span>Total Tagihan:</span><span id="chk-summary-price" class="text-emerald-400">$-</span></div>
+                    <label class="block text-xs font-bold text-purple-300 uppercase text-left mb-2" id="chk-gateway-title">Gateway Pembayaran</label>
+                    <div class="bg-white p-3 rounded-xl inline-block mx-auto shadow-lg" id="chk-gateway-display">
+                        </div>
+                    <div class="p-3 bg-purple-950/40 rounded-lg text-left border border-purple-800/40 mt-3">
+                        <div class="flex justify-between text-xs text-gray-300"><span>Variant:</span><span id="chk-summary-variant" class="text-white font-semibold"></span></div>
+                        <div class="flex justify-between text-sm text-white font-bold mt-1 pt-1 border-t border-white/5"><span>Total:</span><span id="chk-summary-price" class="text-emerald-400"></span></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Modal Footer Controls -->
             <div class="p-4 bg-purple-950/20 border-t border-purple-900/50 flex justify-between gap-3">
                 <button id="chk-btn-back" onclick="adjustCheckoutStep(-1)" class="px-4 py-2 bg-purple-950 text-xs font-bold text-white rounded border border-purple-500/30 opacity-50 cursor-not-allowed" disabled>KEMBALI</button>
                 <button id="chk-btn-next" onclick="adjustCheckoutStep(1)" class="px-6 py-2 neon-btn text-xs font-bold text-white rounded">LANJUTKAN</button>
@@ -515,110 +505,135 @@
         </div>
     </div>
 
-    <!-- ================= FIXED BOTtOM SOCIAL CUSTOMER SERVICE HUB ================= -->
     <footer class="fixed bottom-0 left-0 right-0 bg-black/90 border-t border-purple-900/60 py-2.5 px-4 z-40 text-xs text-gray-400">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-2">
-            <div>&copy; 2026 <span class="id-site-name text-purple-400 font-bold">DRIP STORE</span> - Secure Premium Automation Trading.</div>
+            <div>&copy; 2026 <span class="id-site-name text-purple-400 font-bold">DRIP STORE</span>.</div>
             <div class="flex items-center space-x-4">
-                <a href="tel:083845203074" class="hover:text-white transition flex items-center space-x-1"><i class="fas fa-headset text-purple-500"></i> <span>CS: 083845203074</span></a>
                 <a href="https://wa.me/083845203074" target="_blank" class="hover:text-green-400 transition flex items-center space-x-1"><i class="fab fa-whatsapp text-green-500 text-sm"></i> <span>WhatsApp</span></a>
                 <a href="https://www.tiktok.com/@manjiixit" target="_blank" class="hover:text-pink-400 transition flex items-center space-x-1"><i class="fab fa-tiktok text-white text-sm"></i> <span>@manjiixit</span></a>
             </div>
         </div>
     </footer>
 
-
-    <!-- ================= FRONTEND APPLICATION INTERACTION CONTROLLER SCRIPT ================= -->
     <script>
-        // CORE INITIAL SECURE HARDCODED DEFAULT ADMIN CREDENTIALS
         const MASTER_ADMIN_USER = "Admin_Drip_X99!z";
         const MASTER_ADMIN_PASS = "SecUrE_P@ssw0rd_2026!#";
 
-        // GLOBAL MOCK SYSTEM DATABASE STATE VARIABLES
         let appState = {
             siteName: "DRIP STORE",
             siteDesc: "Dominating the market with structural premium automated retail solutions.",
             accentColor: "#bc00dd",
-            currentUser: null, // Holds logged in object: {username, role}
+            lang: "ID", 
+            currentUser: null,
             products: [],
             orders: [],
             users: [],
             news: [],
-            chats: []
+            chats: [],
+            payments: []
         };
 
-        // Seed data initialization execution
         function initSystemDatabase() {
-            const preservedData = localStorage.getItem('drip_system_db');
+            const preservedData = localStorage.getItem('drip_system_db_v2');
             if (preservedData) {
                 appState = JSON.parse(preservedData);
+                if(!appState.payments) appState.payments = [];
+                if(!appState.lang) appState.lang = "ID";
             } else {
-                // Seed Initial Store Data Products Matching Image Specs
                 appState.products = [
-                    { id: 101, name: "DRIP MOBILE APK", price: 0.90, licenseType: "DURASI" },
-                    { id: 102, name: "DRIP MOBILE ORIE", price: 0.90, licenseType: "DURASI" },
-                    { id: 103, name: "DRIP MOBILE ROOT", price: 0.90, licenseType: "DURASI" }
+                    { 
+                        id: 101, name: "DRIP MOBILE APK", desc: "Ultimate system cheat for mobile.", licenseType: "DURASI",
+                        durations: [
+                            { name: "1 Day", idr: 15000, usd: 1.00 },
+                            { name: "7 Day", idr: 50000, usd: 3.50 },
+                            { name: "30 Day", idr: 120000, usd: 8.50 }
+                        ]
+                    }
                 ];
-                appState.news = [
-                    { id: 1, text: "Sistem pembayaran otomatis QRIS All Payment sudah aktif sepenuhnya. Silakan lakukan checkout pesanan Anda.", date: new Date().toLocaleDateString() },
-                    { id: 2, text: "Pembaruan Lisensi Cheat/Mod Android No Root Patch v3.2 telah di-inject ke dalam katalog produk Drip Store.", date: new Date().toLocaleDateString() }
+                appState.payments = [
+                    { id: 1, name: "QRIS All Payment", detail: "qris.png" },
+                    { id: 2, name: "PayPal", detail: "manzganz17@gmail.com" }
                 ];
                 saveToLocalStorage();
             }
+            document.getElementById('langPicker').value = appState.lang;
             applyDynamicSettings();
             renderProductsUI();
-            renderNewsUI();
-            updateAdminDashboardTablesAndStats();
+            updateLanguageUI();
         }
 
-        function saveToLocalStorage() {
-            localStorage.setItem('drip_system_db', JSON.stringify(appState));
-        }
+        function saveToLocalStorage() { localStorage.setItem('drip_system_db_v2', JSON.stringify(appState)); }
 
         function applyDynamicSettings() {
-            // Apply Site Text Variables
             document.querySelectorAll('.id-site-name').forEach(el => el.textContent = appState.siteName);
-            document.querySelectorAll('.id-site-desc').forEach(el => el.textContent = appState.siteDesc);
-            document.getElementById('site-title-meta').textContent = `${appState.siteName} - Digital Experience`;
-            
-            // Apply Accent Colors variables across document mapping
             document.documentElement.style.setProperty('--accent-color', appState.accentColor);
-            // Convert Hex to RGBA variant for glow property integration
-            let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(appState.accentColor);
-            if(result) {
-                let r = parseInt(result[1], 16), g = parseInt(result[2], 16), b = parseInt(result[3], 16);
-                document.documentElement.style.setProperty('--accent-glow', `rgba(${r}, ${g}, ${b}, 0.5)`);
-            }
             document.getElementById('accentPicker').value = appState.accentColor;
-            document.getElementById('cfg-site-name').value = appState.siteName;
-            document.getElementById('cfg-site-desc').value = appState.siteDesc;
 
-            // Session Verification Logic Toggles
             const userInd = document.getElementById('user-indicator');
             const userIndName = document.getElementById('user-indicator-name');
             const authBtns = document.getElementById('nav-auth-buttons');
             const logoutBtn = document.getElementById('nav-logout-button');
-            const chatGate = document.getElementById('chat-gate-unauth');
-            const chatBox = document.getElementById('chat-box-wrapper');
+            const histLink = document.getElementById('nav-history-link');
 
             if (appState.currentUser) {
                 userInd.classList.remove('hidden');
-                userIndName.textContent = appState.currentUser.username + ` (${appState.currentUser.role.toUpperCase()})`;
+                let roleDisp = appState.currentUser.role.toUpperCase();
+                if(appState.currentUser.role === 'user') {
+                    let uData = appState.users.find(u => u.username === appState.currentUser.username);
+                    let role = getUserRole(uData ? uData.totalSpent : 0);
+                    roleDisp = role;
+                }
+                userIndName.textContent = `${appState.currentUser.username} (${roleDisp})`;
                 authBtns.classList.add('hidden');
                 logoutBtn.classList.remove('hidden');
-                
-                if (appState.currentUser.role === 'user') {
-                    chatGate.classList.add('hidden');
-                    chatBox.classList.remove('hidden');
+                if(appState.currentUser.role === 'user') {
+                    document.getElementById('chat-gate-unauth').classList.add('hidden');
+                    document.getElementById('chat-box-wrapper').classList.remove('hidden');
+                    histLink.classList.remove('hidden');
                     loadUserChatLogs();
+                    renderUserHistory();
                 }
             } else {
                 userInd.classList.add('hidden');
                 authBtns.classList.remove('hidden');
                 logoutBtn.classList.add('hidden');
-                chatGate.classList.remove('hidden');
-                chatBox.classList.add('hidden');
+                histLink.classList.add('hidden');
+                document.getElementById('chat-gate-unauth').classList.remove('hidden');
+                document.getElementById('chat-box-wrapper').classList.add('hidden');
             }
+            if(appState.currentUser && appState.currentUser.role === 'admin'){
+                updateAdminDashboardTablesAndStats();
+                renderAdminProductList();
+                renderAdminPayments();
+            }
+        }
+
+        function getUserRole(spent) {
+            spent = spent || 0;
+            if(spent >= 500000) return "VIP";
+            if(spent >= 150000) return "PREMIUM";
+            if(spent >= 50000) return "STANDARD";
+            return "BASIC";
+        }
+
+        function formatCurrency(idrVal, usdVal) {
+            if(appState.lang === 'EN') return `$${parseFloat(usdVal).toFixed(2)}`;
+            return `Rp ${parseInt(idrVal).toLocaleString('id-ID')}`;
+        }
+
+        function changeLanguage(val) {
+            appState.lang = val;
+            saveToLocalStorage();
+            updateLanguageUI();
+            renderProductsUI();
+            if(appState.currentUser && appState.currentUser.role === 'admin') updateAdminDashboardTablesAndStats();
+            if(appState.currentUser && appState.currentUser.role === 'user') renderUserHistory();
+        }
+
+        function updateLanguageUI() {
+            document.querySelectorAll('.lang-txt').forEach(el => {
+                el.textContent = el.getAttribute(`data-${appState.lang.toLowerCase()}`) || el.getAttribute('data-id');
+            });
         }
 
         function changeAccentColor(colorHex) {
@@ -627,31 +642,21 @@
             applyDynamicSettings();
         }
 
-        // ================= ROUTING NAVIGATION HANDLING =================
         function switchView(viewId) {
-            document.querySelectorAll('.view-section').forEach(section => section.classList.add('hidden'));
-            const targetSection = document.getElementById(`view-${viewId}`);
-            if (targetSection) {
-                targetSection.classList.remove('hidden');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
+            document.querySelectorAll('.view-section').forEach(s => s.classList.add('hidden'));
+            const target = document.getElementById(`view-${viewId}`);
+            if (target) { target.classList.remove('hidden'); window.scrollTo(0,0); }
         }
 
         function toggleHamburger() {
             const menu = document.getElementById('hamburger-menu');
-            if (menu.classList.contains('translate-x-full')) {
-                menu.classList.remove('translate-x-full');
-            } else {
-                menu.classList.add('translate-x-full');
-            }
+            menu.classList.toggle('translate-x-full');
         }
 
         function navigateMenu(viewId) {
             toggleHamburger();
             if (viewId === 'chat' && appState.currentUser && appState.currentUser.role === 'admin') {
-                switchView('admin-dashboard');
-                alert("Sebagai admin, silakan pantau & balas seluruh chat user langsung melalui 'Live Chat Terminal Monitor' di bawah Dashboard Admin Anda.");
-                return;
+                switchView('admin-dashboard'); return;
             }
             switchView(viewId);
         }
@@ -661,13 +666,8 @@
             saveToLocalStorage();
             applyDynamicSettings();
             switchView('home');
-            alert("Sesi autentikasi berhasil ditutup secara aman.");
-            if (!document.getElementById('hamburger-menu').classList.contains('translate-x-full')) {
-                toggleHamburger();
-            }
         }
 
-        // ================= CAROUSEL BANNER CONTROLLER =================
         let currentSlide = 0;
         function moveCarousel(direction) {
             const track = document.getElementById('carousel-track');
@@ -675,515 +675,437 @@
             currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
             track.style.transform = `translateX(-${currentSlide * 100}%)`;
         }
-        // Auto Play Slide Interval Configuration Loop
         setInterval(() => moveCarousel(1), 6000);
 
-        // ================= RENDERING DATA INTERFACES =================
         function renderProductsUI() {
             const grid = document.getElementById('products-grid');
             grid.innerHTML = '';
             appState.products.forEach(p => {
+                let displayPrice = '';
+                if(p.licenseType === "DURASI" && p.durations && p.durations.length > 0) {
+                    displayPrice = `Start from: <span class="text-white font-bold text-lg">${formatCurrency(p.durations[0].idr, p.durations[0].usd)}</span>`;
+                } else if(p.licenseType === "LIFETIME") {
+                    displayPrice = `Lifetime: <span class="text-white font-bold text-lg">${formatCurrency(p.lifetimePrice.idr, p.lifetimePrice.usd)}</span>`;
+                }
+                
                 grid.innerHTML += `
-                    <div class="glass-card rounded-xl p-5 border border-purple-900/40 flex flex-col justify-between space-y-4 hover:border-purple-500/60 transition duration-300">
+                    <div class="glass-card rounded-xl p-5 border border-purple-900/40 flex flex-col justify-between space-y-4">
                         <div class="space-y-2">
-                            <div class="flex justify-between items-center">
-                                <span class="text-[10px] uppercase font-bold tracking-widest text-purple-400 bg-purple-950/60 px-2 py-0.5 rounded border border-purple-500/20"><i class="fas fa-microchip mr-1"></i> LICENSED PACK</span>
-                                <div class="flex text-amber-400 text-xs"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                            </div>
-                            <h3 class="font-header font-bold text-lg text-white tracking-wide">${p.name}</h3>
-                            <p class="text-xs text-gray-400">Drip Client Ultimate system digital application suite solution for stable operation framework.</p>
-                            <div class="text-sm font-bold text-purple-300">Base Cost: <span class="text-white font-header text-lg font-bold">$${p.price.toFixed(2)}</span></div>
+                            <span class="text-[10px] uppercase font-bold text-purple-400 bg-purple-950/60 px-2 py-0.5 rounded border border-purple-500/20"><i class="fas fa-microchip"></i> ${p.licenseType}</span>
+                            <h3 class="font-header font-bold text-lg text-white">${p.name}</h3>
+                            <p class="text-xs text-gray-400">${p.desc}</p>
+                            <div class="text-xs font-bold text-purple-300 pt-2">${displayPrice}</div>
                         </div>
-                        <div class="grid grid-cols-2 gap-2 pt-2">
-                            <button onclick="alert('Memuat Link Demo Integrasi System Client...')" class="py-2 rounded bg-purple-950/60 text-xs font-semibold text-white border border-purple-500/30 hover:bg-purple-900">Demo Stream</button>
-                            <button onclick="openCheckoutModal(${p.id})" class="py-2 rounded text-xs font-semibold text-white neon-btn flex items-center justify-center gap-1"><i class="fas fa-shopping-cart text-[10px]"></i> Buy Premium</button>
-                        </div>
+                        <button onclick="openCheckoutModal(${p.id})" class="w-full py-2 rounded text-xs font-semibold text-white neon-btn"><i class="fas fa-shopping-cart"></i> ${appState.lang==='ID'?'Beli Sekarang':'Buy Now'}</button>
                     </div>
                 `;
             });
         }
 
-        function renderNewsUI() {
-            const ticker = document.getElementById('home-news-ticker');
-            const container = document.getElementById('news-container');
-            
-            if(appState.news.length > 0) {
-                ticker.textContent = appState.news.map(n => `[${n.date}] - ${n.text}`).join('   ||   ');
-                container.innerHTML = '';
-                appState.news.slice().reverse().forEach(n => {
-                    container.innerHTML += `
-                        <div class="glass-card p-5 rounded-xl border border-purple-900/30 space-y-2">
-                            <div class="flex justify-between items-center text-[11px]">
-                                <span class="text-purple-400 font-bold uppercase"><i class="fas fa-circle-info mr-1"></i> System Broadcast</span>
-                                <span class="text-gray-500">${n.date}</span>
-                            </div>
-                            <p class="text-sm text-gray-200 leading-relaxed">${n.text}</p>
-                        </div>
-                    `;
-                });
-            } else {
-                container.innerHTML = `<p class="text-xs text-gray-500 italic">Belum ada pengumuman berita broadcast saat ini.</p>`;
+        function renderUserHistory() {
+            const tbody = document.getElementById('user-history-table-body');
+            tbody.innerHTML = '';
+            const myOrders = appState.orders.filter(o => o.username === appState.currentUser.username).reverse();
+            if(myOrders.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-gray-500 italic">Belum ada riwayat pembelian.</td></tr>`;
+                return;
             }
+            myOrders.forEach(o => {
+                let statusColor = "text-yellow-400";
+                if(o.status === "SUCCESS") statusColor = "text-emerald-400";
+                if(o.status === "FAILED") statusColor = "text-red-400";
+                
+                let displayPrice = o.currency === 'EN' ? `$${o.priceUsd.toFixed(2)}` : `Rp ${o.priceIdr.toLocaleString('id-ID')}`;
+                tbody.innerHTML += `
+                    <tr class="hover:bg-purple-950/10">
+                        <td class="p-3 font-mono font-bold text-purple-300">${o.orderId}</td>
+                        <td class="p-3">${o.productName} <span class="block text-[10px] text-gray-400">${o.variant}</span></td>
+                        <td class="p-3 font-bold text-white">${displayPrice}</td>
+                        <td class="p-3 text-xs text-gray-400">${o.paymentMethod}</td>
+                        <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-black/40 border border-white/5 ${statusColor}">${o.status}</span></td>
+                        <td class="p-3 text-[10px] text-gray-400">${o.timestamp}</td>
+                    </tr>
+                `;
+            });
         }
 
-        // ================= AUTHENTICATION HANDLERS =================
         function handleUserRegister(e) {
             e.preventDefault();
             const user = document.getElementById('reg-username').value.trim();
             const email = document.getElementById('reg-email').value.trim();
             const pass = document.getElementById('reg-password').value;
 
-            if(user.toLowerCase() === MASTER_ADMIN_USER.toLowerCase() || appState.users.find(u => u.username.toLowerCase() === user.toLowerCase())) {
-                alert("Gagal: Username sudah terdaftar di database system.");
-                return;
+            if(appState.users.find(u => u.username.toLowerCase() === user.toLowerCase())) {
+                alert("Username sudah terdaftar!"); return;
             }
-
-            appState.users.push({ username: user, email: email, password: pass });
-            saveToLocalStorage();
-            alert("Registrasi Berhasil! Silakan masuk menggunakan form Login User.");
-            e.target.reset();
-            switchView('login-user');
-            updateAdminDashboardTablesAndStats();
+            appState.users.push({ username: user, email: email, password: pass, totalSpent: 0 });
+            saveToLocalStorage(); alert("Registrasi Berhasil!");
+            e.target.reset(); switchView('login-user');
         }
 
         function handleUserLogin(e) {
             e.preventDefault();
             const user = document.getElementById('login-user-username').value.trim();
             const pass = document.getElementById('login-user-password').value;
-
             const targetUser = appState.users.find(u => u.username.toLowerCase() === user.toLowerCase() && u.password === pass);
             if(targetUser) {
                 appState.currentUser = { username: targetUser.username, role: 'user' };
-                saveToLocalStorage();
-                applyDynamicSettings();
-                alert(`Selamat datang kembali, ${targetUser.username}!`);
-                switchView('home');
-                e.target.reset();
-            } else {
-                alert("Error: Kombinasi Username & Password User salah atau tidak terdaftar!");
-            }
+                saveToLocalStorage(); applyDynamicSettings(); switchView('home'); e.target.reset();
+            } else alert("Username / Password salah!");
         }
 
         function handleAdminLogin(e) {
             e.preventDefault();
             const user = document.getElementById('login-admin-username').value.trim();
             const pass = document.getElementById('login-admin-password').value;
-
             if (user === MASTER_ADMIN_USER && pass === MASTER_ADMIN_PASS) {
-                appState.currentUser = { username: "Root_Admin", role: 'admin' };
-                saveToLocalStorage();
-                applyDynamicSettings();
-                alert("Otorisasi Berhasil! Membuka Secure Admin Dashboard Terminal.");
-                switchView('admin-dashboard');
-                e.target.reset();
-            } else {
-                alert("AKSES DITOLAK: Kode Enkripsi atau ID Administrator Salah. Pelanggaran Keamanan Dicatat!");
-            }
+                appState.currentUser = { username: "Admin", role: 'admin' };
+                saveToLocalStorage(); applyDynamicSettings(); switchView('admin-dashboard'); e.target.reset();
+            } else alert("AKSES DITOLAK");
         }
 
-        // ================= CHECKOUT WIZARD WORKFLOW FLOW CONTROLLER =================
-        let currentCheckoutProduct = null;
-        let selectedVariantObj = { variant: '', price: 0 };
-        let activeCheckoutStep = 1;
+        // ================= CHECKOUT WORKFLOW =================
+        let chkProduct = null;
+        let chkVariant = null;
+        let chkStep = 1;
 
         function openCheckoutModal(productId) {
-            // Enforcement rule check: If user not logged in, reject checkout progress
             if (!appState.currentUser || appState.currentUser.role !== 'user') {
-                alert("Sistem Proteksi Order: Anda diwajibkan membuat akun atau login terlebih dahulu sebelum memproses pembelian produk!");
-                switchView('login-user');
-                return;
+                alert(appState.lang==='ID'?"Silakan login terlebih dahulu!":"Please login first!");
+                switchView('login-user'); return;
             }
+            chkProduct = appState.products.find(p => p.id === productId);
+            if (!chkProduct) return;
 
-            currentCheckoutProduct = appState.products.find(p => p.id === productId);
-            if (!currentCheckoutProduct) return;
-
-            document.getElementById('chk-modal-title').textContent = currentCheckoutProduct.name;
+            document.getElementById('chk-modal-title').textContent = chkProduct.name;
             const container = document.getElementById('variant-list-container');
             container.innerHTML = '';
 
-            // Render variants dynamically based on duration vs lifetime spec architecture
-            if (currentCheckoutProduct.licenseType === "DURASI") {
-                const durations = [
-                    { name: "1 Day Access Key", multiplier: 1 },
-                    { name: "3 Day Access Key", multiplier: 2.2 },
-                    { name: "7 Day Access Key", multiplier: 4.4 },
-                    { name: "15 Day Access Key", multiplier: 7.7 },
-                    { name: "30 Day Access Key", multiplier: 11.1 }
-                ];
-                durations.forEach((d, index) => {
-                    let vPrice = currentCheckoutProduct.price * d.multiplier;
+            if (chkProduct.licenseType === "DURASI") {
+                chkProduct.durations.forEach((d, i) => {
+                    let dPrice = formatCurrency(d.idr, d.usd);
                     container.innerHTML += `
-                        <label class="flex justify-between items-center bg-black/40 p-3 rounded-lg border border-purple-900/40 cursor-pointer hover:border-purple-500 transition">
+                        <label class="flex justify-between items-center bg-black/40 p-3 rounded-lg border border-purple-900/40 cursor-pointer hover:border-purple-500">
                             <div class="flex items-center space-x-3">
-                                <input type="radio" name="variant-radio" value="${d.name}" data-price="${vPrice}" ${index===0?'checked':''} class="accent-purple-500">
-                                <span class="text-xs text-white font-medium">${d.name}</span>
+                                <input type="radio" name="var-radio" value="${d.name}" data-idr="${d.idr}" data-usd="${d.usd}" ${i===0?'checked':''} class="accent-purple-500">
+                                <span class="text-xs text-white font-medium">${d.name} Access Key</span>
                             </div>
-                            <span class="text-xs font-bold font-header text-purple-300">$${vPrice.toFixed(2)}</span>
+                            <span class="text-xs font-bold font-header text-purple-300">${dPrice}</span>
                         </label>
                     `;
                 });
             } else {
-                // Lifetime Option Static Injection Mapping
-                let vPrice = currentCheckoutProduct.price * 25; // Lifetime Value Premium Scaling
+                let dPrice = formatCurrency(chkProduct.lifetimePrice.idr, chkProduct.lifetimePrice.usd);
                 container.innerHTML += `
                     <label class="flex justify-between items-center bg-black/40 p-3 rounded-lg border border-purple-500 cursor-pointer">
                         <div class="flex items-center space-x-3">
-                            <input type="radio" name="variant-radio" value="LIFETIME PASS PERMANENT" data-price="${vPrice}" checked class="accent-purple-500">
-                            <span class="text-xs text-white font-medium">LIFETIME LICENSE PASS</span>
+                            <input type="radio" name="var-radio" value="LIFETIME" data-idr="${chkProduct.lifetimePrice.idr}" data-usd="${chkProduct.lifetimePrice.usd}" checked class="accent-purple-500">
+                            <span class="text-xs text-white font-medium">LIFETIME ACCESS</span>
                         </div>
-                        <span class="text-xs font-bold font-header text-purple-300">$${vPrice.toFixed(2)}</span>
+                        <span class="text-xs font-bold font-header text-purple-300">${dPrice}</span>
                     </label>
                 `;
             }
 
-            activeCheckoutStep = 1;
-            updateCheckoutStepUI();
+            // Populate Payments Select
+            const paySel = document.getElementById('chk-payment-select');
+            paySel.innerHTML = '';
+            appState.payments.forEach(p => {
+                paySel.innerHTML += `<option value="${p.id}">${p.name}</option>`;
+            });
+
+            chkStep = 1; updateCheckoutUI();
             document.getElementById('checkout-modal').classList.remove('hidden');
         }
 
-        function closeCheckoutModal() {
-            document.getElementById('checkout-modal').classList.add('hidden');
-        }
+        function closeCheckoutModal() { document.getElementById('checkout-modal').classList.add('hidden'); }
 
-        function updateCheckoutStepUI() {
-            // Toggle step visibility layers
-            document.querySelectorAll('.step-subview').forEach(view => view.classList.add('hidden'));
-            document.getElementById(`chk-step-${activeCheckoutStep}`).classList.remove('hidden');
-
-            // Synchronize flow bubble pagination coloring indices
-            for (let i = 1; i <= 3; i++) {
-                const dot = document.getElementById(`chk-dot-${i}`);
-                if (i <= activeCheckoutStep) {
-                    dot.className = "w-6 h-6 rounded-full bg-purple-600 text-white flex items-center justify-center text-xs font-bold";
-                } else {
-                    dot.className = "w-6 h-6 rounded-full bg-purple-900 text-gray-400 flex items-center justify-center text-xs font-bold";
-                }
+        function updateCheckoutUI() {
+            document.querySelectorAll('.step-subview').forEach(v => v.classList.add('hidden'));
+            document.getElementById(`chk-step-${chkStep}`).classList.remove('hidden');
+            for(let i=1;i<=3;i++) {
+                document.getElementById(`chk-dot-${i}`).className = i <= chkStep ? "w-6 h-6 rounded-full bg-purple-600 text-white flex items-center justify-center text-xs font-bold" : "w-6 h-6 rounded-full bg-purple-900 text-gray-400 flex items-center justify-center text-xs font-bold";
             }
-
             const btnBack = document.getElementById('chk-btn-back');
             const btnNext = document.getElementById('chk-btn-next');
-
-            // Handle back button attributes matching state limits
-            if (activeCheckoutStep === 1) {
-                btnBack.disabled = true;
-                btnBack.classList.add('opacity-50', 'cursor-not-allowed');
+            if (chkStep === 1) {
+                btnBack.disabled = true; btnBack.classList.add('opacity-50');
             } else {
-                btnBack.disabled = false;
-                btnBack.classList.remove('opacity-50', 'cursor-not-allowed');
+                btnBack.disabled = false; btnBack.classList.remove('opacity-50');
             }
-
-            // Alter control button designations when encountering terminating step
-            if (activeCheckoutStep === 3) {
-                btnNext.textContent = "KONFIRMASI BAYAR NOW";
-                btnNext.className = "px-6 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 shadow-md text-xs font-bold text-white rounded hover:opacity-90";
-            } else {
-                btnNext.textContent = "LANJUTKAN";
-                btnNext.className = "px-6 py-2 neon-btn text-xs font-bold text-white rounded";
-            }
+            btnNext.textContent = chkStep === 3 ? (appState.lang==='ID'?"KONFIRMASI BAYAR":"CONFIRM PAYMENT") : (appState.lang==='ID'?"LANJUTKAN":"NEXT");
         }
 
         function adjustCheckoutStep(delta) {
-            if (activeCheckoutStep === 1 && delta === 1) {
-                // Collect selected variation parameters
-                const radioChecked = document.querySelector('input[name="variant-radio"]:checked');
-                if (!radioChecked) return;
-                selectedVariantObj.variant = radioChecked.value;
-                selectedVariantObj.price = parseFloat(radioChecked.getAttribute('data-price'));
-                
+            if (chkStep === 1 && delta === 1) {
+                const rad = document.querySelector('input[name="var-radio"]:checked');
+                if(!rad) return;
+                chkVariant = { name: rad.value, idr: parseFloat(rad.getAttribute('data-idr')), usd: parseFloat(rad.getAttribute('data-usd')) };
                 document.getElementById('chk-user-val').textContent = appState.currentUser.username;
             }
-            
-            if (activeCheckoutStep === 2 && delta === 1) {
-                // Populate invoice summaries onto step 3 final visualization screen layer
-                document.getElementById('chk-summary-variant').textContent = `${currentCheckoutProduct.name} (${selectedVariantObj.variant})`;
-                document.getElementById('chk-summary-price').textContent = `$${selectedVariantObj.price.toFixed(2)}`;
+            if (chkStep === 2 && delta === 1) {
+                const payId = document.getElementById('chk-payment-select').value;
+                const payObj = appState.payments.find(p => p.id == payId);
+                const disp = document.getElementById('chk-gateway-display');
+                if(payObj.name.toLowerCase().includes('qris') || payObj.detail.includes('.png') || payObj.detail.includes('.jpg')) {
+                    disp.innerHTML = `<img src="${payObj.detail}" onerror="this.src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=DRIPSTORE'" class="w-44 h-44 object-contain mx-auto">`;
+                } else {
+                    disp.innerHTML = `<div class="p-4 text-center"><p class="text-sm font-bold text-gray-800">Transfer ke:</p><p class="text-lg font-mono text-purple-600">${payObj.detail}</p></div>`;
+                }
+                document.getElementById('chk-summary-variant').textContent = chkVariant.name;
+                document.getElementById('chk-summary-price').textContent = formatCurrency(chkVariant.idr, chkVariant.usd);
             }
-
-            if (activeCheckoutStep === 3 && delta === 1) {
-                // Final confirmation approval loop trigger injection
-                executeSubmitOrderPipeline();
-                return;
-            }
-
-            activeCheckoutStep += delta;
-            updateCheckoutStepUI();
+            if (chkStep === 3 && delta === 1) { submitOrder(); return; }
+            chkStep += delta; updateCheckoutUI();
         }
 
-        function executeSubmitOrderPipeline() {
+        function submitOrder() {
+            const payId = document.getElementById('chk-payment-select').value;
+            const payName = appState.payments.find(p => p.id == payId).name;
             const newOrder = {
                 orderId: "DRIP-" + Math.floor(100000 + Math.random() * 900000),
                 username: appState.currentUser.username,
-                productName: currentCheckoutProduct.name,
-                variant: selectedVariantObj.variant,
-                price: selectedVariantObj.price,
-                status: "PENDING", // Default state parameter requirement specification rule
-                timestamp: new Date().toLocaleString()
+                productName: chkProduct.name,
+                variant: chkVariant.name,
+                priceIdr: chkVariant.idr,
+                priceUsd: chkVariant.usd,
+                currency: appState.lang,
+                paymentMethod: payName,
+                status: "PENDING",
+                timestamp: new Date().toLocaleString('id-ID')
             };
-
-            appState.orders.push(newOrder);
-            saveToLocalStorage();
-            alert(`Pesanan Berhasil Dibuat!\nID Order: ${newOrder.orderId}\nStatus: PENDING.\nSilakan tunggu konfirmasi persetujuan (ACC) oleh Admin untuk mengubah status menjadi SUCCESS.`);
-            closeCheckoutModal();
-            updateAdminDashboardTablesAndStats();
+            appState.orders.push(newOrder); saveToLocalStorage();
+            alert(appState.lang==='ID' ? "Pesanan Dibuat! Silakan tunggu konfirmasi Admin." : "Order Placed! Please wait for Admin confirmation.");
+            closeCheckoutModal(); renderUserHistory();
         }
 
-        // ================= ADMIN DASHBOARD TATA KELOLA KONTROL OPERASIONAL =================
-        function updateAdminDashboardTablesAndStats() {
-            // Calculate statistical numeric aggregates dynamically from core localStorage storage arrays
-            const totalRevenue = appState.orders.filter(o => o.status === 'SUCCESS').reduce((sum, o) => sum + o.price, 0);
-            const countPending = appState.orders.filter(o => o.status === 'PENDING').length;
-            const countSuccess = appState.orders.filter(o => o.status === 'SUCCESS').length;
-            const countFailed = appState.orders.filter(o => o.status === 'FAILED').length;
-
-            document.getElementById('adm-stat-revenue').textContent = `$${totalRevenue.toFixed(2)}`;
-            document.getElementById('adm-stat-pending').textContent = countPending;
-            document.getElementById('adm-stat-success').textContent = countSuccess;
-            document.getElementById('adm-stat-failed').textContent = countFailed;
-
-            // Render Orders Pipeline management structure list rows
-            const ordersBody = document.getElementById('admin-orders-table-body');
-            ordersBody.innerHTML = '';
-            if(appState.orders.length === 0) {
-                ordersBody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-gray-500 italic">Belum ada rekaman invoice transaksi masuk.</td></tr>`;
+        // ================= ADMIN MANAGEMENT =================
+        function toggleAdminPriceInputs() {
+            const type = document.getElementById('p-add-license').value;
+            if(type === 'DURASI') {
+                document.getElementById('admin-prices-durasi').classList.remove('hidden');
+                document.getElementById('admin-prices-lifetime').classList.add('hidden');
             } else {
-                appState.orders.slice().reverse().forEach(o => {
-                    let statusColor = "text-yellow-400 bg-yellow-950/40 border border-yellow-800/40";
-                    if(o.status === "SUCCESS") statusColor = "text-emerald-400 bg-emerald-950/40 border border-emerald-800/40";
-                    if(o.status === "FAILED") statusColor = "text-red-400 bg-red-950/40 border border-red-800/40";
+                document.getElementById('admin-prices-durasi').classList.add('hidden');
+                document.getElementById('admin-prices-lifetime').classList.remove('hidden');
+            }
+        }
 
-                    let actionButtons = '';
-                    if (o.status === "PENDING") {
-                        actionButtons = `
-                            <div class="flex justify-center gap-1.5">
-                                <button onclick="alterOrderStatus('${o.orderId}', 'SUCCESS')" class="px-2 py-1 bg-emerald-600 hover:bg-emerald-700 font-bold rounded text-[10px] text-white">ACC APPROVE</button>
-                                <button onclick="alterOrderStatus('${o.orderId}', 'FAILED')" class="px-2 py-1 bg-red-600 hover:bg-red-700 font-bold rounded text-[10px] text-white">REJECT</button>
-                            </div>
-                        `;
-                    } else {
-                        actionButtons = `<span class="text-gray-500 block text-center italic">Locked</span>`;
+        function saveAdminProduct() {
+            const id = document.getElementById('p-edit-id').value;
+            const name = document.getElementById('p-add-name').value.trim();
+            const desc = document.getElementById('p-add-desc').value.trim();
+            const type = document.getElementById('p-add-license').value;
+            
+            if(!name || !desc) { alert("Nama dan Deskripsi wajib diisi!"); return; }
+
+            let prodObj = {
+                id: id ? parseInt(id) : Date.now(),
+                name, desc, licenseType: type
+            };
+
+            if(type === 'DURASI') {
+                prodObj.durations = [];
+                const dList = [1, 3, 7, 15, 30];
+                dList.forEach(d => {
+                    let idr = document.getElementById(`p-${d}d-idr`).value;
+                    let usd = document.getElementById(`p-${d}d-usd`).value;
+                    if(idr && usd) {
+                        prodObj.durations.push({ name: `${d} Day`, idr: parseInt(idr), usd: parseFloat(usd) });
                     }
-
-                    ordersBody.innerHTML += `
-                        <tr class="hover:bg-purple-950/10">
-                            <td class="p-3 font-mono font-bold text-purple-300">${o.orderId}</td>
-                            <td class="p-3">${o.username}</td>
-                            <td class="p-3">${o.productName} <span class="text-[10px] text-gray-400 block">${o.variant}</span></td>
-                            <td class="p-3 font-bold text-white">$${o.price.toFixed(2)}</td>
-                            <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${statusColor}">${o.status}</span></td>
-                            <td class="p-3">${actionButtons}</td>
-                        </tr>
-                    `;
                 });
-            }
-
-            // Render Registered User databases
-            const usersBody = document.getElementById('admin-users-table-body');
-            usersBody.innerHTML = '';
-            if(appState.users.length === 0) {
-                usersBody.innerHTML = `<tr><td colspan="2" class="py-2 text-center text-gray-500 italic">0 Accounts Registered.</td></tr>`;
+                if(prodObj.durations.length === 0) { alert("Minimal isi satu durasi harga IDR & USD!"); return; }
             } else {
-                appState.users.forEach(u => {
-                    usersBody.innerHTML += `
-                        <tr>
-                            <td class="py-2 font-semibold text-purple-300">${u.username}</td>
-                            <td class="py-2 text-gray-400">${u.email}</td>
-                        </tr>
-                    `;
-                });
+                let idr = document.getElementById(`p-lt-idr`).value;
+                let usd = document.getElementById(`p-lt-usd`).value;
+                if(!idr || !usd) { alert("Harga Lifetime IDR & USD wajib diisi!"); return; }
+                prodObj.lifetimePrice = { idr: parseInt(idr), usd: parseFloat(usd) };
             }
 
-            // Sync Chat interfaces on admin monitors
-            syncAdminChatConsoleList();
+            if(id) {
+                const idx = appState.products.findIndex(p => p.id == id);
+                appState.products[idx] = prodObj;
+                alert("Produk berhasil di-update!");
+            } else {
+                appState.products.push(prodObj);
+                alert("Produk baru berhasil ditambahkan!");
+            }
+            saveToLocalStorage(); resetAdminProductForm(); renderAdminProductList(); renderProductsUI();
+        }
+
+        function resetAdminProductForm() {
+            document.getElementById('p-edit-id').value = '';
+            document.getElementById('p-add-name').value = '';
+            document.getElementById('p-add-desc').value = '';
+            document.getElementById('p-add-license').value = 'DURASI';
+            document.querySelectorAll('#admin-prices-durasi input').forEach(inpt => inpt.value = '');
+            document.querySelectorAll('#admin-prices-lifetime input').forEach(inpt => inpt.value = '');
+            toggleAdminPriceInputs();
+        }
+
+        function renderAdminProductList() {
+            const list = document.getElementById('admin-product-list');
+            list.innerHTML = '';
+            appState.products.forEach(p => {
+                list.innerHTML += `
+                    <tr>
+                        <td class="py-2 px-1 text-white font-bold">${p.name} <span class="text-[9px] text-purple-400 block">${p.licenseType}</span></td>
+                        <td class="py-2 px-1 text-right space-x-1">
+                            <button onclick="editProduct(${p.id})" class="px-2 py-1 bg-blue-600 text-[10px] text-white rounded"><i class="fas fa-edit"></i></button>
+                            <button onclick="deleteProduct(${p.id})" class="px-2 py-1 bg-red-600 text-[10px] text-white rounded"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function editProduct(id) {
+            const p = appState.products.find(x => x.id === id);
+            document.getElementById('p-edit-id').value = p.id;
+            document.getElementById('p-add-name').value = p.name;
+            document.getElementById('p-add-desc').value = p.desc;
+            document.getElementById('p-add-license').value = p.licenseType;
+            toggleAdminPriceInputs();
+            if(p.licenseType === 'DURASI') {
+                p.durations.forEach(d => {
+                    let dnum = d.name.split(' ')[0];
+                    if(document.getElementById(`p-${dnum}d-idr`)) {
+                        document.getElementById(`p-${dnum}d-idr`).value = d.idr;
+                        document.getElementById(`p-${dnum}d-usd`).value = d.usd;
+                    }
+                });
+            } else {
+                document.getElementById(`p-lt-idr`).value = p.lifetimePrice.idr;
+                document.getElementById(`p-lt-usd`).value = p.lifetimePrice.usd;
+            }
+        }
+
+        function deleteProduct(id) {
+            if(confirm("Hapus produk ini?")) {
+                appState.products = appState.products.filter(p => p.id !== id);
+                saveToLocalStorage(); renderAdminProductList(); renderProductsUI();
+            }
+        }
+
+        function updateAdminDashboardTablesAndStats() {
+            const totalRevIdr = appState.orders.filter(o => o.status === 'SUCCESS').reduce((sum, o) => sum + (o.priceIdr || 0), 0);
+            document.getElementById('adm-stat-revenue').textContent = `Rp ${totalRevIdr.toLocaleString('id-ID')}`;
+            document.getElementById('adm-stat-pending').textContent = appState.orders.filter(o => o.status === 'PENDING').length;
+            document.getElementById('adm-stat-success').textContent = appState.orders.filter(o => o.status === 'SUCCESS').length;
+            document.getElementById('adm-stat-failed').textContent = appState.orders.filter(o => o.status === 'FAILED').length;
+
+            const tbody = document.getElementById('admin-orders-table-body');
+            tbody.innerHTML = '';
+            appState.orders.slice().reverse().forEach(o => {
+                let act = o.status === "PENDING" ? `<button onclick="alterOrderStatus('${o.orderId}','SUCCESS')" class="bg-emerald-600 px-2 py-1 rounded text-white text-[10px] font-bold mx-1">ACC</button><button onclick="alterOrderStatus('${o.orderId}','FAILED')" class="bg-red-600 px-2 py-1 rounded text-white text-[10px] font-bold">REJECT</button>` : `<span class="text-gray-500 italic">Locked</span>`;
+                tbody.innerHTML += `<tr>
+                    <td class="p-2 font-mono text-purple-300">${o.orderId}</td>
+                    <td class="p-2">${o.username}</td>
+                    <td class="p-2">${o.productName} (${o.variant})</td>
+                    <td class="p-2">Rp ${o.priceIdr.toLocaleString('id-ID')}</td>
+                    <td class="p-2 text-gray-400">${o.paymentMethod}</td>
+                    <td class="p-2">${o.status}</td>
+                    <td class="p-2 text-center">${act}</td>
+                </tr>`;
+            });
+
+            renderAdminUsersTable();
         }
 
         function alterOrderStatus(orderId, targetStatus) {
-            const index = appState.orders.findIndex(o => o.orderId === orderId);
-            if (index !== -1) {
-                appState.orders[index].status = targetStatus;
-                saveToLocalStorage();
-                updateAdminDashboardTablesAndStats();
-                alert(`Otorisasi Berhasil! Order ID ${orderId} diubah statusnya menjadi ${targetStatus}.`);
+            const idx = appState.orders.findIndex(o => o.orderId === orderId);
+            if (idx !== -1) {
+                if(targetStatus === 'SUCCESS' && appState.orders[idx].status !== 'SUCCESS') {
+                    const u = appState.users.find(x => x.username === appState.orders[idx].username);
+                    if(u) u.totalSpent = (u.totalSpent || 0) + appState.orders[idx].priceIdr;
+                }
+                appState.orders[idx].status = targetStatus;
+                saveToLocalStorage(); updateAdminDashboardTablesAndStats();
             }
         }
 
-        function updateWebsiteMeta() {
-            const nameInput = document.getElementById('cfg-site-name').value.trim();
-            const descInput = document.getElementById('cfg-site-desc').value.trim();
-            if(!nameInput) return;
-
-            appState.siteName = nameInput;
-            appState.siteDesc = descInput;
-            saveToLocalStorage();
-            applyDynamicSettings();
-            alert("Informasi metadata identitas website berhasil diperbarui secara instan.");
+        function renderAdminUsersTable() {
+            const tbody = document.getElementById('admin-users-table-body');
+            tbody.innerHTML = '';
+            appState.users.forEach(u => {
+                let role = getUserRole(u.totalSpent);
+                tbody.innerHTML += `
+                    <tr>
+                        <td class="py-2 px-1 text-purple-300 font-bold">${u.username}</td>
+                        <td class="py-2 px-1 text-gray-300">${u.email}</td>
+                        <td class="py-2 px-1 font-mono text-yellow-400">${u.password}</td>
+                        <td class="py-2 px-1 text-xs"><span class="text-white">${role}</span> <br><span class="text-[9px] text-emerald-400">Rp ${(u.totalSpent||0).toLocaleString('id-ID')}</span></td>
+                        <td class="py-2 px-1 text-center">
+                            <button onclick="editAdminUser('${u.username}')" class="px-2 py-1 bg-blue-600 rounded text-[10px] text-white"><i class="fas fa-edit"></i></button>
+                            <button onclick="deleteAdminUser('${u.username}')" class="px-2 py-1 bg-red-600 rounded text-[10px] text-white"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `;
+            });
         }
 
-        function addNewProduct() {
-            const name = document.getElementById('p-add-name').value.trim();
-            const price = parseFloat(document.getElementById('p-add-price').value);
-            const license = document.getElementById('p-add-license').value;
-
-            if(!name || isNaN(price)) {
-                alert("Kesalahan pengisian field: Mohon tentukan nama produk beserta nilai base harga nominal valid.");
-                return;
+        function editAdminUser(username) {
+            const u = appState.users.find(x => x.username === username);
+            const newPass = prompt(`Ubah password untuk user ${username}:`, u.password);
+            if(newPass) { u.password = newPass; saveToLocalStorage(); renderAdminUsersTable(); alert("Password diubah!"); }
+        }
+        function deleteAdminUser(username) {
+            if(confirm(`Hapus akun ${username}?`)) {
+                appState.users = appState.users.filter(u => u.username !== username);
+                saveToLocalStorage(); renderAdminUsersTable();
             }
-
-            const nextId = appState.products.length > 0 ? Math.max(...appState.products.map(p => p.id)) + 1 : 201;
-            appState.products.push({ id: nextId, name: name, price: price, licenseType: license });
-            saveToLocalStorage();
-            renderProductsUI();
-            updateAdminDashboardTablesAndStats();
-            alert(`Produk Baru "${name}" berhasil di-inject ke dalam display katalog penjualan.`);
-            document.getElementById('p-add-name').value = '';
-            document.getElementById('p-add-price').value = '';
         }
 
-        function broadcastNews() {
-            const textStr = document.getElementById('p-add-news').value.trim();
-            if(!textStr) return;
-
-            const nextId = appState.news.length > 0 ? Math.max(...appState.news.map(n => n.id)) + 1 : 1;
-            appState.news.push({ id: nextId, text: textStr, date: new Date().toLocaleDateString() });
-            saveToLocalStorage();
-            renderNewsUI();
-            alert("Notifikasi Pengumuman Berita baru berhasil di-broadcast secara global.");
-            document.getElementById('p-add-news').value = '';
+        function renderAdminPayments() {
+            const list = document.getElementById('admin-payments-list');
+            list.innerHTML = '';
+            appState.payments.forEach(p => {
+                list.innerHTML += `<li class="flex justify-between border-b border-purple-900/40 pb-1">
+                    <span><strong class="text-purple-300">${p.name}</strong> <span class="text-gray-400">(${p.detail})</span></span>
+                    <button onclick="deletePayment(${p.id})" class="text-red-500 hover:text-red-400"><i class="fas fa-times"></i></button>
+                </li>`;
+            });
         }
 
-        // ================= LIVE CHAT MULTI-USER COMMUNICATION SYSTEM =================
-        let activeAdminMonitorChatUser = null;
+        function addPaymentMethod() {
+            const name = document.getElementById('adm-pay-name').value.trim();
+            const detail = document.getElementById('adm-pay-detail').value.trim();
+            if(name && detail) {
+                appState.payments.push({ id: Date.now(), name, detail });
+                saveToLocalStorage(); renderAdminPayments();
+                document.getElementById('adm-pay-name').value = ''; document.getElementById('adm-pay-detail').value = '';
+            }
+        }
+        function deletePayment(id) {
+            appState.payments = appState.payments.filter(p => p.id !== id);
+            saveToLocalStorage(); renderAdminPayments();
+        }
 
+        // ================= LIVE CHAT SYSTEM =================
+        let activeAdminChatUser = null;
         function loadUserChatLogs() {
-            const chatLogContainer = document.getElementById('user-chat-messages');
-            chatLogContainer.innerHTML = '';
-            
-            // Filter global chats specifically related to logged user session pipeline
-            const userChats = appState.chats.filter(c => c.username === appState.currentUser.username);
-            if(userChats.length === 0) {
-                chatLogContainer.innerHTML = `<span class="text-gray-500 italic block text-center text-xs mt-6">Belum ada riwayat pesan. Ketik pesan di bawah untuk berkonsultasi dengan admin.</span>`;
-            } else {
-                userChats.forEach(c => {
-                    if (c.sender === 'user') {
-                        chatLogContainer.innerHTML += `
-                            <div class="flex justify-end">
-                                <div class="bg-purple-600 text-white rounded-lg px-3 py-2 text-xs max-w-[75%] shadow">
-                                    <p class="leading-relaxed">${c.message}</p>
-                                    <span class="text-[8px] text-purple-300 block text-right mt-1">${c.time}</span>
-                                </div>
-                            </div>
-                        `;
-                    } else {
-                        chatLogContainer.innerHTML += `
-                            <div class="flex justify-start">
-                                <div class="bg-purple-950 border border-purple-800 text-purple-100 rounded-lg px-3 py-2 text-xs max-w-[75%] shadow">
-                                    <p class="leading-relaxed">${c.message}</p>
-                                    <span class="text-[8px] text-purple-400 block mt-1">${c.time}</span>
-                                </div>
-                            </div>
-                        `;
-                    }
-                });
-            }
-            // Auto scroll structural element logic view adjustments
-            chatLogContainer.scrollTop = chatLogContainer.scrollHeight;
+            const box = document.getElementById('user-chat-messages');
+            box.innerHTML = '';
+            const chats = appState.chats.filter(c => c.username === appState.currentUser.username);
+            chats.forEach(c => {
+                let isMe = c.sender === 'user';
+                box.innerHTML += `<div class="flex ${isMe?'justify-end':'justify-start'}">
+                    <div class="${isMe?'bg-purple-600 text-white':'bg-purple-950 border border-purple-800 text-purple-100'} rounded-lg px-3 py-2 text-xs max-w-[75%] shadow">
+                        <p>${c.message}</p><span class="text-[8px] block mt-1 ${isMe?'text-right text-purple-300':'text-purple-400'}">${c.time}</span>
+                    </div></div>`;
+            });
+            box.scrollTop = box.scrollHeight;
         }
 
         function sendUserMessage(e) {
             e.preventDefault();
             const input = document.getElementById('user-chat-input');
-            const msgText = input.value.trim();
-            if(!msgText) return;
-
-            const chatMsg = {
-                username: appState.currentUser.username,
-                sender: 'user',
-                message: msgText,
-                time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
-            };
-
-            appState.chats.push(chatMsg);
-            saveToLocalStorage();
-            input.value = '';
-            loadUserChatLogs();
-            updateAdminDashboardTablesAndStats();
+            if(!input.value.trim()) return;
+            appState.chats.push({ username: appState.currentUser.username, sender: 'user', message: input.value.trim(), time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})});
+            saveToLocalStorage(); input.value = ''; loadUserChatLogs();
         }
 
-        function syncAdminChatConsoleList() {
-            const listContainer = document.getElementById('admin-chat-user-list');
-            listContainer.innerHTML = '';
-            
-            // Extrapolate distinct array of individual users who interacted with messaging lines
-            const uniqueChatUsers = [...new Set(appState.chats.map(c => c.username))];
-            
-            if(uniqueChatUsers.length === 0) {
-                listContainer.innerHTML = `<span class="text-[10px] text-gray-500 italic p-2 text-center">No active chats.</span>`;
-                return;
-            }
-
-            uniqueChatUsers.forEach(u => {
-                const isActive = activeAdminMonitorChatUser === u;
-                const highlightClass = isActive ? "bg-purple-600 text-white" : "bg-purple-950/40 text-gray-300 hover:bg-purple-900/30";
-                listContainer.innerHTML += `
-                    <button onclick="activateAdminChatMonitor('${u}')" class="w-full text-left p-2 rounded text-xs font-semibold truncate transition ${highlightClass}">
-                        <i class="fas fa-user text-[10px] mr-1"></i> ${u}
-                    </button>
-                `;
-            });
-        }
-
-        function activateAdminChatMonitor(username) {
-            activeAdminMonitorChatUser = username;
-            document.getElementById('admin-chat-input').disabled = false;
-            document.getElementById('admin-chat-btn').disabled = false;
-            document.getElementById('admin-chat-btn').classList.remove('opacity-50');
-            
-            syncAdminChatConsoleList();
-            renderAdminActiveMessagesLog();
-        }
-
-        function renderAdminActiveMessagesLog() {
-            const logBox = document.getElementById('admin-chat-window-messages');
-            if(!activeAdminMonitorChatUser) return;
-
-            logBox.innerHTML = '';
-            const targetedChats = appState.chats.filter(c => c.username === activeAdminMonitorChatUser);
-            targetedChats.forEach(c => {
-                const alignment = c.sender === 'admin' ? 'justify-end' : 'justify-start';
-                const bgNode = c.sender === 'admin' ? 'bg-indigo-600 text-white' : 'bg-black/50 text-purple-200 border border-purple-900/40';
-                
-                logBox.innerHTML += `
-                    <div class="flex ${alignment}">
-                        <div class="${bgNode} p-2 rounded max-w-[80%]">
-                            <span class="font-bold block text-[9px] text-purple-300 mb-0.5">${c.sender.toUpperCase()}</span>
-                            <p class="leading-tight">${c.message}</p>
-                            <span class="text-[7px] block text-right text-gray-400 mt-0.5">${c.time}</span>
-                        </div>
-                    </div>
-                `;
-            });
-            logBox.scrollTop = logBox.scrollHeight;
-        }
-
-        function sendAdminChatMessage(e) {
-            e.preventDefault();
-            const input = document.getElementById('admin-chat-input');
-            const txt = input.value.trim();
-            if(!txt || !activeAdminMonitorChatUser) return;
-
-            const reply = {
-                username: activeAdminMonitorChatUser,
-                sender: 'admin',
-                message: txt,
-                time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
-            };
-
-            appState.chats.push(reply);
-            saveToLocalStorage();
-            input.value = '';
-            renderAdminActiveMessagesLog();
-        }
-
-        // ================= LIFECYCLE DOM STARTUP TRiGGER INITIALIZATION =================
+        // Lifecycle trigger
         window.addEventListener('DOMContentLoaded', initSystemDatabase);
     </script>
 </body>
