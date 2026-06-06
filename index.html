@@ -541,29 +541,29 @@ if (localStorage.getItem('db_version') !== VERSION) {
 }
 
 
-        function initSystemDatabase() {
-            const preservedData = localStorage.getItem('manjii_official_final');
-            if (preservedData) {
-                appState = JSON.parse(preservedData);
-                if(!appState.payments) appState.payments = [];
-                if(!appState.lang) appState.lang = "ID";
-            } else {
-                appState.products = [
-                    { 
-                        id: 101, name: "PROXY iOS AIMBODY", desc: "Ultimate system cheat for mobile.", licenseType: "DURASI",
-                        durations: [
-                            { name: "1 Day", idr: 15000, usd: 1.00 },
-                            { name: "7 Day", idr: 50000, usd: 3.50 },
-                            { name: "30 Day", idr: 120000, usd: 8.50 }
-                        ]
-                    }
-                ];
-                appState.payments = [
-                    { id: 1, name: "QRIS All Payment", detail: "qris.png" },
-                    { id: 2, name: "PayPal", detail: "manzganz17@gmail.com" }
-                ];
-                saveToLocalStorage();
-            }
+        async function syncDatabase() {
+    const API_URL = 'https://script.google.com/macros/s/AKfycbwXRGQfAsgA9kNr_YITvwcra-PVh18jGDyB7GdtzB91Zz7EFZA_L9vyyzCgBVm3usD7/exec'; 
+
+    try {
+        const response = await fetch(API_URL);
+        const data = await response.json();
+
+        // Masukkan data dari Sheets ke appState
+        appState.products = data.PRODUK;
+        appState.payments = data.PAYMENT;
+        appState.users = data.USER;
+        appState.orders = data.ORDERS;
+
+        // Simpan ke localStorage agar website tetap cepat (offline mode)
+        localStorage.setItem('drip_official_db', JSON.stringify(appState));
+        
+        console.log("Database berhasil sinkron!");
+        renderProductsUI(); // Fungsi untuk menampilkan produk
+    } catch (error) {
+        console.error("Gagal menghubungkan ke Sheets:", error);
+    }
+}
+
             document.getElementById('langPicker').value = appState.lang;
             applyDynamicSettings();
             renderProductsUI();
