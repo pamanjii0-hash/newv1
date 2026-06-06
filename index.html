@@ -542,69 +542,69 @@
             payments: []
         };
 
-        // Initialize and Load Data from Cloud
-        async function initSystemDatabase() {
-            try {
-                const req = await fetch(APP_SCRIPT_URL, { redirect: "follow" });
-                const res = await req.json();
-                if (res && (res.data || res.products)) {
-                    appState = res.data || res;
-                } else {
-                    loadFallbackData();
-                }
-            } catch(e) {
-                console.log('Mengambil data cloud gagal, meload local backup...', e);
-                loadFallbackData();
-            }
-            
-            // Safeguards
-            if(!appState.payments) appState.payments = [];
-            if(!appState.lang) appState.lang = "ID";
-            if(!appState.chats) appState.chats = [];
+        // ==========================================
+// KONEKSI DATABASE FETCH API (PENGGANTI LOCAL STORAGE)
+// ==========================================
 
-            document.getElementById('langPicker').value = appState.lang;
-            applyDynamicSettings();
-            renderProductsUI();
-            updateLanguageUI();
-        }
-
-        function loadFallbackData() {
-            const preservedData = localStorage.getItem('drip_system_db_v2');
-            if (preservedData) {
-                appState = JSON.parse(preservedData);
-            } else {
-                appState.products = [
-                    { 
-                        id: 101, name: "DRIP MOBILE APK", desc: "Ultimate system cheat for mobile.", licenseType: "DURASI",
-                        durations: [
-                            { name: "1 Day", idr: 15000, usd: 1.00 },
-                            { name: "7 Day", idr: 50000, usd: 3.50 },
-                            { name: "30 Day", idr: 120000, usd: 8.50 }
-                        ]
-                    }
-                ];
-                appState.payments = [
-                    { id: 1, name: "QRIS All Payment", detail: "qris.png" },
-                    { id: 2, name: "PayPal", detail: "manzganz17@gmail.com" }
-                ];
-            }
-        }
-
-        // Save Data to Cloud
-        async function saveToDatabase() { 
-            // Tetap simpan backup di local
-            localStorage.setItem('drip_system_db_v2', JSON.stringify(appState));
-            try {
-                await fetch(APP_SCRIPT_URL, {
-                    redirect: "follow",
-                    method: 'POST',
-                    headers: { "Content-Type": "text/plain;charset=utf-8" },
-                    body: JSON.stringify(appState)
+async function initSystemDatabase() {
+    try {
+        // Mengambil data dari Google Sheets (GET)
+        const req = await fetch(APP_SCRIPT_URL, { redirect: "follow" });
+        const res = await req.json();
+        
+        // Memetakan tabel Sheets kembali menjadi format yang dibaca website
+        appState.products = (res.PRODUK || []).map(p => {
+            let prod = { id: p.id, name: p.nama, desc: p.deskripsi, licenseType: p.tipe_lisensi };
+            if(p.tipe_lisensi === 'DURASI') {
+                prod.durations = p.harga_data.split(',').map(d => {
+                    let [dur, harga] = d.split(':');
+                    return { name: dur.replace('D', ' Day'), idr: parseInt(harga), usd: parseFloat(p.harga_usd) };
                 });
-            } catch (err) {
-                console.log("Gagal sinkronisasi data ke cloud:", err);
+            } else {
+                prod.lifetimePrice = { idr: parseInt(p.harga_idr || p.harga_data), usd: parseFloat(p.harga_usd) };
             }
-        }
+            return prod;
+        });
+
+        appState.payments = (res.PAYMENT || []).map(p => ({ id: p.id, name: p.nama_payment, detail: p.detail }));
+        
+        appState.users = (res.USER || []).map(u => ({ 
+            username: u.username, email: u.email, password: u.password, role: u.role, totalSpent: parseInt(u.total_belanja) || 0 
+        }));
+        
+        appState.orders = (res.ORDERS || []).map(o => ({ 
+            orderId: o.id, username: o.username, productName: o.produk_id, variant: o.durasi, priceIdr: parseInt(o.harga), status: o.status, timestamp: o.tanggal, paymentMethod: o.paymentMethod || 'Manual', currency: 'IDR', priceUsd: 0 
+        }));
+
+        // Melindungi data jika kosong
+        if(!appState.lang) appState.lang = "ID";
+        if(!appState.chats) appState.chats = [];
+
+    } catch(e) {
+        console.error('Koneksi ke server gagal. Pastikan URL Apps Script benar.', e);
+    }
+    
+    document.getElementById('langPicker').value = appState.lang;
+    applyDynamicSettings();
+    renderProductsUI();
+    updateLanguageUI();
+}
+
+async function saveToDatabase() { 
+    // MENGHAPUS SEMUA LOCAL STORAGE, 100% menggunakan Fetch API
+    try {
+        await fetch(APP_SCRIPT_URL, {
+            redirect: "follow",
+            method: 'POST',
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            // Mengirim seluruh status terbaru untuk ditulis ulang ke tabel
+            body: JSON.stringify(appState)
+        });
+    } catch (err) {
+        console.error("Gagal menyimpan data ke cloud:", err);
+    }
+}
+
         
         // Manual Refresh untuk Multi-Device
         async function refreshCloudDataQuietly() {
