@@ -822,7 +822,7 @@ function handleUserLogin(e) {
         appState.currentUser = { username: targetUser.username, role: 'user' };
         
         // SIMPAN TIKET LOGIN KE BROWSER
-        localStorage.setItem('drip_user_session', JSON.stringify(appState.currentUser));
+        localStorage.setItem('manjii_user_session', JSON.stringify(appState.currentUser));
         
         applyDynamicSettings(); switchView('home'); e.target.reset();
     } else alert("Username / Password salah!");
@@ -837,7 +837,7 @@ function handleAdminLogin(e) {
         appState.currentUser = { username: "Admin", role: 'admin' };
         
         // SIMPAN TIKET LOGIN KE BROWSER
-        localStorage.setItem('drip_user_session', JSON.stringify(appState.currentUser));
+        localStorage.setItem('manjii_user_session', JSON.stringify(appState.currentUser));
         
         applyDynamicSettings(); switchView('admin-dashboard'); e.target.reset();
     } else alert("AKSES DITOLAK");
