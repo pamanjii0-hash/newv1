@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="site-title-meta">DRIP STORE - Digital Experience</title>
+    <title id="site-title-meta">MANJII OFFICIAL - Digital Experience</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -520,7 +520,7 @@
         const MASTER_ADMIN_PASS = "SecUrE_P@ssw0rd_2026!#";
 
         let appState = {
-            siteName: "DRIP STORE",
+            siteName: "MANJII OFFICIAL",
             siteDesc: "Dominating the market with structural premium automated retail solutions.",
             accentColor: "#bc00dd",
             lang: "ID", 
@@ -534,7 +534,7 @@
         };
 
         function initSystemDatabase() {
-            const preservedData = localStorage.getItem('drip_system_db_v2');
+            const preservedData = localStorage.getItem('manjii_official_final');
             if (preservedData) {
                 appState = JSON.parse(preservedData);
                 if(!appState.payments) appState.payments = [];
@@ -542,7 +542,7 @@
             } else {
                 appState.products = [
                     { 
-                        id: 101, name: "DRIP MOBILE APK", desc: "Ultimate system cheat for mobile.", licenseType: "DURASI",
+                        id: 101, name: "PROXY iOS AIMBODY", desc: "Ultimate system cheat for mobile.", licenseType: "DURASI",
                         durations: [
                             { name: "1 Day", idr: 15000, usd: 1.00 },
                             { name: "7 Day", idr: 50000, usd: 3.50 },
@@ -562,7 +562,10 @@
             updateLanguageUI();
         }
 
-        function saveToLocalStorage() { localStorage.setItem('drip_system_db_v2', JSON.stringify(appState)); }
+        function saveToLocalStorage() {
+    localStorage.setItem('manjii_official_final', JSON.stringify(appState));
+}
+
 
         function applyDynamicSettings() {
             document.querySelectorAll('.id-site-name').forEach(el => el.textContent = appState.siteName);
@@ -611,7 +614,7 @@
         function getUserRole(spent) {
             spent = spent || 0;
             if(spent >= 500000) return "VIP";
-            if(spent >= 150000) return "PREMIUM";
+            if(spent >= 200000) return "PREMIUM";
             if(spent >= 50000) return "STANDARD";
             return "BASIC";
         }
