@@ -532,6 +532,14 @@
             chats: [],
             payments: []
         };
+        // Force Update Logic
+const VERSION = '1.0.2'; // Ubah angka ini setiap kali Anda update harga/produk
+if (localStorage.getItem('db_version') !== VERSION) {
+    localStorage.clear();
+    localStorage.setItem('db_version', VERSION);
+    console.log("Database direset ke versi baru");
+}
+
 
         function initSystemDatabase() {
             const preservedData = localStorage.getItem('manjii_official_final');
